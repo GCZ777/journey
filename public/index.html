@@ -1,0 +1,1540 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#9579ea">
+<title>Journey</title>
+<style>[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Instrument+Serif:ital@0;1&family=Anuphan:wght@300..600&display=swap">
+<style>
+/* Layout: quiet white canvas, generous whitespace, hairline borders. One lavender gradient is the signature
+   (brand mark, primary action, selected states, roller band). Geist for UI; Instrument Serif italic only for the "Journey" wordmark.
+   Deliberately a single light theme. */
+:root{
+  --bg:#ffffff;--surface:#f8f7fb;--ink:#14111b;--muted:#6e6880;--faint:#a39db3;--line:#ebe8f2;
+  --lav-50:#f8f5ff;--lav-100:#f0eaff;--lav-200:#e2d8ff;--lav-300:#c9b8fb;--lav-500:#9c86ec;--lav-600:#7b62d8;--lav-800:#47308f;
+  --gold:#c9a45c;--ok:#2f9e78;--danger:#d14b67;
+  --grad:linear-gradient(135deg,#b9a6f8 0%,#8f74e7 50%,#6a4fcf 100%);
+  --grad-soft:linear-gradient(180deg,#fcfbff 0%,#f2edff 100%);
+  --f-ui:"Geist","Anuphan","Noto Sans Devanagari","Hiragino Sans","PingFang SC","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --f-display:var(--f-ui);--f-body:var(--f-ui);
+  --f-serif:"Instrument Serif","Times New Roman",serif;
+  --r-sm:12px;--r:16px;--r-lg:28px;
+  --shadow:0 1px 2px rgba(20,17,27,.04),0 16px 40px -20px rgba(71,48,143,.25);
+  --shadow-sm:0 1px 2px rgba(20,17,27,.05),0 4px 14px -8px rgba(71,48,143,.18);
+  color-scheme:light;
+}
+html,body{height:100%}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:15px;line-height:1.55;letter-spacing:-.005em;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+*{box-sizing:border-box}
+button,input,select{font:inherit;color:inherit;letter-spacing:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--lav-600);outline-offset:2px}
+h1,h2,h3,h4{font-family:var(--f-ui);font-weight:600;letter-spacing:-.03em;text-wrap:balance;margin:0}
+.wrap{--gut:16px;padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
+@media (min-width:700px){.wrap{--gut:32px}}
+.inner{max-width:1120px;margin:0 auto}
+
+/* ---------- shared ---------- */
+.btn{border:0;border-radius:14px;min-height:52px;padding:0 24px;font-weight:550;font-size:15px;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s,box-shadow .2s,background .2s,opacity .2s;white-space:nowrap}
+.btn:active{transform:scale(.98)}
+.btn.primary{background:var(--grad);color:#fff;box-shadow:0 10px 22px -12px rgba(106,79,207,.8),inset 0 1px 0 rgba(255,255,255,.28)}
+.btn.primary:disabled{background:var(--surface);color:var(--faint);box-shadow:inset 0 0 0 1px var(--line);cursor:not-allowed}
+.btn.ghost{background:var(--lav-100);color:var(--lav-800)}
+.btn.line{background:#fff;box-shadow:inset 0 0 0 1px var(--line);color:var(--ink)}
+.btn.block{width:100%}
+.icon-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:#fff;display:grid;place-items:center;flex:none;transition:background .15s}
+.icon-btn svg{width:20px;height:20px}
+.topbar{display:flex;align-items:center;gap:12px;padding-block:16px;min-height:76px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--f-serif);font-style:italic;font-size:28px;line-height:1;letter-spacing:-.01em;color:var(--ink)}
+.brand-mark{width:30px;height:30px;border-radius:10px;background:var(--grad);display:grid;place-items:center;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
+.brand-mark svg{width:16px;height:16px}
+.spacer{flex:1}
+.lang-pill,.lang-mini{height:40px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:13px;font-weight:550}
+.lang-pill{display:inline-flex;align-items:center;gap:7px;padding:0 14px}
+.lang-pill svg{width:16px;height:16px;color:var(--lav-600)}
+.lang-mini{appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237b62d8' stroke-width='1.8'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18'/%3E%3C/svg%3E") 12px center/16px no-repeat;padding:0 14px 0 34px;max-width:170px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field label{font-size:13px;font-weight:500;color:var(--muted)}
+.input{border:1px solid var(--line);border-radius:var(--r-sm);min-height:50px;padding:0 16px;background:#fff;width:100%;transition:border-color .2s,box-shadow .2s;font-size:16px}
+select.input{appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236e6880' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") right 14px center/18px no-repeat}
+.input::placeholder{color:var(--faint)}
+.input:focus{border-color:var(--lav-500);box-shadow:0 0 0 4px rgba(156,134,236,.16);outline:none}
+.input.bad{border-color:var(--danger);animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;min-height:40px;padding:0 16px;font-size:14px;transition:all .15s}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:14px;font-size:14px;opacity:0;pointer-events:none;transition:all .25s;z-index:99;max-width:calc(100% - 32px)}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- language ---------- */
+#s-lang{min-height:100%;background:radial-gradient(90% 55% at 50% -8%,#efe8ff 0%,rgba(255,255,255,0) 65%),var(--bg)}
+.lang-wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding-block:48px}
+.lang-inner{width:100%;max-width:440px;display:flex;flex-direction:column;gap:22px}
+.lang-h{font-size:clamp(28px,6vw,38px);line-height:1.1;letter-spacing:-.04em;text-align:center}
+.lang-list{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow)}
+.lang-opt{display:flex;align-items:center;gap:14px;min-height:62px;padding:0 20px;border:0;border-top:1px solid var(--line);background:transparent;text-align:left;transition:background .15s}
+.lang-opt:first-child{border-top:0}
+.lang-opt b{flex:1;font-size:17px;font-weight:500;letter-spacing:-.01em}
+.lang-opt span{font-size:13px;color:var(--faint)}
+.lang-opt .rd{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);flex:none;display:grid;place-items:center;transition:all .2s}
+.lang-opt[aria-pressed="true"]{background:var(--lav-50)}
+.lang-opt[aria-pressed="true"] .rd{background:var(--grad);border-color:transparent}
+.lang-opt[aria-pressed="true"] .rd::after{content:"";width:8px;height:4px;border:2px solid #fff;border-top:0;border-right:0;transform:translateY(-1px) rotate(-45deg)}
+
+/* ---------- auth ---------- */
+#s-auth{min-height:100%;background:radial-gradient(55% 45% at 0% 0%,#f2ecff 0%,rgba(255,255,255,0) 70%),var(--bg)}
+.auth-grid{display:grid;grid-template-columns:1fr;gap:28px;padding-block:8px 48px}
+.hero{display:flex;flex-direction:column;gap:16px;min-width:0}
+.hero-h{font-size:clamp(34px,5.6vw,64px);line-height:1.16;letter-spacing:-.045em}
+.hero-sub{font-size:17px;color:var(--muted);max-width:40ch;margin:0}
+.feats{list-style:none;padding:0;margin:6px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.feats li{display:flex;align-items:center;gap:8px;min-height:38px;padding:0 14px 0 10px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:13.5px}
+.feats svg{width:16px;height:16px;color:var(--lav-600);flex:none}
+.auth-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:24px;display:flex;flex-direction:column;gap:16px;width:100%;min-width:0}
+.auth-card h2{font-size:24px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--surface);border-radius:14px;padding:4px;border:1px solid var(--line)}
+.tabs button{border:0;background:transparent;border-radius:10px;min-height:42px;font-weight:550;color:var(--muted)}
+.tabs button[aria-selected="true"]{background:#fff;color:var(--ink);box-shadow:var(--shadow-sm)}
+.role-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.role{border:1px solid var(--line);background:#fff;border-radius:var(--r);padding:14px;text-align:left;display:flex;flex-direction:column;gap:10px;min-height:88px}
+.role svg{width:24px;height:24px;color:var(--lav-600)}
+.role b{font-weight:550}
+.role[aria-pressed="true"]{border-color:var(--lav-500);background:var(--lav-50);box-shadow:0 0 0 3px rgba(156,134,236,.14)}
+.skip-link{border:0;background:transparent;color:var(--muted);font-weight:500;min-height:40px;align-self:center;padding:0 12px;border-radius:10px}
+.divider{display:flex;align-items:center;gap:12px;color:var(--faint);font-size:12px;text-transform:uppercase;letter-spacing:.12em}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line)}
+.guide-cta{display:flex;align-items:center;gap:14px;width:100%;padding:14px 16px;border-radius:var(--r);background:var(--grad-soft);border:1px solid var(--lav-200);text-align:left;transition:border-color .15s}
+.gc-ico{width:42px;height:42px;border-radius:12px;background:var(--grad);color:#fff;display:grid;place-items:center;flex:none}
+.gc-ico svg{width:20px;height:20px}
+.gc-txt{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.3}
+.gc-txt b{font-weight:600}
+.gc-txt small{color:var(--muted);font-size:13px}
+.guide-cta > svg{width:18px;height:18px;color:var(--lav-600);flex:none}
+@media (min-width:700px){.auth-card{padding:32px}}
+@media (min-width:960px){
+  .auth-grid{grid-template-columns:1.1fr minmax(380px,440px);gap:72px;align-items:center;min-height:calc(100dvh - 120px)}
+}
+
+/* ---------- apply ---------- */
+#s-apply{min-height:100%;background:var(--bg)}
+#s-apply .topbar h2{font-size:18px}
+.apply-body{max-width:560px;margin:0 auto;padding-block:8px 48px;display:flex;flex-direction:column;gap:20px}
+.progress{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.progress div{display:flex;flex-direction:column;gap:8px;font-size:12.5px;color:var(--faint);font-weight:500}
+.progress i{height:4px;border-radius:4px;background:var(--line)}
+.progress .on i{background:var(--grad)}
+.progress .on{color:var(--ink)}
+.pane{display:flex;flex-direction:column;gap:18px}
+.rate-val{font-size:32px;font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+input[type=range]{accent-color:var(--lav-600);width:100%}
+.drop{border:1px dashed var(--lav-300);border-radius:var(--r);padding:16px;display:flex;align-items:center;gap:14px;background:var(--lav-50);cursor:pointer;position:relative}
+.drop.bad{border-color:var(--danger)}
+.drop input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.drop .thumb{width:64px;height:44px;border-radius:10px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;flex:none;overflow:hidden}
+.drop .thumb img{width:100%;height:100%;object-fit:cover}
+.drop .thumb svg{width:22px;height:22px;color:var(--lav-600)}
+.drop .txt{font-size:14px;font-weight:550;min-width:0;overflow-wrap:anywhere}
+.drop .txt small{display:block;font-weight:400;color:var(--muted)}
+.nav-row{display:flex;gap:10px}
+.nav-row .btn{flex:1}
+.review{display:flex;flex-direction:column;gap:18px;align-items:flex-start}
+.review-badge{width:56px;height:56px;border-radius:18px;background:var(--grad);display:grid;place-items:center;color:#fff}
+.review-badge svg{width:28px;height:28px}
+.timeline{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;width:100%}
+.timeline li{display:flex;gap:12px;align-items:flex-start;padding-bottom:16px;position:relative}
+.timeline li::before{content:"";position:absolute;left:11px;top:24px;bottom:0;width:1.5px;background:var(--line)}
+.timeline li:last-child::before{display:none}
+.timeline .dot{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line);background:#fff;flex:none;display:grid;place-items:center}
+.timeline .done .dot{background:var(--ink);border-color:var(--ink);color:#fff}
+.timeline .now .dot{border-color:var(--lav-600);box-shadow:0 0 0 4px rgba(156,134,236,.2)}
+.timeline .dot svg{width:13px;height:13px}
+.timeline b{font-weight:550}
+.summary{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:14px;margin:0}
+.summary dt{color:var(--muted)}
+.summary dd{margin:0;font-weight:550;min-width:0;overflow-wrap:anywhere}
+
+/* ---------- app shell ---------- */
+.app{min-height:100%;background:var(--surface);padding-bottom:calc(108px + env(safe-area-inset-bottom,0px))}
+.home-hero{position:relative;overflow:hidden;color:#fff;border-radius:0 0 34px 34px;padding-block:6px 62px;background:radial-gradient(60% 90% at 100% 0%,rgba(255,255,255,.3),rgba(255,255,255,0) 60%),linear-gradient(155deg,#c2b1fb 0%,#9579ea 48%,#6a4ecf 100%)}
+.home-hero::after{content:"";position:absolute;width:340px;height:340px;border-radius:50%;right:-110px;top:-150px;border:1px solid rgba(255,255,255,.2);box-shadow:0 0 0 46px rgba(255,255,255,.05),0 0 0 100px rgba(255,255,255,.03);pointer-events:none}
+.hh-top{position:relative;z-index:1;display:flex;align-items:center;gap:12px;min-height:68px}
+.brand.light{color:#fff}
+.brand.light .brand-mark{background:rgba(255,255,255,.2);box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
+.hh-btn{position:relative;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.32);background:rgba(255,255,255,.14);color:#fff;display:grid;place-items:center}
+.hh-btn svg{width:20px;height:20px}
+.hh-btn .badge{top:2px;right:2px;left:auto;border-color:#9579ea}
+.hh-greet{position:relative;z-index:1;display:flex;flex-direction:column;gap:4px;margin-top:6px}
+.hh-greet small{font-size:15px;opacity:.88}
+.hh-greet h1{font-size:clamp(30px,5vw,46px);line-height:1.24;padding-top:2px;letter-spacing:-.045em}
+.home-body{position:relative;z-index:2;display:flex;flex-direction:column;gap:26px;margin-top:-32px}
+.search-card{display:flex;align-items:center;gap:12px;width:100%;min-height:62px;padding:0 9px 0 20px;border:0;border-radius:20px;background:#fff;color:var(--faint);font-size:16px;text-align:left;box-shadow:0 20px 44px -20px rgba(71,48,143,.5),0 2px 6px rgba(20,17,27,.05)}
+.search-card > svg{width:20px;height:20px;color:var(--ink);flex:none}
+.sc-txt{flex:1;min-width:0}
+.sc-pill{width:44px;height:44px;border-radius:14px;background:var(--surface);color:var(--ink);display:grid;place-items:center;flex:none}
+.sc-pill svg{width:18px;height:18px}
+.services{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.svc{display:flex;flex-direction:column;align-items:center;gap:8px;border:0;background:transparent;padding:0;font-size:13px;font-weight:500;line-height:1.25;text-align:center;min-width:0}
+.svc-ic{width:100%;max-width:74px;aspect-ratio:1;border-radius:22px;display:grid;place-items:center;box-shadow:var(--shadow-sm);transition:transform .15s}
+.svc-ic svg{width:28px;height:28px}
+.svc:active .svc-ic{transform:scale(.94)}
+@media (min-width:700px){
+  .services{gap:14px}
+  .svc{flex-direction:row;justify-content:flex-start;gap:12px;background:#fff;border-radius:20px;padding:12px;box-shadow:var(--shadow-sm);font-size:14.5px;font-weight:550;text-align:left}
+  .svc-ic{width:48px;max-width:48px;border-radius:14px;box-shadow:none;flex:none}
+  .svc-ic svg{width:24px;height:24px}
+}
+.sec{display:flex;flex-direction:column;gap:14px}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.sec-h h2{font-size:20px;letter-spacing:-.03em;min-width:0}
+.sec-hint{font-size:13px;color:var(--faint);flex:none}
+.sec-label{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.link{border:0;background:transparent;color:var(--lav-600);font-weight:550;font-size:14px;padding:4px 0;flex:none}
+/* destination carousel — the centered card is the selection */
+.dest{background:#fff;border-radius:30px;box-shadow:var(--shadow);padding-block:20px;display:flex;flex-direction:column;overflow:hidden}
+.dest .sec-h{padding-inline:20px}
+.car-wrap{position:relative}
+.carousel{position:relative;display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-block:24px 28px;outline:none;cursor:grab;overscroll-behavior-x:contain}
+.carousel::-webkit-scrollbar{display:none}
+.carousel::before,.carousel::after{content:"";flex:0 0 calc(50% - 82px - 14px)}
+.carousel.dragging{scroll-snap-type:none;cursor:grabbing}
+.carousel:focus-visible{box-shadow:inset 0 0 0 2px var(--lav-300)}
+.ccard{--k:1;flex:none;width:164px;scroll-snap-align:center;border:0;padding:0;border-radius:22px;background:#fff;display:flex;flex-direction:column;overflow:hidden;text-align:left;user-select:none;-webkit-user-select:none;transform:scale(calc(1 - var(--k) * .16));opacity:calc(1 - var(--k) * .5);box-shadow:0 0 0 1px var(--line);transition:box-shadow .25s}
+.ccard.on{box-shadow:0 0 0 2px var(--lav-500),0 24px 42px -18px rgba(71,48,143,.6)}
+.ccard.on.t-legendary{box-shadow:0 0 0 2px var(--gold),0 24px 42px -16px rgba(201,164,92,.65)}
+.cc-art{aspect-ratio:1/.92;display:grid;place-items:center;pointer-events:none}
+.cc-art svg{width:42%;height:42%;stroke-width:1.4}
+.cc-nm{padding:10px 14px;display:flex;flex-direction:column;line-height:1.25;pointer-events:none}
+.cc-nm b{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cc-nm small{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cc-stripe{display:block;height:4px}
+.car-nav{position:absolute;top:50%;z-index:3;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:#fff;box-shadow:var(--shadow-sm);display:none;place-items:center}
+.car-nav svg{width:20px;height:20px}
+.car-nav.prev{left:18px}
+.car-nav.next{right:18px}
+@media (hover:hover) and (min-width:700px){.car-nav{display:grid}}
+@media (min-width:700px){.ccard{width:184px}.carousel::before,.carousel::after{flex-basis:calc(50% - 92px - 14px)}}
+.dest-bar{display:flex;align-items:center;gap:14px 16px;flex-wrap:wrap;padding-inline:20px}
+.dest-info{flex:1;min-width:200px;display:flex;flex-direction:column;gap:8px}
+.dest-info h3{font-size:26px;line-height:1.25;letter-spacing:-.04em}
+.dest-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.tag-t{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 11px;border-radius:999px;font-size:12.5px;font-weight:550}
+.tag-t svg{width:14px;height:14px}
+.live{display:inline-block;width:8px;height:8px;margin-right:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(47,158,120,.18)}
+.dest-bar .btn svg{width:18px;height:18px}
+@media (max-width:520px){.dest-bar .btn{width:100%}}
+.promo{position:relative;overflow:hidden;display:flex;align-items:center;gap:16px;width:100%;border:0;padding:22px;border-radius:28px;text-align:left;color:#fff;background:radial-gradient(70% 130% at 100% 0%,rgba(156,134,236,.6),rgba(156,134,236,0) 62%),#17131f;box-shadow:var(--shadow)}
+.promo-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.promo-txt b{font-size:19px;font-weight:600;line-height:1.2;letter-spacing:-.03em}
+.promo-txt small{font-size:14px;color:rgba(255,255,255,.72)}
+.promo-cta{flex:none;display:inline-flex;align-items:center;height:44px;padding:0 20px;border-radius:999px;background:#fff;color:var(--ink);font-size:14px;font-weight:600}
+@media (max-width:480px){.promo{flex-direction:column;align-items:flex-start}}
+.hscroll{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity;margin-inline:calc(var(--gut) * -1);padding:4px var(--gut) 14px;scroll-padding-inline:var(--gut)}
+.hscroll::-webkit-scrollbar{display:none}
+.gcard{flex:none;width:236px;scroll-snap-align:start;border:0;border-radius:22px;background:#fff;box-shadow:var(--shadow-sm);padding:16px;display:flex;flex-direction:column;gap:12px;text-align:left}
+.gc-top{display:flex;align-items:center;gap:12px;min-width:0}
+.gc-id{display:flex;flex-direction:column;min-width:0;line-height:1.3}
+.gc-id b{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gc-id small{color:var(--faint);font-weight:400}
+.gc-tags{display:flex;flex-wrap:wrap;gap:6px;min-height:28px}
+.gc-foot{display:flex;align-items:baseline;justify-content:space-between;gap:8px;border-top:1px solid var(--line);padding-top:10px}
+.gc-foot b{font-weight:600;font-variant-numeric:tabular-nums}
+.gc-foot b small{font-size:12px;font-weight:400;color:var(--muted)}
+/* lists */
+.app-inner{max-width:720px;margin:0 auto}
+.page-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:24px 16px}
+.page-h h1{font-size:34px;line-height:1.25;letter-spacing:-.045em}
+.list-card{background:#fff;border-radius:24px;box-shadow:var(--shadow-sm);overflow:hidden}
+.row{display:flex;align-items:center;gap:14px;width:100%;min-height:74px;padding:14px 18px;border:0;border-top:1px solid var(--line);background:transparent;text-align:left}
+.row:first-child{border-top:0}
+.row-main{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.38}
+.row-main b{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-main span{font-size:13.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-main span.wt{white-space:normal}
+.row.unread{background:linear-gradient(90deg,var(--lav-50),#fff 70%)}
+.row-side{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:6px;font-size:12px;color:var(--faint)}
+.udot{width:9px;height:9px;border-radius:50%;background:var(--lav-600)}
+.cnt{min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--lav-600);color:#fff;font-size:11px;font-weight:600;display:grid;place-items:center}
+.n-ic{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;flex:none}
+.n-ic svg{width:22px;height:22px}
+.empty-state{padding:52px 20px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;color:var(--muted);margin:0}
+.empty-state svg{width:40px;height:40px;color:var(--lav-300)}
+/* profile */
+.prof{display:flex;flex-direction:column;gap:16px}
+.prof .page-h{padding-bottom:0}
+.pf-card{display:flex;align-items:center;flex-wrap:wrap;gap:16px;padding:22px;border-radius:28px;color:#fff;background:radial-gradient(60% 90% at 100% 0%,rgba(255,255,255,.28),rgba(255,255,255,0) 60%),linear-gradient(155deg,#c2b1fb 0%,#9579ea 48%,#6a4ecf 100%);box-shadow:0 24px 44px -26px rgba(71,48,143,.85)}
+.pf-av{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.42);display:grid;place-items:center;font-size:24px;font-weight:600;flex:none}
+.pf-av svg{width:28px;height:28px}
+.pf-id{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.3}
+.pf-id b{font-size:21px;font-weight:600;letter-spacing:-.025em}
+.pf-id small{font-size:14px;opacity:.82;overflow-wrap:anywhere}
+.btn.light{min-height:44px;padding:0 20px;background:#fff;color:var(--ink)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);padding:16px 0;border-radius:24px;background:#fff;box-shadow:var(--shadow-sm)}
+.stats div{display:flex;flex-direction:column;align-items:center;gap:2px;border-left:1px solid var(--line)}
+.stats div:first-child{border-left:0}
+.stats b{font-size:22px;font-weight:600;font-variant-numeric:tabular-nums}
+.stats span{font-size:12.5px;color:var(--muted)}
+.r-ic{width:40px;height:40px;border-radius:12px;background:var(--surface);color:var(--ink);display:grid;place-items:center;flex:none}
+.r-ic svg{width:20px;height:20px}
+.r-val{font-size:14px;color:var(--muted);flex:none}
+.chev{width:18px;height:18px;color:var(--faint);flex:none}
+.row.danger b{color:var(--danger)}
+.row.danger .r-ic{color:var(--danger)}
+/* chat thread */
+#s-thread{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;background:var(--surface)}
+.th-head{display:flex;align-items:center;gap:12px;padding-block:12px;background:#fff;border-bottom:1px solid var(--line)}
+.th-head .av{width:40px;height:40px;font-size:14px}
+.th-id{display:flex;flex-direction:column;min-width:0;line-height:1.3}
+.th-id b{font-weight:600}
+.th-id small{font-size:12.5px;color:var(--muted)}
+.th-body{flex:1;overflow-y:auto;padding-block:20px}
+.th-col{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+.bub{align-self:flex-start;max-width:min(80%,520px);padding:10px 14px;border-radius:18px 18px 18px 6px;background:#fff;box-shadow:var(--shadow-sm);font-size:15px;line-height:1.45;overflow-wrap:anywhere}
+.bub.me{align-self:flex-end;border-radius:18px 18px 6px 18px;background:var(--grad);color:#fff}
+.bub time{display:block;margin-top:4px;font-size:11px;opacity:.62}
+.composer{padding-block:10px calc(10px + env(safe-area-inset-bottom,0px));background:#fff;border-top:1px solid var(--line)}
+.composer-in{max-width:760px;margin:0 auto;display:flex;gap:10px}
+.composer .input{border-radius:999px;background:var(--surface);border-color:transparent}
+.send{width:50px;height:50px;border-radius:50%;border:0;background:var(--grad);color:#fff;display:grid;place-items:center;flex:none}
+.send svg{width:20px;height:20px}
+/* search sheet */
+.sheet-bg{position:fixed;inset:0;z-index:40;display:flex;align-items:flex-end;justify-content:center;background:rgba(20,17,27,.38);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);animation:fade .2s}
+@keyframes fade{from{opacity:0}}
+@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.sheet{width:100%;max-height:86%;display:flex;flex-direction:column;gap:14px;background:#fff;border-radius:28px 28px 0 0;padding:18px max(16px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));animation:up .28s cubic-bezier(.2,.8,.2,1)}
+@media (min-width:700px){.sheet-bg{align-items:flex-start;padding:10vh 24px 24px}.sheet{max-width:620px;max-height:76vh;border-radius:28px;padding:20px}}
+.ss-head{display:flex;align-items:center;gap:10px}
+.search{position:relative;flex:1}
+.search svg{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--faint);pointer-events:none}
+.search .input{min-height:52px;padding-left:50px;border-radius:999px;background:var(--surface);border-color:transparent}
+.ss-list{min-height:0;overflow-y:auto;display:flex;flex-direction:column;margin-inline:-6px}
+.ss-row{display:flex;align-items:center;gap:14px;padding:10px 6px;border:0;border-radius:14px;background:transparent;text-align:left}
+.ss-row.cur{background:var(--lav-50)}
+.ss-ic{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;flex:none}
+.ss-ic svg{width:22px;height:22px;stroke-width:1.6}
+.ss-t{display:flex;flex-direction:column;min-width:0;line-height:1.3}
+.ss-t b{font-weight:550}
+.ss-t small{font-size:13px;color:var(--muted)}
+/* tab bar */
+/* settings */
+.page-h.sub{justify-content:flex-start}
+.page-h.sub h1{font-size:28px}
+.set-body{display:flex;flex-direction:column;gap:22px;padding-bottom:24px}
+.set-group{display:flex;flex-direction:column;gap:8px}
+.set-group > .sec-label{padding-inline:6px}
+.mini-seg{display:inline-flex;flex:none;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:3px}
+.mini-seg button{border:0;background:transparent;border-radius:9px;min-height:34px;padding:0 12px;font-size:13px;font-weight:550;color:var(--muted)}
+.mini-seg button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:var(--shadow-sm)}
+.switch{appearance:none;-webkit-appearance:none;position:relative;flex:none;width:50px;height:30px;margin:0;border-radius:999px;background:var(--line);cursor:pointer;transition:background .2s}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(20,17,27,.25);transition:transform .2s}
+.switch:checked{background:var(--lav-600)}
+.switch:checked::after{transform:translateX(20px)}
+label.row{cursor:pointer}
+.set-body .row-main b{white-space:normal}
+.ss-head h2{font-size:20px;flex:1;min-width:0}
+.opt-body{min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:2px}
+.opt{display:flex;align-items:center;gap:12px;min-height:56px;padding:0 16px;border:1px solid var(--line);border-radius:14px;background:#fff;text-align:left}
+.opt span{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.3}
+.opt b{font-weight:550}
+.opt small{font-size:12.5px;color:var(--muted)}
+.opt[aria-pressed="true"]{border-color:var(--lav-500);background:var(--lav-50)}
+.rd{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);flex:none;display:grid;place-items:center}
+.opt[aria-pressed="true"] .rd{background:var(--grad);border-color:transparent}
+.opt[aria-pressed="true"] .rd::after{content:"";width:8px;height:4px;border:2px solid #fff;border-top:0;border-right:0;transform:translateY(-1px) rotate(-45deg)}
+.opt-form{display:flex;flex-direction:column;gap:14px}
+.btn.danger{background:var(--danger);color:#fff}
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:25;padding:0 env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border-top:1px solid var(--line)}
+.tabbar-in{display:grid;grid-template-columns:repeat(4,1fr);max-width:560px;margin:0 auto}
+.tab{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;min-height:64px;padding:9px 4px 8px;border:0;background:transparent;color:var(--faint);font-size:11.5px;font-weight:500}
+.tab .ti{width:54px;height:30px;border-radius:999px;display:grid;place-items:center;transition:background .2s,color .2s}
+.tab svg{width:22px;height:22px}
+.tab[aria-current="page"]{color:var(--ink);font-weight:600}
+.tab[aria-current="page"] .ti{background:var(--lav-100);color:var(--lav-800)}
+.badge{position:absolute;top:5px;left:calc(50% + 6px);min-width:19px;height:19px;padding:0 5px;border-radius:999px;border:2px solid #fff;background:var(--danger);color:#fff;font-size:10.5px;font-weight:600;line-height:1;display:grid;place-items:center}
+@media (min-width:700px){
+  .tabbar{left:50%;right:auto;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(520px,calc(100% - 48px));padding:4px 8px;border:1px solid var(--line);border-radius:999px;box-shadow:0 22px 44px -22px rgba(71,48,143,.5)}
+  .tab{min-height:58px}
+}
+.spec-chip{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border:0;border-radius:999px;background:var(--ink);color:#fff;font-size:12.5px;font-weight:550}
+.ph-r{display:inline-flex;align-items:center;gap:10px}
+
+/* ---------- map ---------- */
+#s-map{position:fixed;inset:0;background:#f5f1fe;overflow:hidden}
+#mapCanvas,#gmap{position:absolute;inset:0;width:100%;height:100%;touch-action:none;display:block}
+#mapCanvas{cursor:grab}
+#mapCanvas:active{cursor:grabbing}
+.map-top{position:absolute;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;gap:8px;padding-top:calc(12px + env(safe-area-inset-top,0px));padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px));pointer-events:none}
+.map-top > *{pointer-events:auto}
+.map-top .icon-btn,.map-top .lang-mini{box-shadow:var(--shadow-sm);border-color:transparent}
+.prov-chip{display:flex;align-items:center;gap:8px;background:#fff;border-radius:999px;height:44px;padding:0 5px 0 16px;box-shadow:var(--shadow-sm);min-width:0}
+.prov-chip b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;letter-spacing:-.02em}
+.prov-chip button{border:0;background:var(--surface);color:var(--ink);border-radius:999px;height:34px;padding:0 14px;font-size:13px;font-weight:550;flex:none}
+.map-ctrls{position:absolute;z-index:5;left:max(12px,env(safe-area-inset-left,0px));top:calc(70px + env(safe-area-inset-top,0px));display:flex;flex-direction:column;gap:8px}
+.map-ctrls .icon-btn{box-shadow:var(--shadow-sm);border-color:transparent;font-weight:600;font-size:12.5px}
+.hint{position:absolute;z-index:4;left:50%;transform:translateX(-50%);top:calc(72px + env(safe-area-inset-top,0px));background:rgba(255,255,255,.88);padding:6px 12px;border-radius:999px;font-size:12px;color:var(--muted);white-space:nowrap;pointer-events:none}
+.panel{position:absolute;z-index:6;top:calc(70px + env(safe-area-inset-top,0px));right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));width:384px;background:#fff;border:1px solid var(--line);border-radius:24px;display:flex;flex-direction:column;box-shadow:-14px 0 44px -22px rgba(71,48,143,.45);transition:transform .32s cubic-bezier(.2,.8,.2,1)}
+.panel-top{display:flex;align-items:center;gap:8px;padding:14px 14px 2px 16px;flex:none}
+.panel-top .lang-mini{flex:1;max-width:none}
+#panelClose{display:none}
+.list-fab{display:none}
+.hint{left:calc(50% - 200px)}
+@media (max-width:860px){
+  .panel{top:0;right:0;bottom:0;width:min(88vw,384px);border-radius:24px 0 0 24px;border-right:0;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-right:env(safe-area-inset-right,0px)}
+  .panel.min{transform:translateX(calc(100% + 30px))}
+  #panelClose{display:grid}
+  .hint{display:none}
+  .list-fab{position:absolute;z-index:5;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(20px + env(safe-area-inset-bottom,0px));display:inline-flex;align-items:center;gap:8px;height:52px;padding:0 16px;border:0;border-radius:999px;background:var(--ink);color:#fff;font-weight:600;box-shadow:0 14px 30px -12px rgba(20,17,27,.55)}
+  .panel:not(.min) ~ .list-fab{display:none}
+}
+.list-fab svg{width:18px;height:18px}
+.list-fab b{background:rgba(255,255,255,.18);border-radius:999px;padding:2px 9px;font-size:12.5px;font-variant-numeric:tabular-nums}
+.seg2{display:grid;grid-template-columns:1fr 1fr;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:4px}
+.seg2 button{border:0;background:transparent;border-radius:10px;min-height:42px;font-weight:550;color:var(--muted)}
+.seg2 button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:var(--shadow-sm)}
+.note{font-size:12.5px;color:var(--muted);margin:0}
+.g-day{font-weight:400}
+.panel-scroll{overflow-y:auto;padding:16px 18px 18px;display:flex;flex-direction:column;gap:14px;min-height:0;flex:1}
+.panel-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.panel-head h2{font-size:20px}
+.panel-head span{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.glist{display:flex;flex-direction:column;gap:8px}
+.g-item{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:var(--r);background:#fff;padding:12px;text-align:left;width:100%;transition:border-color .15s,background .15s}
+.g-item[aria-pressed="true"]{border-color:var(--lav-500);background:var(--lav-50)}
+.av{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600;font-size:15px;flex:none;position:relative}
+.av.on::after{content:"";position:absolute;right:0;bottom:1px;width:11px;height:11px;border-radius:50%;background:var(--ok);border:2px solid #fff}
+.g-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.g-name{font-weight:600;display:flex;gap:8px;align-items:center;white-space:nowrap;overflow:hidden;letter-spacing:-.015em}
+.rating{font-size:13px;color:var(--gold);font-weight:600}
+.g-meta{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+.g-price{font-weight:600;color:var(--ink);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.g-price small{font-weight:400;color:var(--muted);font-size:12px}
+.detail{display:flex;flex-direction:column;gap:16px}
+.detail-head{display:flex;gap:14px;align-items:center}
+.detail-head .av{width:60px;height:60px;font-size:19px}
+.detail-head h3{font-size:22px}
+.detail-head p{margin:2px 0 0;color:var(--muted);font-size:14px}
+.sec-label{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.tag{background:var(--surface);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:5px 12px;font-size:13px}
+.stepper{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:var(--r);padding:8px 10px 8px 16px}
+.stepper .ctr{display:flex;align-items:center;gap:14px}
+.stepper button{width:38px;height:38px;border-radius:12px;border:0;background:var(--surface);color:var(--ink);font-size:20px;line-height:1}
+.stepper output{font-weight:600;font-size:18px;min-width:20px;text-align:center;font-variant-numeric:tabular-nums}
+.total-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.total-row b{font-size:28px;font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.back-link{border:0;background:transparent;color:var(--muted);font-weight:500;display:inline-flex;align-items:center;gap:4px;min-height:36px;padding:0;align-self:flex-start}
+.back-link svg{width:18px;height:18px}
+.trip-box{border-radius:20px;background:var(--grad-soft);border:1px solid var(--lav-100);padding:18px;display:flex;flex-direction:column;gap:12px}
+.trip-box h4{font-size:19px}
+.trip-box p{margin:0;color:var(--muted);font-size:14px}
+.pulse{width:52px;height:52px;border-radius:50%;background:var(--grad);position:relative;align-self:center;margin:10px 0}
+.pulse::before,.pulse::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--lav-500);animation:ring 1.6s infinite}
+.pulse::after{animation-delay:.8s}
+@keyframes ring{from{transform:scale(1);opacity:.9}to{transform:scale(2.4);opacity:0}}
+.eta-bar{height:4px;border-radius:4px;background:rgba(255,255,255,.8);overflow:hidden}
+.eta-bar i{display:block;height:100%;background:var(--grad);width:0}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.badge-demo{position:absolute;z-index:4;left:max(12px,env(safe-area-inset-left,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));font-size:11px;background:rgba(255,255,255,.88);color:var(--muted);padding:4px 10px;border-radius:999px}
+
+
+@media (hover:hover){
+  .icon-btn:hover,.lang-pill:hover{background:var(--surface)}
+  .lang-opt:hover{background:var(--surface)}
+  .lang-opt[aria-pressed="true"]:hover{background:var(--lav-50)}
+  .g-item:hover,.pitem:hover{border-color:var(--lav-300)}
+  .guide-cta:hover{border-color:var(--lav-300)}
+  .btn.primary:not(:disabled):hover{box-shadow:0 14px 28px -12px rgba(106,79,207,.85),inset 0 1px 0 rgba(255,255,255,.28)}
+}
+@media (max-width:480px){
+  .roller{height:190px}
+  .pcard{width:130px;height:150px}
+  .pcard .art svg{width:36px;height:36px}
+  .prov-chip button{display:none}
+  .lang-mini{max-width:124px}
+  .hero-sub{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+
+<!-- ============ LANGUAGE ============ -->
+<section class="screen" id="s-lang">
+  <div class="wrap lang-wrap">
+    <div class="lang-inner">
+      <h1 class="lang-h" data-i18n="choose_lang"></h1>
+      <div class="lang-list" id="langGrid" role="radiogroup"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AUTH ============ -->
+<section class="screen" id="s-auth" hidden>
+  <div class="wrap">
+    <header class="topbar inner">
+      <div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span>Journey</div>
+      <span class="spacer"></span>
+      <button class="lang-pill" data-go="lang" aria-label="Language"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg><span id="langCode">EN</span></button>
+    </header>
+    <div class="auth-grid inner">
+      <div class="hero">
+        <h1 class="hero-h" data-i18n="welcome_title"></h1>
+        <p class="hero-sub" data-i18n="welcome_sub"></p>
+        <ul class="feats">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg><span data-i18n="f1"></span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 10h8"/></svg><span data-i18n="f2"></span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span data-i18n="f3"></span></li>
+        </ul>
+      </div>
+      <form class="auth-card" id="authForm" novalidate>
+        <h2 data-i18n="auth_title"></h2>
+        <div class="tabs" role="tablist">
+          <button type="button" role="tab" id="tabLogin" aria-selected="true" data-i18n="login"></button>
+          <button type="button" role="tab" id="tabReg" aria-selected="false" data-i18n="register"></button>
+        </div>
+        <div class="field reg-only" hidden><label for="aName" data-i18n="fullname"></label><input class="input" id="aName" autocomplete="name"></div>
+        <div class="field"><label for="aEmail" data-i18n="email"></label><input class="input" id="aEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>
+        <div class="field reg-only" hidden><label for="aPhone" data-i18n="phone"></label><input class="input" id="aPhone" type="tel" autocomplete="tel" placeholder="+66 8x xxx xxxx"></div>
+        <div class="field"><label for="aPass" data-i18n="password"></label><input class="input" id="aPass" type="password" autocomplete="current-password"></div>
+        <div class="field reg-only" hidden>
+          <label data-i18n="role"></label>
+          <div class="role-row">
+            <button type="button" class="role" data-role="traveler" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="5" y="7" width="14" height="13" rx="2"/><path d="M9 7V4h6v3M9 20v1M15 20v1"/></svg><b data-i18n="role_traveler"></b></button>
+            <button type="button" class="role" data-role="guide" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="7" r="3.5"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/></svg><b data-i18n="role_guide"></b></button>
+          </div>
+        </div>
+        <button class="btn primary block" type="submit" data-i18n="continue"></button>
+        <button type="button" class="skip-link" id="skipBtn" data-i18n="skip"></button>
+        <div class="divider"><span data-i18n="or"></span></div>
+        <button type="button" class="guide-cta" id="guideBtn"><span class="gc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="7" r="3.5"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/></svg></span><span class="gc-txt"><b data-i18n="become_guide"></b><small data-i18n="guide_sub"></small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GUIDE APPLICATION ============ -->
+<section class="screen" id="s-apply" hidden>
+  <div class="wrap">
+    <header class="topbar inner">
+      <button class="icon-btn" id="applyBack" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h2 data-i18n="apply_title" style="font-size:20px"></h2>
+      <span class="spacer"></span>
+      <select class="lang-mini" aria-label="Language"></select>
+    </header>
+    <div class="apply-body" id="applyBody">
+      <div class="progress" id="progress">
+        <div class="on"><i></i><span data-i18n="step_profile"></span></div>
+        <div><i></i><span data-i18n="step_skills"></span></div>
+        <div><i></i><span data-i18n="step_docs"></span></div>
+      </div>
+      <div class="pane" data-step="1">
+        <div class="field"><label for="gName" data-i18n="fullname"></label><input class="input" id="gName" autocomplete="name"></div>
+        <div class="field"><label for="gPhone" data-i18n="phone"></label><input class="input" id="gPhone" type="tel" placeholder="+66 8x xxx xxxx"></div>
+        <div class="field"><label for="gEmail" data-i18n="email"></label><input class="input" id="gEmail" type="email" placeholder="you@example.com"></div>
+      </div>
+      <div class="pane" data-step="2" hidden>
+        <div class="field"><label data-i18n="languages_spoken"></label><div class="chips" id="gLangs"></div></div>
+        <div class="field"><label data-i18n="specialties"></label><div class="chips" id="gSpecs"></div></div>
+        <div class="field"><label for="gArea" data-i18n="service_area"></label><select class="input" id="gArea"></select></div>
+        <div class="field"><label for="gRate" data-i18n="rate"></label><div class="rate-val" id="gRateVal">฿600</div><input type="range" id="gRate" min="300" max="2000" step="50" value="600"></div>
+      </div>
+      <div class="pane" data-step="3" hidden>
+        <label class="drop" id="dropId"><span class="thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M14 10h4M14 14h4M6 16c.5-1.5 1.6-2 3-2s2.5.5 3 2"/></svg></span><span class="txt"><span data-i18n="id_upload"></span><small>JPG / PNG</small></span><input type="file" id="gId" accept="image/*"></label>
+        <label class="drop" id="dropLic"><span class="thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg></span><span class="txt"><span data-i18n="license_upload"></span><small>JPG / PNG / PDF</small></span><input type="file" id="gLic" accept="image/*,.pdf"></label>
+      </div>
+      <div class="nav-row" id="applyNav">
+        <button class="btn line" id="prevStep" data-i18n="back"></button>
+        <button class="btn primary" id="nextStep" data-i18n="continue"></button>
+      </div>
+    </div>
+    <div class="apply-body review" id="reviewBody" hidden>
+      <span class="review-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+      <h1 data-i18n="under_review" style="font-size:30px"></h1>
+      <p data-i18n="review_sub" style="margin:0;color:var(--muted)"></p>
+      <ol class="timeline" id="timeline"></ol>
+      <dl class="summary" id="summary"></dl>
+      <button class="btn primary" id="reviewDone" data-i18n="done"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOME ============ -->
+<section class="screen app" id="s-home" hidden>
+  <div class="home-hero wrap">
+    <div class="inner">
+      <div class="hh-top"><div class="brand light"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span>Journey</div><span class="spacer"></span><button class="hh-btn" data-tab="notif" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg><span class="badge" id="bBell" hidden></span></button></div>
+      <div class="hh-greet"><small id="hiName"></small><h1 data-i18n="home_title"></h1></div>
+    </div>
+  </div>
+  <div class="wrap"><div class="inner home-body">
+    <button class="search-card" id="openSearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span class="sc-txt" data-i18n="search"></span><span class="sc-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></span></button>
+    <div class="services" id="services"></div>
+    <section class="dest">
+      <div class="sec-h"><h2 data-i18n="dest_title"></h2><span class="sec-hint" data-i18n="swipe_hint"></span></div>
+      <div class="car-wrap">
+        <button class="car-nav prev" id="carPrev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <div class="carousel" id="carousel" tabindex="0" aria-label="Destinations"></div>
+        <button class="car-nav next" id="carNext" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+      </div>
+      <div class="dest-bar"><div class="dest-info"><h3 id="destName"></h3><div class="dest-meta" id="destMeta"></div></div><button class="btn primary" id="destGo"><span data-i18n="see_guides"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+    </section>
+    <button class="promo" id="promoBtn"><span class="promo-txt"><b data-i18n="promo_title"></b><small data-i18n="promo_sub"></small></span><span class="promo-cta" data-i18n="promo_cta"></span></button>
+    <section class="sec"><div class="sec-h"><h2 id="popTitle"></h2><button class="link" id="seeMap" data-i18n="on_map"></button></div><div class="hscroll" id="popGuides"></div></section>
+  </div></div>
+</section>
+
+<!-- ============ MESSAGES / ALERTS / PROFILE ============ -->
+<section class="screen app" id="s-inbox" hidden><div class="wrap"><div class="app-inner">
+  <header class="page-h"><h1 data-i18n="tab_msg"></h1></header>
+  <div class="list-card" id="inboxList"></div>
+</div></div></section>
+<section class="screen app" id="s-notif" hidden><div class="wrap"><div class="app-inner">
+  <header class="page-h"><h1 data-i18n="tab_notif"></h1></header>
+  <div class="list-card" id="notifList"></div>
+</div></div></section>
+<section class="screen app" id="s-profile" hidden><div class="wrap"><div class="app-inner prof">
+  <header class="page-h"><h1 data-i18n="tab_profile"></h1><button class="icon-btn" data-act="settings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></header>
+  <div class="pf-card" id="pfCard"></div>
+  <div class="stats" id="pfStats"></div>
+  <div class="list-card" id="pfMenu"></div>
+</div></div></section>
+<section class="screen app" id="s-settings" hidden><div class="wrap"><div class="app-inner">
+  <header class="page-h sub"><button class="icon-btn" id="setBack" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><h1 data-i18n="settings"></h1></header>
+  <div class="set-body" id="setBody"></div>
+</div></div></section>
+<section class="screen" id="s-thread" hidden>
+  <header class="th-head wrap"><button class="icon-btn" id="thBack" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span class="av" id="thAv"></span><span class="th-id"><b id="thName"></b><small id="thSub"></small></span></header>
+  <div class="th-body wrap" id="thBody"><div class="th-col" id="thCol"></div></div>
+  <form class="composer wrap" id="composer"><div class="composer-in"><input class="input" id="msgInput" autocomplete="off" data-i18n-ph="type_msg"><button class="send" type="submit" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-8-6 16-2.5-6.5z"/></svg></button></div></form>
+</section>
+
+<div class="sheet-bg" id="searchSheet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-label="Search">
+    <div class="ss-head"><div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input class="input" id="pSearch" type="search" autocomplete="off" data-i18n-ph="search"></div><button class="icon-btn" id="closeSearch" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="ss-list" id="ssList"></div>
+  </div>
+</div>
+
+<div class="sheet-bg" id="optSheet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="optTitle">
+    <div class="ss-head"><h2 id="optTitle"></h2><button class="icon-btn" id="optClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="opt-body" id="optBody"></div>
+  </div>
+</div>
+
+<nav class="tabbar" id="tabbar" hidden><div class="tabbar-in">
+  <button class="tab" data-tab="home"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg></span><span data-i18n="tab_home"></span></button>
+  <button class="tab" data-tab="inbox"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg></span><span data-i18n="tab_msg"></span><span class="badge" id="bMsg" hidden></span></button>
+  <button class="tab" data-tab="notif"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></span><span data-i18n="tab_notif"></span><span class="badge" id="bNotif" hidden></span></button>
+  <button class="tab" data-tab="profile"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></span><span data-i18n="tab_profile"></span></button>
+</div></nav>
+
+<!-- ============ MAP ============ -->
+<section class="screen" id="s-map" hidden>
+  <canvas id="mapCanvas"></canvas>
+  <div id="gmap" hidden></div>
+  <div class="map-top">
+    <button class="icon-btn" data-go="home" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <div class="prov-chip"><b id="provName"></b><button data-go="home" data-i18n="change"></button></div>
+
+  </div>
+  <div class="map-ctrls" id="mapCtrls">
+    <button class="icon-btn" id="zIn" aria-label="Zoom in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button>
+    <button class="icon-btn" id="zOut" aria-label="Zoom out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg></button>
+    <button class="icon-btn" id="compass" aria-label="Face north"><svg id="compassIco" viewBox="0 0 24 24"><path d="M12 3l4 9h-8z" fill="#cf4f69"/><path d="M12 21l-4-9h8z" fill="#cbb8f1"/></svg></button>
+    <button class="icon-btn" id="tiltBtn" aria-label="Toggle 3D">3D</button>
+  </div>
+  <div class="hint" data-i18n="drag_hint"></div>
+  <span class="badge-demo" id="mapBadge">3D preview map</span>
+  <aside class="panel" id="panel">
+    <div class="panel-top"><select class="lang-mini" id="langFilter" aria-label="Guide language"></select><button class="icon-btn" id="panelClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button></div>
+    <div class="panel-scroll" id="panelScroll"></div>
+  </aside>
+  <button class="list-fab" id="listFab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2 .7 3 2.8 3 6"/></svg><span data-i18n="open_list"></span><b id="fabCount"></b></button>
+</section>
+
+<div id="toast" role="status"></div>
+
+<script>
+/* =====================================================================
+   CONFIG — Google Maps
+   Put your key + a vector Map ID here to switch the 3D preview to real
+   Google Maps (tilt 67.5°, rotatable). Leave empty to use the built-in
+   canvas 3D preview. Restrict the key to your domain in Google Cloud.
+   ===================================================================== */
+const GOOGLE_MAPS_API_KEY = "AIzaSyBzt1Tx_lSshrntIfGh6s7bnAnij_aoExA";
+const GOOGLE_MAP_ID = "9bed8e073a83587eab0532a6";   // vector map ID (Cloud Console → Map Management)
+
+/* ---------------- i18n ---------------- */
+const LANGS=[
+  {c:'en',n:'English',e:'EN',x:'English'},{c:'th',n:'ไทย',e:'TH',x:'Thai'},{c:'hi',n:'हिन्दी',e:'HI',x:'Hindi'},{c:'ru',n:'Русский',e:'RU',x:'Russian'},
+  {c:'vi',n:'Tiếng Việt',e:'VI',x:'Vietnamese'},{c:'ja',n:'日本語',e:'JA',x:'Japanese'},{c:'zh',n:'中文',e:'ZH',x:'Chinese'},{c:'ko',n:'한국어',e:'KO',x:'Korean'}
+];
+const T={
+en:{welcome_title:"Travel Thailand with a local guide",welcome_sub:"Pick a province, see guides near you on the map, and book in one tap.",start:"Get started",become_guide:"Become a guide",choose_lang:"Choose your language",auth_title:"Welcome",login:"Log in",register:"Sign up",skip:"Skip for now",email:"Email",password:"Password",fullname:"Full name",phone:"Phone number",role:"I am a",role_traveler:"Traveler",role_guide:"Guide",continue:"Continue",back:"Back",pick_title:"Where are you going?",pick_sub:"Spin for a surprise, or pick a province yourself.",spin:"Spin",confirm:"Confirm",search:"Search province",guides_near:"Guides nearby",per_hour:"/hr",reviews:"reviews",book:"Request guide",hours:"Hours",total:"Total",finding:"Notifying guide…",accepted:"Guide accepted",arriving:"Arriving in {n} min",arrived:"Your guide is here",chat:"Chat",call:"Call",cancel:"Cancel",apply_title:"Guide application",step_profile:"Profile",step_skills:"Skills",step_docs:"Documents",languages_spoken:"Languages you speak",specialties:"Specialties",service_area:"Service province",rate:"Hourly rate (THB)",id_upload:"Upload ID card photo",license_upload:"Tour guide license (optional)",submit:"Submit application",under_review:"Application under review",review_sub:"We'll check your documents within 24–48 hours.",all_lang:"All languages",change:"Change",you:"You",trips:"trips",drag_hint:"Drag to rotate · scroll to zoom",selected:"Your destination",done:"Done",sp_temple:"Temples",sp_food:"Food",sp_nature:"Nature",sp_night:"Nightlife",sp_dive:"Diving",sp_photo:"Photography",tl_sub:"Submitted",tl_doc:"Document check",tl_train:"Online training",tl_ready:"Start accepting trips",none:"No guides speak this language here yet."},
+th:{welcome_title:"เที่ยวไทยกับไกด์ท้องถิ่น",welcome_sub:"เลือกจังหวัด ดูไกด์ใกล้คุณบนแผนที่ แล้วจองได้ในแตะเดียว",start:"เริ่มต้นใช้งาน",become_guide:"สมัครเป็นไกด์",choose_lang:"เลือกภาษา",auth_title:"ยินดีต้อนรับ",login:"เข้าสู่ระบบ",register:"สมัครสมาชิก",skip:"ข้ามไปก่อน",email:"อีเมล",password:"รหัสผ่าน",fullname:"ชื่อ-นามสกุล",phone:"เบอร์โทรศัพท์",role:"สมัครในฐานะ",role_traveler:"นักท่องเที่ยว",role_guide:"ไกด์",continue:"ดำเนินการต่อ",back:"ย้อนกลับ",pick_title:"จะไปเที่ยวที่ไหนดี?",pick_sub:"หมุนสุ่มเพื่อเซอร์ไพรส์ หรือเลือกจังหวัดเอง",spin:"หมุนสุ่ม",confirm:"ยืนยัน",search:"ค้นหาจังหวัด",guides_near:"ไกด์ใกล้คุณ",per_hour:"/ชม.",reviews:"รีวิว",book:"เรียกไกด์",hours:"จำนวนชั่วโมง",total:"รวม",finding:"กำลังแจ้งไกด์…",accepted:"ไกด์รับงานแล้ว",arriving:"จะถึงในอีก {n} นาที",arrived:"ไกด์มาถึงแล้ว",chat:"แชท",call:"โทร",cancel:"ยกเลิก",apply_title:"ใบสมัครไกด์",step_profile:"ข้อมูลส่วนตัว",step_skills:"ความสามารถ",step_docs:"เอกสาร",languages_spoken:"ภาษาที่พูดได้",specialties:"ความถนัด",service_area:"จังหวัดที่ให้บริการ",rate:"ค่าบริการต่อชั่วโมง (บาท)",id_upload:"อัปโหลดรูปบัตรประชาชน",license_upload:"ใบอนุญาตมัคคุเทศก์ (ถ้ามี)",submit:"ส่งใบสมัคร",under_review:"ใบสมัครอยู่ระหว่างตรวจสอบ",review_sub:"เราจะตรวจสอบเอกสารภายใน 24–48 ชั่วโมง",all_lang:"ทุกภาษา",change:"เปลี่ยน",you:"คุณ",trips:"ทริป",drag_hint:"ลากเพื่อหมุน · เลื่อนเพื่อซูม",selected:"จังหวัดที่ได้",done:"เสร็จสิ้น",sp_temple:"วัด",sp_food:"อาหาร",sp_nature:"ธรรมชาติ",sp_night:"ไนต์ไลฟ์",sp_dive:"ดำน้ำ",sp_photo:"ถ่ายภาพ",tl_sub:"ส่งใบสมัครแล้ว",tl_doc:"ตรวจสอบเอกสาร",tl_train:"อบรมออนไลน์",tl_ready:"เริ่มรับงาน",none:"ยังไม่มีไกด์ที่พูดภาษานี้ในพื้นที่"},
+hi:{welcome_title:"स्थानीय गाइड के साथ थाईलैंड घूमें",welcome_sub:"प्रांत चुनें, मैप पर पास के गाइड देखें और एक टैप में बुक करें।",start:"शुरू करें",become_guide:"गाइड बनें",choose_lang:"भाषा चुनें",auth_title:"स्वागत है",login:"लॉग इन",register:"रजिस्टर करें",skip:"अभी छोड़ें",email:"ईमेल",password:"पासवर्ड",fullname:"पूरा नाम",phone:"फ़ोन नंबर",role:"मैं हूँ",role_traveler:"यात्री",role_guide:"गाइड",continue:"आगे बढ़ें",back:"वापस",pick_title:"आप कहाँ जा रहे हैं?",pick_sub:"सरप्राइज़ के लिए स्पिन करें या खुद प्रांत चुनें।",spin:"स्पिन",confirm:"पुष्टि करें",search:"प्रांत खोजें",guides_near:"आस-पास के गाइड",per_hour:"/घंटा",reviews:"समीक्षाएँ",book:"गाइड बुलाएँ",hours:"घंटे",total:"कुल",finding:"गाइड को सूचित किया जा रहा है…",accepted:"गाइड ने स्वीकार किया",arriving:"{n} मिनट में पहुँच रहे हैं",arrived:"आपका गाइड पहुँच गया है",chat:"चैट",call:"कॉल",cancel:"रद्द करें",apply_title:"गाइड आवेदन",step_profile:"प्रोफ़ाइल",step_skills:"कौशल",step_docs:"दस्तावेज़",languages_spoken:"आप कौन सी भाषाएँ बोलते हैं",specialties:"विशेषताएँ",service_area:"सेवा प्रांत",rate:"प्रति घंटा दर (बाट)",id_upload:"पहचान पत्र की फ़ोटो अपलोड करें",license_upload:"टूर गाइड लाइसेंस (वैकल्पिक)",submit:"आवेदन भेजें",under_review:"आवेदन की समीक्षा हो रही है",review_sub:"हम 24–48 घंटों में आपके दस्तावेज़ जाँचेंगे।",all_lang:"सभी भाषाएँ",change:"बदलें",you:"आप",trips:"यात्राएँ",drag_hint:"घुमाने के लिए खींचें · ज़ूम के लिए स्क्रॉल करें",selected:"आपकी मंज़िल",done:"हो गया",sp_temple:"मंदिर",sp_food:"खाना",sp_nature:"प्रकृति",sp_night:"नाइटलाइफ़",sp_dive:"डाइविंग",sp_photo:"फ़ोटोग्राफ़ी",tl_sub:"जमा किया गया",tl_doc:"दस्तावेज़ जाँच",tl_train:"ऑनलाइन प्रशिक्षण",tl_ready:"यात्राएँ स्वीकार करना शुरू करें",none:"यहाँ अभी इस भाषा के गाइड नहीं हैं।"},
+ru:{welcome_title:"Путешествуйте по Таиланду с местным гидом",welcome_sub:"Выберите провинцию, найдите гидов рядом на карте и забронируйте в одно касание.",start:"Начать",become_guide:"Стать гидом",choose_lang:"Выберите язык",auth_title:"Добро пожаловать",login:"Войти",register:"Регистрация",skip:"Пропустить",email:"Эл. почта",password:"Пароль",fullname:"Полное имя",phone:"Телефон",role:"Я",role_traveler:"Путешественник",role_guide:"Гид",continue:"Продолжить",back:"Назад",pick_title:"Куда едем?",pick_sub:"Крутите рулетку или выберите провинцию сами.",spin:"Крутить",confirm:"Подтвердить",search:"Поиск провинции",guides_near:"Гиды рядом",per_hour:"/ч",reviews:"отзывов",book:"Вызвать гида",hours:"Часы",total:"Итого",finding:"Уведомляем гида…",accepted:"Гид принял заказ",arriving:"Прибудет через {n} мин",arrived:"Гид на месте",chat:"Чат",call:"Звонок",cancel:"Отмена",apply_title:"Заявка гида",step_profile:"Профиль",step_skills:"Навыки",step_docs:"Документы",languages_spoken:"Языки, на которых вы говорите",specialties:"Специализация",service_area:"Провинция работы",rate:"Ставка в час (бат)",id_upload:"Загрузите фото удостоверения",license_upload:"Лицензия гида (необязательно)",submit:"Отправить заявку",under_review:"Заявка на проверке",review_sub:"Мы проверим документы в течение 24–48 часов.",all_lang:"Все языки",change:"Изменить",you:"Вы",trips:"поездок",drag_hint:"Тяните для поворота · колесо для масштаба",selected:"Ваша провинция",done:"Готово",sp_temple:"Храмы",sp_food:"Еда",sp_nature:"Природа",sp_night:"Ночная жизнь",sp_dive:"Дайвинг",sp_photo:"Фото",tl_sub:"Отправлено",tl_doc:"Проверка документов",tl_train:"Онлайн-обучение",tl_ready:"Приём заказов",none:"Здесь пока нет гидов с этим языком."},
+vi:{welcome_title:"Du lịch Thái Lan cùng hướng dẫn viên địa phương",welcome_sub:"Chọn tỉnh, xem hướng dẫn viên gần bạn trên bản đồ và đặt chỉ với một chạm.",start:"Bắt đầu",become_guide:"Trở thành hướng dẫn viên",choose_lang:"Chọn ngôn ngữ",auth_title:"Chào mừng",login:"Đăng nhập",register:"Đăng ký",skip:"Bỏ qua",email:"Email",password:"Mật khẩu",fullname:"Họ và tên",phone:"Số điện thoại",role:"Tôi là",role_traveler:"Du khách",role_guide:"Hướng dẫn viên",continue:"Tiếp tục",back:"Quay lại",pick_title:"Bạn muốn đi đâu?",pick_sub:"Quay ngẫu nhiên để bất ngờ hoặc tự chọn tỉnh.",spin:"Quay",confirm:"Xác nhận",search:"Tìm tỉnh",guides_near:"Hướng dẫn viên gần bạn",per_hour:"/giờ",reviews:"đánh giá",book:"Gọi hướng dẫn viên",hours:"Số giờ",total:"Tổng",finding:"Đang thông báo cho hướng dẫn viên…",accepted:"Hướng dẫn viên đã nhận",arriving:"Đến trong {n} phút",arrived:"Hướng dẫn viên đã đến",chat:"Nhắn tin",call:"Gọi",cancel:"Hủy",apply_title:"Đơn đăng ký hướng dẫn viên",step_profile:"Hồ sơ",step_skills:"Kỹ năng",step_docs:"Giấy tờ",languages_spoken:"Ngôn ngữ bạn nói",specialties:"Thế mạnh",service_area:"Tỉnh phục vụ",rate:"Giá mỗi giờ (baht)",id_upload:"Tải ảnh giấy tờ tùy thân",license_upload:"Giấy phép hướng dẫn viên (không bắt buộc)",submit:"Gửi đơn",under_review:"Đơn đang được xem xét",review_sub:"Chúng tôi sẽ kiểm tra giấy tờ trong 24–48 giờ.",all_lang:"Mọi ngôn ngữ",change:"Đổi",you:"Bạn",trips:"chuyến",drag_hint:"Kéo để xoay · cuộn để thu phóng",selected:"Điểm đến của bạn",done:"Xong",sp_temple:"Chùa",sp_food:"Ẩm thực",sp_nature:"Thiên nhiên",sp_night:"Về đêm",sp_dive:"Lặn biển",sp_photo:"Nhiếp ảnh",tl_sub:"Đã gửi",tl_doc:"Kiểm tra giấy tờ",tl_train:"Đào tạo trực tuyến",tl_ready:"Bắt đầu nhận chuyến",none:"Chưa có hướng dẫn viên nói ngôn ngữ này ở đây."},
+ja:{welcome_title:"地元ガイドとタイを旅しよう",welcome_sub:"県を選んで、地図で近くのガイドを見つけ、ワンタップで予約。",start:"はじめる",become_guide:"ガイドになる",choose_lang:"言語を選択",auth_title:"ようこそ",login:"ログイン",register:"新規登録",skip:"スキップ",email:"メールアドレス",password:"パスワード",fullname:"氏名",phone:"電話番号",role:"登録タイプ",role_traveler:"旅行者",role_guide:"ガイド",continue:"次へ",back:"戻る",pick_title:"どこへ行きますか？",pick_sub:"ルーレットを回すか、県を選んでください。",spin:"回す",confirm:"決定",search:"県を検索",guides_near:"近くのガイド",per_hour:"/時間",reviews:"件のレビュー",book:"ガイドを呼ぶ",hours:"時間数",total:"合計",finding:"ガイドに通知中…",accepted:"ガイドが承諾しました",arriving:"あと{n}分で到着",arrived:"ガイドが到着しました",chat:"チャット",call:"電話",cancel:"キャンセル",apply_title:"ガイド申請",step_profile:"プロフィール",step_skills:"スキル",step_docs:"書類",languages_spoken:"話せる言語",specialties:"得意分野",service_area:"対応する県",rate:"1時間の料金（バーツ）",id_upload:"身分証の写真をアップロード",license_upload:"ガイドライセンス（任意）",submit:"申請する",under_review:"審査中です",review_sub:"24〜48時間以内に書類を確認します。",all_lang:"すべての言語",change:"変更",you:"現在地",trips:"回",drag_hint:"ドラッグで回転・スクロールでズーム",selected:"行き先",done:"完了",sp_temple:"寺院",sp_food:"グルメ",sp_nature:"自然",sp_night:"ナイトライフ",sp_dive:"ダイビング",sp_photo:"写真",tl_sub:"申請済み",tl_doc:"書類審査",tl_train:"オンライン研修",tl_ready:"受付開始",none:"この言語を話すガイドはまだいません。"},
+zh:{welcome_title:"跟着本地导游游泰国",welcome_sub:"选择府份，在地图上查看附近导游，一键预订。",start:"开始",become_guide:"成为导游",choose_lang:"选择语言",auth_title:"欢迎",login:"登录",register:"注册",skip:"先跳过",email:"邮箱",password:"密码",fullname:"姓名",phone:"手机号",role:"我是",role_traveler:"游客",role_guide:"导游",continue:"继续",back:"返回",pick_title:"你想去哪里？",pick_sub:"转动抽奖来个惊喜，或自己选择府份。",spin:"抽一个",confirm:"确认",search:"搜索府份",guides_near:"附近的导游",per_hour:"/小时",reviews:"条评价",book:"呼叫导游",hours:"时长",total:"合计",finding:"正在通知导游…",accepted:"导游已接单",arriving:"{n} 分钟后到达",arrived:"导游已到达",chat:"聊天",call:"电话",cancel:"取消",apply_title:"导游申请",step_profile:"个人资料",step_skills:"技能",step_docs:"证件",languages_spoken:"会说的语言",specialties:"擅长",service_area:"服务府份",rate:"每小时价格（泰铢）",id_upload:"上传身份证照片",license_upload:"导游证（选填）",submit:"提交申请",under_review:"申请审核中",review_sub:"我们将在 24–48 小时内审核你的证件。",all_lang:"全部语言",change:"更换",you:"你",trips:"次行程",drag_hint:"拖动旋转 · 滚动缩放",selected:"目的地",done:"完成",sp_temple:"寺庙",sp_food:"美食",sp_nature:"自然",sp_night:"夜生活",sp_dive:"潜水",sp_photo:"摄影",tl_sub:"已提交",tl_doc:"证件审核",tl_train:"在线培训",tl_ready:"开始接单",none:"这里暂时没有会说该语言的导游。"},
+ko:{welcome_title:"현지 가이드와 함께하는 태국 여행",welcome_sub:"주를 고르고, 지도에서 가까운 가이드를 확인하고, 탭 한 번으로 예약하세요.",start:"시작하기",become_guide:"가이드 되기",choose_lang:"언어 선택",auth_title:"환영합니다",login:"로그인",register:"회원가입",skip:"건너뛰기",email:"이메일",password:"비밀번호",fullname:"이름",phone:"전화번호",role:"가입 유형",role_traveler:"여행자",role_guide:"가이드",continue:"계속",back:"뒤로",pick_title:"어디로 떠날까요?",pick_sub:"룰렛을 돌리거나 직접 주를 선택하세요.",spin:"돌리기",confirm:"확인",search:"주 검색",guides_near:"주변 가이드",per_hour:"/시간",reviews:"개 리뷰",book:"가이드 호출",hours:"시간",total:"합계",finding:"가이드에게 알리는 중…",accepted:"가이드가 수락했어요",arriving:"{n}분 후 도착",arrived:"가이드가 도착했어요",chat:"채팅",call:"전화",cancel:"취소",apply_title:"가이드 지원서",step_profile:"프로필",step_skills:"역량",step_docs:"서류",languages_spoken:"사용 언어",specialties:"전문 분야",service_area:"활동 지역",rate:"시간당 요금 (바트)",id_upload:"신분증 사진 업로드",license_upload:"가이드 자격증 (선택)",submit:"지원서 제출",under_review:"지원서 검토 중",review_sub:"24~48시간 내에 서류를 확인해 드립니다.",all_lang:"모든 언어",change:"변경",you:"내 위치",trips:"회",drag_hint:"드래그로 회전 · 스크롤로 확대",selected:"여행지",done:"완료",sp_temple:"사원",sp_food:"맛집",sp_nature:"자연",sp_night:"나이트라이프",sp_dive:"다이빙",sp_photo:"사진",tl_sub:"제출 완료",tl_doc:"서류 확인",tl_train:"온라인 교육",tl_ready:"호출 받기 시작",none:"이 언어를 쓰는 가이드가 아직 없어요."}
+};
+const T2={
+en:{welcome_title:"Thailand, guided by locals.",f1:"Verified local guides",f2:"Guides who speak your language",f3:"Pay by the hour",guide_sub:"Earn on your own schedule",or:"or"},
+th:{welcome_title:"เที่ยวไทยไปกับคนท้องถิ่น",f1:"ไกด์ท้องถิ่นที่ผ่านการยืนยัน",f2:"ไกด์ที่พูดภาษาของคุณ",f3:"จ่ายตามชั่วโมง",guide_sub:"สร้างรายได้ในเวลาที่คุณเลือก",or:"หรือ"},
+hi:{f1:"सत्यापित स्थानीय गाइड",f2:"आपकी भाषा बोलने वाले गाइड",f3:"प्रति घंटा भुगतान",guide_sub:"अपने समय पर कमाएँ",or:"या"},
+ru:{f1:"Проверенные местные гиды",f2:"Гиды, говорящие на вашем языке",f3:"Почасовая оплата",guide_sub:"Зарабатывайте в удобное время",or:"или"},
+vi:{f1:"Hướng dẫn viên địa phương đã xác minh",f2:"Nói ngôn ngữ của bạn",f3:"Trả theo giờ",guide_sub:"Kiếm thu nhập theo lịch của bạn",or:"hoặc"},
+ja:{f1:"認証済みの地元ガイド",f2:"あなたの言語を話すガイド",f3:"時間単位でお支払い",guide_sub:"好きな時間に収入を得る",or:"または"},
+zh:{f1:"认证本地导游",f2:"会说你的语言的导游",f3:"按小时付费",guide_sub:"按自己的时间赚钱",or:"或"},
+ko:{f1:"인증된 현지 가이드",f2:"내 언어를 쓰는 가이드",f3:"시간 단위 결제",guide_sub:"원하는 시간에 수입 만들기",or:"또는"}
+};
+for(const k in T2)Object.assign(T[k],T2[k]);
+const T3={"en": {"pick_title": "Where to?", "pick_sub": "Choose a province to see local guides near you.", "search": "Search provinces", "cat_all": "All", "cat_beach": "Beach", "cat_mountain": "Mountains", "cat_temple": "Temples", "cat_city": "City", "surprise": "Surprise me", "surprise_sub": "Spin for a random province", "spin_again": "Spin again", "go_here": "Go here", "see_guides": "See guides", "all_prov": "Provinces", "n_prov": "{n} places", "no_match": "No province matches your search.", "selected": "Selected", "spinning": "Spinning…"}, "th": {"pick_title": "จะไปไหนดี?", "pick_sub": "เลือกจังหวัด แล้วดูไกด์ที่อยู่ใกล้คุณ", "search": "ค้นหาจังหวัด", "cat_all": "ทั้งหมด", "cat_beach": "ทะเล", "cat_mountain": "ภูเขา", "cat_temple": "วัด", "cat_city": "เมือง", "surprise": "สุ่มให้หน่อย", "surprise_sub": "หมุนวงล้อสุ่มจังหวัด", "spin_again": "หมุนอีกครั้ง", "go_here": "ไปที่นี่", "see_guides": "ดูไกด์", "all_prov": "จังหวัด", "n_prov": "{n} แห่ง", "no_match": "ไม่พบจังหวัดที่ค้นหา", "selected": "ที่เลือก", "spinning": "กำลังสุ่ม…"}, "hi": {"pick_title": "कहाँ चलें?", "pick_sub": "प्रांत चुनें और पास के स्थानीय गाइड देखें।", "search": "प्रांत खोजें", "cat_all": "सभी", "cat_beach": "समुद्र तट", "cat_mountain": "पहाड़", "cat_temple": "मंदिर", "cat_city": "शहर", "surprise": "सरप्राइज़ करें", "surprise_sub": "रैंडम प्रांत के लिए स्पिन करें", "spin_again": "फिर से स्पिन", "go_here": "यहाँ चलें", "see_guides": "गाइड देखें", "all_prov": "प्रांत", "n_prov": "{n} जगहें", "no_match": "कोई प्रांत नहीं मिला।", "selected": "चुना गया", "spinning": "स्पिन हो रहा है…"}, "ru": {"pick_title": "Куда едем?", "pick_sub": "Выберите провинцию, чтобы увидеть гидов рядом.", "search": "Поиск провинции", "cat_all": "Все", "cat_beach": "Пляжи", "cat_mountain": "Горы", "cat_temple": "Храмы", "cat_city": "Город", "surprise": "Удиви меня", "surprise_sub": "Рулетка случайной провинции", "spin_again": "Ещё раз", "go_here": "Едем сюда", "see_guides": "Смотреть гидов", "all_prov": "Провинции", "n_prov": "{n} мест", "no_match": "Ничего не найдено.", "selected": "Выбрано", "spinning": "Крутим…"}, "vi": {"pick_title": "Đi đâu đây?", "pick_sub": "Chọn tỉnh để xem hướng dẫn viên gần bạn.", "search": "Tìm tỉnh", "cat_all": "Tất cả", "cat_beach": "Biển", "cat_mountain": "Núi", "cat_temple": "Chùa", "cat_city": "Thành phố", "surprise": "Chọn ngẫu nhiên", "surprise_sub": "Quay để chọn một tỉnh bất kỳ", "spin_again": "Quay lại", "go_here": "Đi đến đây", "see_guides": "Xem hướng dẫn viên", "all_prov": "Tỉnh", "n_prov": "{n} nơi", "no_match": "Không tìm thấy tỉnh.", "selected": "Đã chọn", "spinning": "Đang quay…"}, "ja": {"pick_title": "どこへ行く？", "pick_sub": "県を選んで、近くの地元ガイドを見つけよう。", "search": "県を検索", "cat_all": "すべて", "cat_beach": "ビーチ", "cat_mountain": "山", "cat_temple": "寺院", "cat_city": "都市", "surprise": "おまかせ", "surprise_sub": "ルーレットで行き先を決める", "spin_again": "もう一度", "go_here": "ここに行く", "see_guides": "ガイドを見る", "all_prov": "県", "n_prov": "{n}件", "no_match": "該当する県がありません。", "selected": "選択中", "spinning": "回転中…"}, "zh": {"pick_title": "去哪儿？", "pick_sub": "选择府份，查看附近的本地导游。", "search": "搜索府份", "cat_all": "全部", "cat_beach": "海滩", "cat_mountain": "山区", "cat_temple": "寺庙", "cat_city": "城市", "surprise": "随机一个", "surprise_sub": "转动轮盘随机选府", "spin_again": "再转一次", "go_here": "就去这里", "see_guides": "查看导游", "all_prov": "府份", "n_prov": "{n} 个", "no_match": "没有找到匹配的府份。", "selected": "已选择", "spinning": "正在转…"}, "ko": {"pick_title": "어디로 갈까요?", "pick_sub": "주를 선택하고 근처 현지 가이드를 찾아보세요.", "search": "주 검색", "cat_all": "전체", "cat_beach": "해변", "cat_mountain": "산", "cat_temple": "사원", "cat_city": "도시", "surprise": "랜덤 추천", "surprise_sub": "룰렛으로 여행지 정하기", "spin_again": "다시 돌리기", "go_here": "여기로 갈래요", "see_guides": "가이드 보기", "all_prov": "여행지", "n_prov": "{n}곳", "no_match": "검색 결과가 없어요.", "selected": "선택됨", "spinning": "돌리는 중…"}};
+for(const k in T3)Object.assign(T[k],T3[k]);
+const T4={"en": {"tab_home": "Home", "tab_msg": "Messages", "tab_notif": "Alerts", "tab_profile": "Profile", "hello": "Hi, {n}", "guest": "Guest", "home_title": "Where to today?", "svc_now": "Get a guide", "svc_food": "Food tour", "svc_temple": "Temples", "svc_nature": "Nature", "dest_title": "Choose destination", "swipe_hint": "Swipe to choose", "guides_online": "{n} guides online", "promo_title": "Know your city? Become a guide", "promo_sub": "Take trips when it suits you and set your own rate.", "promo_cta": "Apply now", "popular_in": "Top guides in {p}", "on_map": "View on map", "no_msgs": "No messages yet", "type_msg": "Type a message…", "no_notifs": "No notifications yet", "support": "Journey Support", "support_hello": "Welcome to Journey! Message us anytime if you need help.", "chat_hello": "Hi! I'm on my way to you now.", "n_welcome_t": "Welcome to Journey", "n_welcome_b": "Pick a province and get a local guide in minutes.", "n_accept_t": "{g} accepted your trip", "n_accept_b": "On the way to you in {p}", "n_arrive_t": "Your guide has arrived", "n_arrive_b": "{g} is waiting for you", "n_apply_t": "Guide application received", "n_apply_b": "We'll check your documents within 24–48 hours.", "language": "Language", "app_status": "Application status", "help": "Help center", "logout": "Log out", "login_cta": "Log in or sign up", "stat_trips": "Trips", "stat_chats": "Chats", "mark_read": "Mark all read", "just_now": "Just now", "min_ago": "{n} min ago"}, "th": {"tab_home": "หน้าแรก", "tab_msg": "ข้อความ", "tab_notif": "แจ้งเตือน", "tab_profile": "โปรไฟล์", "hello": "สวัสดี {n}", "guest": "ผู้เยี่ยมชม", "home_title": "วันนี้อยากเที่ยวไหน?", "svc_now": "เรียกไกด์", "svc_food": "ฟู้ดทัวร์", "svc_temple": "ไหว้พระ", "svc_nature": "ธรรมชาติ", "dest_title": "เลือกจุดหมาย", "swipe_hint": "เลื่อนเพื่อเลือก", "guides_online": "{n} ไกด์ออนไลน์", "promo_title": "รู้จักพื้นที่ดี? มาเป็นไกด์กับเรา", "promo_sub": "รับงานเมื่อสะดวก และตั้งราคาเองได้", "promo_cta": "สมัครเลย", "popular_in": "ไกด์ยอดนิยมใน{p}", "on_map": "ดูบนแผนที่", "no_msgs": "ยังไม่มีข้อความ", "type_msg": "พิมพ์ข้อความ…", "no_notifs": "ยังไม่มีการแจ้งเตือน", "support": "ทีมงาน Journey", "support_hello": "ยินดีต้อนรับสู่ Journey! มีอะไรให้ช่วย ทักมาได้ตลอด", "chat_hello": "สวัสดีครับ กำลังเดินทางไปหาคุณนะครับ", "n_welcome_t": "ยินดีต้อนรับสู่ Journey", "n_welcome_b": "เลือกจังหวัดแล้วเรียกไกด์ท้องถิ่นได้ในไม่กี่นาที", "n_accept_t": "{g} รับงานแล้ว", "n_accept_b": "กำลังเดินทางไปหาคุณที่{p}", "n_arrive_t": "ไกด์มาถึงแล้ว", "n_arrive_b": "{g} รอคุณอยู่", "n_apply_t": "ได้รับใบสมัครไกด์แล้ว", "n_apply_b": "เราจะตรวจสอบเอกสารภายใน 24–48 ชั่วโมง", "language": "ภาษา", "app_status": "สถานะใบสมัคร", "help": "ศูนย์ช่วยเหลือ", "logout": "ออกจากระบบ", "login_cta": "เข้าสู่ระบบ / สมัครสมาชิก", "stat_trips": "ทริป", "stat_chats": "แชท", "mark_read": "อ่านทั้งหมด", "just_now": "เมื่อสักครู่", "min_ago": "{n} นาทีที่แล้ว"}, "hi": {"tab_home": "होम", "tab_msg": "संदेश", "tab_notif": "सूचनाएँ", "tab_profile": "प्रोफ़ाइल", "hello": "नमस्ते, {n}", "guest": "अतिथि", "home_title": "आज कहाँ चलें?", "svc_now": "गाइड बुलाएँ", "svc_food": "फ़ूड टूर", "svc_temple": "मंदिर", "svc_nature": "प्रकृति", "dest_title": "मंज़िल चुनें", "swipe_hint": "चुनने के लिए स्वाइप करें", "guides_online": "{n} गाइड ऑनलाइन", "promo_title": "अपने शहर को जानते हैं? गाइड बनें", "promo_sub": "अपनी सुविधा से काम करें और अपनी दर तय करें।", "promo_cta": "अभी आवेदन करें", "popular_in": "{p} के टॉप गाइड", "on_map": "मैप पर देखें", "no_msgs": "अभी कोई संदेश नहीं", "type_msg": "संदेश लिखें…", "no_notifs": "अभी कोई सूचना नहीं", "support": "Journey सपोर्ट", "support_hello": "Journey में आपका स्वागत है! मदद के लिए कभी भी संदेश भेजें।", "chat_hello": "नमस्ते! मैं आपकी ओर आ रहा हूँ।", "n_welcome_t": "Journey में आपका स्वागत है", "n_welcome_b": "प्रांत चुनें और मिनटों में स्थानीय गाइड पाएँ।", "n_accept_t": "{g} ने आपकी यात्रा स्वीकार की", "n_accept_b": "{p} में आपकी ओर आ रहे हैं", "n_arrive_t": "आपका गाइड पहुँच गया है", "n_arrive_b": "{g} आपका इंतज़ार कर रहे हैं", "n_apply_t": "गाइड आवेदन प्राप्त हुआ", "n_apply_b": "हम 24–48 घंटों में दस्तावेज़ जाँचेंगे।", "language": "भाषा", "app_status": "आवेदन की स्थिति", "help": "सहायता केंद्र", "logout": "लॉग आउट", "login_cta": "लॉग इन या साइन अप", "stat_trips": "यात्राएँ", "stat_chats": "चैट", "mark_read": "सब पढ़ा हुआ", "just_now": "अभी", "min_ago": "{n} मिनट पहले"}, "ru": {"tab_home": "Главная", "tab_msg": "Сообщения", "tab_notif": "Уведомления", "tab_profile": "Профиль", "hello": "Привет, {n}", "guest": "Гость", "home_title": "Куда сегодня?", "svc_now": "Вызвать гида", "svc_food": "Гастротур", "svc_temple": "Храмы", "svc_nature": "Природа", "dest_title": "Выберите направление", "swipe_hint": "Листайте, чтобы выбрать", "guides_online": "{n} гидов онлайн", "promo_title": "Знаете свой город? Станьте гидом", "promo_sub": "Берите заказы, когда удобно, и сами ставьте цену.", "promo_cta": "Подать заявку", "popular_in": "Лучшие гиды: {p}", "on_map": "На карте", "no_msgs": "Сообщений пока нет", "type_msg": "Напишите сообщение…", "no_notifs": "Уведомлений пока нет", "support": "Поддержка Journey", "support_hello": "Добро пожаловать в Journey! Пишите нам в любое время.", "chat_hello": "Здравствуйте! Уже еду к вам.", "n_welcome_t": "Добро пожаловать в Journey", "n_welcome_b": "Выберите провинцию и найдите гида за пару минут.", "n_accept_t": "{g} принял заказ", "n_accept_b": "Едет к вам: {p}", "n_arrive_t": "Гид на месте", "n_arrive_b": "{g} ждёт вас", "n_apply_t": "Заявка гида получена", "n_apply_b": "Проверим документы в течение 24–48 часов.", "language": "Язык", "app_status": "Статус заявки", "help": "Помощь", "logout": "Выйти", "login_cta": "Войти или зарегистрироваться", "stat_trips": "Поездки", "stat_chats": "Чаты", "mark_read": "Прочитать все", "just_now": "Только что", "min_ago": "{n} мин назад"}, "vi": {"tab_home": "Trang chủ", "tab_msg": "Tin nhắn", "tab_notif": "Thông báo", "tab_profile": "Hồ sơ", "hello": "Xin chào, {n}", "guest": "Khách", "home_title": "Hôm nay đi đâu?", "svc_now": "Gọi hướng dẫn viên", "svc_food": "Tour ẩm thực", "svc_temple": "Chùa chiền", "svc_nature": "Thiên nhiên", "dest_title": "Chọn điểm đến", "swipe_hint": "Vuốt để chọn", "guides_online": "{n} hướng dẫn viên trực tuyến", "promo_title": "Am hiểu địa phương? Trở thành hướng dẫn viên", "promo_sub": "Nhận chuyến khi bạn rảnh và tự đặt giá.", "promo_cta": "Đăng ký ngay", "popular_in": "Hướng dẫn viên nổi bật ở {p}", "on_map": "Xem trên bản đồ", "no_msgs": "Chưa có tin nhắn", "type_msg": "Nhập tin nhắn…", "no_notifs": "Chưa có thông báo", "support": "Hỗ trợ Journey", "support_hello": "Chào mừng đến với Journey! Nhắn cho chúng tôi bất cứ lúc nào.", "chat_hello": "Xin chào! Tôi đang đến chỗ bạn.", "n_welcome_t": "Chào mừng đến với Journey", "n_welcome_b": "Chọn tỉnh và gọi hướng dẫn viên chỉ trong vài phút.", "n_accept_t": "{g} đã nhận chuyến", "n_accept_b": "Đang đến chỗ bạn ở {p}", "n_arrive_t": "Hướng dẫn viên đã đến", "n_arrive_b": "{g} đang chờ bạn", "n_apply_t": "Đã nhận đơn đăng ký", "n_apply_b": "Chúng tôi sẽ kiểm tra giấy tờ trong 24–48 giờ.", "language": "Ngôn ngữ", "app_status": "Trạng thái đơn", "help": "Trung tâm trợ giúp", "logout": "Đăng xuất", "login_cta": "Đăng nhập hoặc đăng ký", "stat_trips": "Chuyến đi", "stat_chats": "Trò chuyện", "mark_read": "Đánh dấu đã đọc", "just_now": "Vừa xong", "min_ago": "{n} phút trước"}, "ja": {"tab_home": "ホーム", "tab_msg": "メッセージ", "tab_notif": "お知らせ", "tab_profile": "プロフィール", "hello": "こんにちは、{n}さん", "guest": "ゲスト", "home_title": "今日はどこへ？", "svc_now": "ガイドを呼ぶ", "svc_food": "グルメツアー", "svc_temple": "寺院めぐり", "svc_nature": "自然", "dest_title": "行き先を選ぶ", "swipe_hint": "スワイプして選択", "guides_online": "{n}人のガイドがオンライン", "promo_title": "地元に詳しい？ガイドになろう", "promo_sub": "好きな時間に、自分の料金で。", "promo_cta": "今すぐ申請", "popular_in": "{p}の人気ガイド", "on_map": "地図で見る", "no_msgs": "メッセージはまだありません", "type_msg": "メッセージを入力…", "no_notifs": "お知らせはまだありません", "support": "Journeyサポート", "support_hello": "Journeyへようこそ！困ったときはいつでもメッセージください。", "chat_hello": "こんにちは！今そちらへ向かっています。", "n_welcome_t": "Journeyへようこそ", "n_welcome_b": "県を選んで、数分で地元ガイドを呼べます。", "n_accept_t": "{g}が依頼を承諾しました", "n_accept_b": "{p}であなたのもとへ向かっています", "n_arrive_t": "ガイドが到着しました", "n_arrive_b": "{g}がお待ちしています", "n_apply_t": "ガイド申請を受け付けました", "n_apply_b": "24〜48時間以内に書類を確認します。", "language": "言語", "app_status": "申請状況", "help": "ヘルプセンター", "logout": "ログアウト", "login_cta": "ログイン／新規登録", "stat_trips": "旅行", "stat_chats": "チャット", "mark_read": "すべて既読", "just_now": "たった今", "min_ago": "{n}分前"}, "zh": {"tab_home": "首页", "tab_msg": "消息", "tab_notif": "通知", "tab_profile": "我的", "hello": "你好，{n}", "guest": "游客", "home_title": "今天去哪儿？", "svc_now": "呼叫导游", "svc_food": "美食之旅", "svc_temple": "寺庙", "svc_nature": "自然", "dest_title": "选择目的地", "swipe_hint": "滑动选择", "guides_online": "{n} 位导游在线", "promo_title": "熟悉本地？来当导游", "promo_sub": "时间自由，价格自定。", "promo_cta": "立即申请", "popular_in": "{p}热门导游", "on_map": "在地图上查看", "no_msgs": "暂无消息", "type_msg": "输入消息…", "no_notifs": "暂无通知", "support": "Journey 客服", "support_hello": "欢迎来到 Journey！有任何问题随时联系我们。", "chat_hello": "你好！我正在赶来。", "n_welcome_t": "欢迎来到 Journey", "n_welcome_b": "选择府份，几分钟内找到本地导游。", "n_accept_t": "{g} 已接单", "n_accept_b": "正在前往{p}找你", "n_arrive_t": "导游已到达", "n_arrive_b": "{g} 正在等你", "n_apply_t": "已收到导游申请", "n_apply_b": "我们将在 24–48 小时内审核证件。", "language": "语言", "app_status": "申请状态", "help": "帮助中心", "logout": "退出登录", "login_cta": "登录或注册", "stat_trips": "行程", "stat_chats": "聊天", "mark_read": "全部已读", "just_now": "刚刚", "min_ago": "{n} 分钟前"}, "ko": {"tab_home": "홈", "tab_msg": "메시지", "tab_notif": "알림", "tab_profile": "프로필", "hello": "안녕하세요, {n}님", "guest": "게스트", "home_title": "오늘은 어디로?", "svc_now": "가이드 호출", "svc_food": "푸드 투어", "svc_temple": "사원 투어", "svc_nature": "자연", "dest_title": "여행지 선택", "swipe_hint": "밀어서 선택", "guides_online": "가이드 {n}명 온라인", "promo_title": "동네를 잘 아시나요? 가이드가 되어보세요", "promo_sub": "원할 때 일하고 요금은 직접 정하세요.", "promo_cta": "지금 지원", "popular_in": "{p} 인기 가이드", "on_map": "지도에서 보기", "no_msgs": "아직 메시지가 없어요", "type_msg": "메시지 입력…", "no_notifs": "아직 알림이 없어요", "support": "Journey 고객센터", "support_hello": "Journey에 오신 걸 환영해요! 언제든 메시지 주세요.", "chat_hello": "안녕하세요! 지금 가는 중이에요.", "n_welcome_t": "Journey에 오신 걸 환영해요", "n_welcome_b": "주를 고르면 몇 분 안에 현지 가이드를 만날 수 있어요.", "n_accept_t": "{g}님이 수락했어요", "n_accept_b": "{p}에서 이동 중이에요", "n_arrive_t": "가이드가 도착했어요", "n_arrive_b": "{g}님이 기다리고 있어요", "n_apply_t": "가이드 지원서 접수 완료", "n_apply_b": "24~48시간 내에 서류를 확인해 드려요.", "language": "언어", "app_status": "지원 상태", "help": "고객센터", "logout": "로그아웃", "login_cta": "로그인 또는 회원가입", "stat_trips": "여행", "stat_chats": "채팅", "mark_read": "모두 읽음", "just_now": "방금", "min_ago": "{n}분 전"}};
+for(const k in T4)Object.assign(T[k],T4[k]);
+const T5={"en": {"settings": "Settings", "s_account": "Account", "edit_profile": "Edit profile", "s_prefs": "Preferences", "currency": "Currency", "distance_unit": "Distance unit", "s_map": "Map", "map_view": "Default map view", "s_booking": "Booking", "book_default": "Default booking type", "s_notif": "Notifications", "n_trip": "Trip updates", "n_trip_d": "Guide accepted, arriving and booking confirmations", "n_apply_s": "Guide application updates", "n_promo": "News and offers", "n_promo_d": "Show offers on the home screen", "s_privacy": "Privacy & safety", "share_loc": "Share live location with guide", "share_loc_d": "Your guide sees where you are only during an active trip", "emergency": "Emergency contact", "not_set": "Not set", "s_payment": "Payment", "pay_method": "Preferred payment", "pay_cash": "Cash", "pay_card": "Credit/debit card", "pay_promptpay": "PromptPay", "s_about": "About", "version": "Version", "terms": "Terms of service", "privacy_policy": "Privacy policy", "legal_soon": "The full document will be published before launch.", "clear_data": "Clear app data", "clear_q": "Clear all app data?", "clear_d": "This removes your account, chats, alerts and settings from this device.", "clear_yes": "Clear data", "save": "Save", "saved": "Saved", "login_first": "Log in to edit your profile", "hourly": "Hourly", "daily": "Daily", "days": "Days", "per_day": "/day", "day_note": "8 hours per day", "start_date": "Start date", "n_booked_t": "Booked {g}", "n_booked_b": "{d} · {n} day(s) in {p}", "booking_confirmed": "Booking confirmed", "open_list": "Guides", "approx": "Prices in other currencies are approximate", "contact_name": "Name"}, "th": {"settings": "ตั้งค่า", "s_account": "บัญชี", "edit_profile": "แก้ไขโปรไฟล์", "s_prefs": "การใช้งาน", "currency": "สกุลเงิน", "distance_unit": "หน่วยระยะทาง", "s_map": "แผนที่", "map_view": "มุมมองแผนที่เริ่มต้น", "s_booking": "การจอง", "book_default": "รูปแบบการจองเริ่มต้น", "s_notif": "การแจ้งเตือน", "n_trip": "อัปเดตทริป", "n_trip_d": "ไกด์รับงาน กำลังมาถึง และยืนยันการจอง", "n_apply_s": "อัปเดตใบสมัครไกด์", "n_promo": "ข่าวสารและโปรโมชัน", "n_promo_d": "แสดงข้อเสนอพิเศษบนหน้าแรก", "s_privacy": "ความเป็นส่วนตัวและความปลอดภัย", "share_loc": "แชร์ตำแหน่งสดกับไกด์", "share_loc_d": "ไกด์เห็นตำแหน่งคุณเฉพาะระหว่างทริปเท่านั้น", "emergency": "ผู้ติดต่อฉุกเฉิน", "not_set": "ยังไม่ได้ตั้ง", "s_payment": "การชำระเงิน", "pay_method": "วิธีชำระเงินหลัก", "pay_cash": "เงินสด", "pay_card": "บัตรเครดิต/เดบิต", "pay_promptpay": "พร้อมเพย์", "s_about": "เกี่ยวกับ", "version": "เวอร์ชัน", "terms": "ข้อกำหนดการใช้งาน", "privacy_policy": "นโยบายความเป็นส่วนตัว", "legal_soon": "ฉบับเต็มจะประกาศก่อนเปิดให้บริการ", "clear_data": "ล้างข้อมูลแอป", "clear_q": "ล้างข้อมูลทั้งหมด?", "clear_d": "บัญชี แชท การแจ้งเตือน และการตั้งค่าในเครื่องนี้จะถูกลบ", "clear_yes": "ล้างข้อมูล", "save": "บันทึก", "saved": "บันทึกแล้ว", "login_first": "เข้าสู่ระบบก่อนแก้ไขโปรไฟล์", "hourly": "รายชั่วโมง", "daily": "รายวัน", "days": "จำนวนวัน", "per_day": "/วัน", "day_note": "วันละ 8 ชั่วโมง", "start_date": "วันที่เริ่ม", "n_booked_t": "จองไกด์ {g} แล้ว", "n_booked_b": "{d} · {n} วัน ที่{p}", "booking_confirmed": "ยืนยันการจองแล้ว", "open_list": "ไกด์", "approx": "ราคาสกุลเงินอื่นเป็นค่าประมาณ", "contact_name": "ชื่อ"}, "hi": {"settings": "सेटिंग्स", "s_account": "खाता", "edit_profile": "प्रोफ़ाइल संपादित करें", "s_prefs": "प्राथमिकताएँ", "currency": "मुद्रा", "distance_unit": "दूरी की इकाई", "s_map": "मैप", "map_view": "डिफ़ॉल्ट मैप व्यू", "s_booking": "बुकिंग", "book_default": "डिफ़ॉल्ट बुकिंग प्रकार", "s_notif": "सूचनाएँ", "n_trip": "यात्रा अपडेट", "n_trip_d": "गाइड ने स्वीकार किया, पहुँच रहे हैं और बुकिंग पुष्टि", "n_apply_s": "गाइड आवेदन अपडेट", "n_promo": "समाचार और ऑफ़र", "n_promo_d": "होम स्क्रीन पर ऑफ़र दिखाएँ", "s_privacy": "गोपनीयता और सुरक्षा", "share_loc": "गाइड के साथ लाइव लोकेशन साझा करें", "share_loc_d": "गाइड आपकी लोकेशन केवल सक्रिय यात्रा के दौरान देखता है", "emergency": "आपातकालीन संपर्क", "not_set": "सेट नहीं", "s_payment": "भुगतान", "pay_method": "पसंदीदा भुगतान", "pay_cash": "नकद", "pay_card": "क्रेडिट/डेबिट कार्ड", "pay_promptpay": "PromptPay", "s_about": "जानकारी", "version": "संस्करण", "terms": "सेवा की शर्तें", "privacy_policy": "गोपनीयता नीति", "legal_soon": "पूरा दस्तावेज़ लॉन्च से पहले प्रकाशित होगा।", "clear_data": "ऐप डेटा साफ़ करें", "clear_q": "सारा ऐप डेटा साफ़ करें?", "clear_d": "इससे इस डिवाइस से आपका खाता, चैट, सूचनाएँ और सेटिंग्स हट जाएँगी।", "clear_yes": "डेटा साफ़ करें", "save": "सहेजें", "saved": "सहेजा गया", "login_first": "प्रोफ़ाइल संपादित करने के लिए लॉग इन करें", "hourly": "प्रति घंटा", "daily": "प्रति दिन", "days": "दिन", "per_day": "/दिन", "day_note": "प्रतिदिन 8 घंटे", "start_date": "आरंभ तिथि", "n_booked_t": "{g} बुक किया गया", "n_booked_b": "{d} · {p} में {n} दिन", "booking_confirmed": "बुकिंग की पुष्टि हुई", "open_list": "गाइड", "approx": "अन्य मुद्राओं में कीमतें अनुमानित हैं", "contact_name": "नाम"}, "ru": {"settings": "Настройки", "s_account": "Аккаунт", "edit_profile": "Редактировать профиль", "s_prefs": "Параметры", "currency": "Валюта", "distance_unit": "Единицы расстояния", "s_map": "Карта", "map_view": "Вид карты по умолчанию", "s_booking": "Бронирование", "book_default": "Тип бронирования по умолчанию", "s_notif": "Уведомления", "n_trip": "Обновления поездки", "n_trip_d": "Гид принял заказ, прибытие и подтверждения бронирования", "n_apply_s": "Статус заявки гида", "n_promo": "Новости и предложения", "n_promo_d": "Показывать предложения на главной", "s_privacy": "Конфиденциальность и безопасность", "share_loc": "Делиться геопозицией с гидом", "share_loc_d": "Гид видит вас только во время активной поездки", "emergency": "Экстренный контакт", "not_set": "Не указан", "s_payment": "Оплата", "pay_method": "Предпочтительный способ оплаты", "pay_cash": "Наличные", "pay_card": "Банковская карта", "pay_promptpay": "PromptPay", "s_about": "О приложении", "version": "Версия", "terms": "Условия использования", "privacy_policy": "Политика конфиденциальности", "legal_soon": "Полный документ будет опубликован до запуска.", "clear_data": "Очистить данные приложения", "clear_q": "Удалить все данные приложения?", "clear_d": "С этого устройства будут удалены аккаунт, чаты, уведомления и настройки.", "clear_yes": "Очистить", "save": "Сохранить", "saved": "Сохранено", "login_first": "Войдите, чтобы изменить профиль", "hourly": "Почасово", "daily": "Посуточно", "days": "Дни", "per_day": "/день", "day_note": "8 часов в день", "start_date": "Дата начала", "n_booked_t": "Гид {g} забронирован", "n_booked_b": "{d} · {n} дн., {p}", "booking_confirmed": "Бронирование подтверждено", "open_list": "Гиды", "approx": "Цены в других валютах приблизительные", "contact_name": "Имя"}, "vi": {"settings": "Cài đặt", "s_account": "Tài khoản", "edit_profile": "Chỉnh sửa hồ sơ", "s_prefs": "Tùy chọn", "currency": "Tiền tệ", "distance_unit": "Đơn vị khoảng cách", "s_map": "Bản đồ", "map_view": "Chế độ bản đồ mặc định", "s_booking": "Đặt chỗ", "book_default": "Kiểu đặt mặc định", "s_notif": "Thông báo", "n_trip": "Cập nhật chuyến đi", "n_trip_d": "Hướng dẫn viên nhận chuyến, sắp đến và xác nhận đặt chỗ", "n_apply_s": "Cập nhật đơn đăng ký", "n_promo": "Tin tức và ưu đãi", "n_promo_d": "Hiển thị ưu đãi trên trang chủ", "s_privacy": "Quyền riêng tư và an toàn", "share_loc": "Chia sẻ vị trí trực tiếp với hướng dẫn viên", "share_loc_d": "Hướng dẫn viên chỉ thấy vị trí của bạn trong chuyến đi", "emergency": "Liên hệ khẩn cấp", "not_set": "Chưa đặt", "s_payment": "Thanh toán", "pay_method": "Phương thức ưu tiên", "pay_cash": "Tiền mặt", "pay_card": "Thẻ tín dụng/ghi nợ", "pay_promptpay": "PromptPay", "s_about": "Giới thiệu", "version": "Phiên bản", "terms": "Điều khoản dịch vụ", "privacy_policy": "Chính sách quyền riêng tư", "legal_soon": "Văn bản đầy đủ sẽ được công bố trước khi ra mắt.", "clear_data": "Xóa dữ liệu ứng dụng", "clear_q": "Xóa toàn bộ dữ liệu ứng dụng?", "clear_d": "Tài khoản, tin nhắn, thông báo và cài đặt trên thiết bị này sẽ bị xóa.", "clear_yes": "Xóa dữ liệu", "save": "Lưu", "saved": "Đã lưu", "login_first": "Đăng nhập để chỉnh sửa hồ sơ", "hourly": "Theo giờ", "daily": "Theo ngày", "days": "Số ngày", "per_day": "/ngày", "day_note": "8 giờ mỗi ngày", "start_date": "Ngày bắt đầu", "n_booked_t": "Đã đặt {g}", "n_booked_b": "{d} · {n} ngày ở {p}", "booking_confirmed": "Đã xác nhận đặt chỗ", "open_list": "Hướng dẫn viên", "approx": "Giá ở các loại tiền khác là ước tính", "contact_name": "Tên"}, "ja": {"settings": "設定", "s_account": "アカウント", "edit_profile": "プロフィールを編集", "s_prefs": "一般", "currency": "通貨", "distance_unit": "距離の単位", "s_map": "地図", "map_view": "地図の初期表示", "s_booking": "予約", "book_default": "予約タイプの初期設定", "s_notif": "通知", "n_trip": "旅行の更新", "n_trip_d": "ガイドの承諾・到着・予約確定", "n_apply_s": "ガイド申請の更新", "n_promo": "お知らせとキャンペーン", "n_promo_d": "ホーム画面にキャンペーンを表示", "s_privacy": "プライバシーと安全", "share_loc": "ガイドと現在地を共有", "share_loc_d": "ガイドが位置を見られるのは旅行中のみです", "emergency": "緊急連絡先", "not_set": "未設定", "s_payment": "支払い", "pay_method": "優先の支払い方法", "pay_cash": "現金", "pay_card": "クレジット/デビットカード", "pay_promptpay": "PromptPay", "s_about": "このアプリについて", "version": "バージョン", "terms": "利用規約", "privacy_policy": "プライバシーポリシー", "legal_soon": "正式版はサービス開始前に公開します。", "clear_data": "アプリのデータを消去", "clear_q": "すべてのデータを消去しますか？", "clear_d": "この端末のアカウント・チャット・通知・設定が削除されます。", "clear_yes": "消去する", "save": "保存", "saved": "保存しました", "login_first": "プロフィールの編集にはログインが必要です", "hourly": "時間単位", "daily": "日単位", "days": "日数", "per_day": "/日", "day_note": "1日8時間", "start_date": "開始日", "n_booked_t": "{g}を予約しました", "n_booked_b": "{d}・{p}で{n}日間", "booking_confirmed": "予約が確定しました", "open_list": "ガイド", "approx": "他の通貨の金額は概算です", "contact_name": "名前"}, "zh": {"settings": "设置", "s_account": "账户", "edit_profile": "编辑资料", "s_prefs": "偏好设置", "currency": "货币", "distance_unit": "距离单位", "s_map": "地图", "map_view": "默认地图视图", "s_booking": "预订", "book_default": "默认预订方式", "s_notif": "通知", "n_trip": "行程动态", "n_trip_d": "导游接单、即将到达和预订确认", "n_apply_s": "导游申请进度", "n_promo": "资讯与优惠", "n_promo_d": "在首页显示优惠", "s_privacy": "隐私与安全", "share_loc": "与导游共享实时位置", "share_loc_d": "仅在行程进行中导游才能看到你的位置", "emergency": "紧急联系人", "not_set": "未设置", "s_payment": "支付", "pay_method": "首选支付方式", "pay_cash": "现金", "pay_card": "信用卡/借记卡", "pay_promptpay": "PromptPay", "s_about": "关于", "version": "版本", "terms": "服务条款", "privacy_policy": "隐私政策", "legal_soon": "完整文本将在正式上线前发布。", "clear_data": "清除应用数据", "clear_q": "清除所有应用数据？", "clear_d": "将从此设备删除你的账户、聊天、通知和设置。", "clear_yes": "清除数据", "save": "保存", "saved": "已保存", "login_first": "请先登录再编辑资料", "hourly": "按小时", "daily": "按天", "days": "天数", "per_day": "/天", "day_note": "每天 8 小时", "start_date": "开始日期", "n_booked_t": "已预订 {g}", "n_booked_b": "{d} · 在{p} {n} 天", "booking_confirmed": "预订已确认", "open_list": "导游", "approx": "其他货币价格为估算值", "contact_name": "姓名"}, "ko": {"settings": "설정", "s_account": "계정", "edit_profile": "프로필 수정", "s_prefs": "환경 설정", "currency": "통화", "distance_unit": "거리 단위", "s_map": "지도", "map_view": "기본 지도 보기", "s_booking": "예약", "book_default": "기본 예약 방식", "s_notif": "알림", "n_trip": "여행 업데이트", "n_trip_d": "가이드 수락, 도착 및 예약 확정", "n_apply_s": "가이드 지원 업데이트", "n_promo": "소식 및 혜택", "n_promo_d": "홈 화면에 혜택 표시", "s_privacy": "개인정보 및 안전", "share_loc": "가이드와 실시간 위치 공유", "share_loc_d": "가이드는 여행 중에만 내 위치를 볼 수 있어요", "emergency": "비상 연락처", "not_set": "설정 안 됨", "s_payment": "결제", "pay_method": "기본 결제 수단", "pay_cash": "현금", "pay_card": "신용/체크카드", "pay_promptpay": "PromptPay", "s_about": "앱 정보", "version": "버전", "terms": "이용약관", "privacy_policy": "개인정보처리방침", "legal_soon": "전체 문서는 출시 전에 공개됩니다.", "clear_data": "앱 데이터 삭제", "clear_q": "모든 앱 데이터를 삭제할까요?", "clear_d": "이 기기에서 계정, 채팅, 알림, 설정이 삭제됩니다.", "clear_yes": "데이터 삭제", "save": "저장", "saved": "저장했어요", "login_first": "프로필을 수정하려면 로그인하세요", "hourly": "시간 단위", "daily": "일 단위", "days": "일수", "per_day": "/일", "day_note": "하루 8시간", "start_date": "시작일", "n_booked_t": "{g} 예약 완료", "n_booked_b": "{d} · {p}에서 {n}일", "booking_confirmed": "예약이 확정되었어요", "open_list": "가이드", "approx": "다른 통화 가격은 대략적인 금액이에요", "contact_name": "이름"}};
+for(const k in T5)Object.assign(T[k],T5[k]);
+const BD={"en": "Book guide", "th": "จองไกด์", "hi": "गाइड बुक करें", "ru": "Забронировать гида", "vi": "Đặt hướng dẫn viên", "ja": "ガイドを予約", "zh": "预订导游", "ko": "가이드 예약"};for(const k in BD)T[k].book_day=BD[k];
+const SPECS=['temple','food','nature','night','dive','photo'];
+
+/* ---------------- data ---------------- */
+const TIERS={
+  common:{w:30,bg:'linear-gradient(160deg,#fbf9ff,#efe8fc)',fg:'#9b7be0',stripe:'#cbb8f1'},
+  uncommon:{w:20,bg:'linear-gradient(160deg,#f5effe,#e3d6fa)',fg:'#8a66d8',stripe:'#a98be4'},
+  rare:{w:13,bg:'linear-gradient(160deg,#ece2fd,#d3c0f6)',fg:'#7451c9',stripe:'#8a63d2'},
+  epic:{w:7,bg:'linear-gradient(160deg,#dccbfa,#b99ded)',fg:'#5a37ad',stripe:'#5f36b8'},
+  legendary:{w:3,bg:'linear-gradient(160deg,#fbf2dc,#ecd39a)',fg:'#9a7120',stripe:'#d6a84a'}
+};
+const PROV=[
+ {en:'Bangkok',th:'กรุงเทพมหานคร',lat:13.7563,lng:100.5018,type:'city',tier:'epic'},
+ {en:'Chiang Mai',th:'เชียงใหม่',lat:18.7883,lng:98.9853,type:'mountain',tier:'legendary'},
+ {en:'Phuket',th:'ภูเก็ต',lat:7.8804,lng:98.3923,type:'beach',tier:'legendary'},
+ {en:'Krabi',th:'กระบี่',lat:8.0863,lng:98.9063,type:'beach',tier:'epic'},
+ {en:'Chiang Rai',th:'เชียงราย',lat:19.9105,lng:99.8406,type:'temple',tier:'rare'},
+ {en:'Ayutthaya',th:'พระนครศรีอยุธยา',lat:14.3532,lng:100.5689,type:'temple',tier:'rare'},
+ {en:'Kanchanaburi',th:'กาญจนบุรี',lat:14.0228,lng:99.5328,type:'mountain',tier:'uncommon'},
+ {en:'Surat Thani',th:'สุราษฎร์ธานี',lat:9.1382,lng:99.3215,type:'beach',tier:'rare'},
+ {en:'Chon Buri',th:'ชลบุรี',lat:13.3611,lng:100.9847,type:'city',tier:'uncommon'},
+ {en:'Prachuap Khiri Khan',th:'ประจวบคีรีขันธ์',lat:11.8124,lng:99.7973,type:'beach',tier:'common'},
+ {en:'Phang Nga',th:'พังงา',lat:8.4509,lng:98.5255,type:'beach',tier:'epic'},
+ {en:'Nan',th:'น่าน',lat:18.7756,lng:100.7730,type:'temple',tier:'uncommon'},
+ {en:'Mae Hong Son',th:'แม่ฮ่องสอน',lat:19.3020,lng:97.9654,type:'mountain',tier:'rare'},
+ {en:'Sukhothai',th:'สุโขทัย',lat:17.0070,lng:99.8230,type:'temple',tier:'uncommon'},
+ {en:'Loei',th:'เลย',lat:17.4860,lng:101.7223,type:'mountain',tier:'common'},
+ {en:'Trat',th:'ตราด',lat:12.2428,lng:102.5175,type:'beach',tier:'common'},
+ {en:'Nakhon Ratchasima',th:'นครราชสีมา',lat:14.9799,lng:102.0978,type:'mountain',tier:'common'},
+ {en:'Udon Thani',th:'อุดรธานี',lat:17.4156,lng:102.7872,type:'city',tier:'common'},
+ {en:'Songkhla',th:'สงขลา',lat:7.1898,lng:100.5951,type:'beach',tier:'common'},
+ {en:'Rayong',th:'ระยอง',lat:12.6814,lng:101.2816,type:'beach',tier:'common'}
+];
+const ICONS={
+ city:'<path d="M3 21V9h5v12M8 21V4h8v17M16 21v-9h5v9M2 21h20M11 8h2M11 12h2M11 16h2"/>',
+ beach:'<path d="M2 19c2 0 2-1.5 4-1.5S8 19 10 19s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/><path d="M12 15V6"/><path d="M12 6c-3 0-6 2-7 5 2-1 5-1 7 0 2-1 5-1 7 0-1-3-4-5-7-5z"/>',
+ mountain:'<path d="M2 20l7-12 4 6 3-4 6 10z"/><path d="M7.2 11l1.8 1.4 1.8-1.4"/>',
+ temple:'<path d="M12 2v4M9 9l3-3 3 3M6 13l6-4 6 4M4 21h16M6 13v8M18 13v8M10 21v-5h4v5"/>'
+};
+const icon=(type)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">${ICONS[type]}</svg>`;
+const FIRST=['Nattaya','Somchai','Kittipong','Pimchanok','Arthit','Siriporn','Wanchai','Ploy','Narin','Kanya','Tanawat','Mali','Chaiwat','Anong','Prasert','Ratana','Thanakorn','Suda','Pong','Lalita'];
+const LAST='SKPWTCBNRJ';
+
+/* ---------------- helpers ---------------- */
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function hash(s){let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const store={get(k){try{return JSON.parse(localStorage.getItem('jy_'+k))}catch(e){return null}},set(k,v){try{localStorage.setItem('jy_'+k,JSON.stringify(v))}catch(e){}}};
+function toast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2400)}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+const state={lang:store.get('lang')||(navigator.language||'en').slice(0,2),user:store.get('user'),province:null,guides:[],selected:null,trip:'idle',hours:2,filter:'all',screen:'lang',authMode:'login',role:'traveler'};
+function t(k,v){let s=(T[state.lang]&&T[state.lang][k])||T.en[k]||k;if(v)for(const x in v)s=s.replace('{'+x+'}',v[x]);return s}
+const DEF_SET={currency:'THB',unit:'km',mapView:'3d',bookMode:'hour',pay:'cash',notifTrip:true,notifApply:true,notifPromo:true,shareLoc:true,emName:'',emPhone:''};
+let settings=Object.assign({},DEF_SET,store.get('settings')||{});
+const RATES={THB:1,USD:35,EUR:38,CNY:4.9,JPY:.23,KRW:.025,RUB:.4,INR:.41,VND:.00135};
+function money(thb){const c=settings.currency;if(c==='THB'||!RATES[c])return '฿'+Math.round(thb).toLocaleString();try{return '≈'+new Intl.NumberFormat(state.lang,{style:'currency',currency:c,maximumFractionDigits:0}).format(thb/RATES[c])}catch(e){return '≈'+c+' '+Math.round(thb/RATES[c])}}
+function isoDay(o){const d=new Date();d.setDate(d.getDate()+o);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+const fmtDate=v=>new Date(v+'T00:00').toLocaleDateString(state.lang,{weekday:'short',day:'numeric',month:'short'});
+const dayRate=g=>Math.round(g.price*7/50)*50;
+state.days=1;state.startDate=isoDay(1);state.bookMode=settings.bookMode;
+const pname=p=>state.lang==='th'?p.th:p.en;
+const psub=p=>state.lang==='th'?p.en:p.th;
+
+/* ---------------- language ---------------- */
+function setLang(c){state.lang=c;store.set('lang',c);applyI18n()}
+function applyI18n(){
+  document.documentElement.lang=state.lang;
+  $$('[data-i18n]').forEach(el=>el.textContent=t(el.dataset.i18n));
+  $$('[data-i18n-ph]').forEach(el=>el.placeholder=t(el.dataset.i18nPh));
+  renderLangGrid();
+  $$('select.lang-mini:not(#langFilter)').forEach(s=>{s.innerHTML=LANGS.map(l=>`<option value="${l.c}"${l.c===state.lang?' selected':''}>${l.n}</option>`).join('')});
+  renderLangFilter();
+  renderApplyChips();
+  renderAreaSelect();
+  renderScreen(state.screen);renderBadges();
+  if(state.screen==='map'){$('#provName').textContent=state.province?pname(state.province):'';renderPanel();Map3D.invalidate()}
+  if(!$('#reviewBody').hidden)renderReview();
+  renderAvatar();
+}
+function renderLangGrid(){
+  $('#langGrid').innerHTML=LANGS.map(l=>`<button class="lang-opt" role="radio" data-lang="${l.c}" aria-checked="${l.c===state.lang}" aria-pressed="${l.c===state.lang}"><b>${l.n}</b><span>${l.x}</span><i class="rd"></i></button>`).join('');
+  const lc=$('#langCode');if(lc)lc.textContent=(LANGS.find(l=>l.c===state.lang)||LANGS[0]).e;
+}
+document.addEventListener('change',e=>{if(e.target.matches('select.lang-mini:not(#langFilter)'))setLang(e.target.value)});
+$('#langGrid').addEventListener('click',e=>{const b=e.target.closest('[data-lang]');if(!b)return;setLang(b.dataset.lang);clearTimeout(setLang._t);setLang._t=setTimeout(()=>{const r=state.langReturn;state.langReturn=null;show(r||(state.user?'home':'auth'))},280)});
+
+/* ---------------- routing ---------------- */
+function show(name){
+  state.screen=name;
+  $$('.screen').forEach(s=>s.hidden=s.id!=='s-'+name);
+  const tb=$('#tabbar');tb.hidden=!TABS.includes(name);
+  $$('.tab').forEach(b=>b.setAttribute('aria-current',b.dataset.tab===name?'page':'false'));
+  window.scrollTo(0,0);
+  renderScreen(name);
+  if(name==='notif'){notifs.forEach(n=>n.unread=false);save();renderBadges()}
+  if(name==='map')enterMap();else Map3D.stop();
+}
+document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g){if(state.trip!=='idle'&&g.dataset.go==='home')cancelTrip(true);show(g.dataset.go)}});
+$('#guideBtn').onclick=()=>{state.authMode='register';state.role='guide';syncAuth();show('auth')};
+
+/* ---------------- auth ---------------- */
+function syncAuth(){
+  const reg=state.authMode==='register';
+  $('#tabLogin').setAttribute('aria-selected',!reg);$('#tabReg').setAttribute('aria-selected',reg);
+  $$('.reg-only').forEach(el=>el.hidden=!reg);
+  $$('.role').forEach(b=>b.setAttribute('aria-pressed',b.dataset.role===state.role));
+  $('#aPass').autocomplete=reg?'new-password':'current-password';
+}
+$('#tabLogin').onclick=()=>{state.authMode='login';syncAuth()};
+$('#tabReg').onclick=()=>{state.authMode='register';syncAuth()};
+$$('.role').forEach(b=>b.onclick=()=>{state.role=b.dataset.role;syncAuth()});
+$('#skipBtn').onclick=()=>show('home');
+$('#authForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const reg=state.authMode==='register';
+  const need=[$('#aEmail'),$('#aPass')].concat(reg?[$('#aName')]:[]);
+  let ok=true;
+  need.forEach(i=>{i.classList.remove('bad');if(!i.value.trim()||(i.type==='email'&&!/\S+@\S+\.\S+/.test(i.value))){void i.offsetWidth;i.classList.add('bad');ok=false}});
+  if(!ok)return;
+  const email=$('#aEmail').value.trim();
+  state.user={name:reg?$('#aName').value.trim():email.split('@')[0],email,phone:$('#aPhone').value.trim()};
+  store.set('user',state.user);renderAvatar();
+  if(reg&&state.role==='guide'){$('#gName').value=state.user.name;$('#gEmail').value=email;$('#gPhone').value=state.user.phone;openApply()}
+  else show('home');
+});
+function renderAvatar(){const b=$('#avatarBtn');if(!b)return;b.textContent=state.user?(state.user.name||'?').slice(0,1).toUpperCase():'+';b.title=state.user?state.user.name:t('login')}
+
+/* ---------------- guide application ---------------- */
+const app={step:1,langs:new Set(['th','en']),specs:new Set(),area:PROV[0].en,rate:600,id:null,lic:null};
+function openApply(){
+  state.applyFrom=state.screen;
+  const saved=store.get('application');
+  show('apply');
+  if(saved){$('#applyBody').hidden=true;$('#reviewBody').hidden=false;renderReview();return}
+  $('#applyBody').hidden=false;$('#reviewBody').hidden=true;setStep(1);
+}
+$('#applyBack').onclick=()=>{if(!$('#reviewBody').hidden||app.step===1)show(state.applyFrom&&state.applyFrom!=='apply'?state.applyFrom:'auth');else setStep(app.step-1)};
+function setStep(n){
+  app.step=n;
+  $$('.pane').forEach(p=>p.hidden=+p.dataset.step!==n);
+  $$('#progress > div').forEach((d,i)=>d.classList.toggle('on',i<n));
+  $('#prevStep').hidden=n===1;
+  $('#nextStep').textContent=n===3?t('submit'):t('continue');
+  $('#nextStep').dataset.i18n=n===3?'submit':'continue';
+}
+function renderApplyChips(){
+  $('#gLangs').innerHTML=LANGS.map(l=>`<button type="button" class="chip" data-v="${l.c}" aria-pressed="${app.langs.has(l.c)}">${l.n}</button>`).join('');
+  $('#gSpecs').innerHTML=SPECS.map(s=>`<button type="button" class="chip" data-v="${s}" aria-pressed="${app.specs.has(s)}">${t('sp_'+s)}</button>`).join('');
+}
+function renderAreaSelect(){$('#gArea').innerHTML=PROV.map(p=>`<option value="${p.en}"${p.en===app.area?' selected':''}>${pname(p)}</option>`).join('')}
+$('#gLangs').onclick=e=>{const c=e.target.closest('.chip');if(!c)return;const v=c.dataset.v;app.langs.has(v)?app.langs.delete(v):app.langs.add(v);c.setAttribute('aria-pressed',app.langs.has(v))};
+$('#gSpecs').onclick=e=>{const c=e.target.closest('.chip');if(!c)return;const v=c.dataset.v;app.specs.has(v)?app.specs.delete(v):app.specs.add(v);c.setAttribute('aria-pressed',app.specs.has(v))};
+$('#gArea').onchange=e=>app.area=e.target.value;
+$('#gRate').oninput=e=>{app.rate=+e.target.value;$('#gRateVal').textContent='฿'+app.rate.toLocaleString()};
+function bindDrop(inputId,dropId,key){
+  $(inputId).addEventListener('change',e=>{
+    const f=e.target.files[0];if(!f)return;app[key]=f.name;$(dropId).classList.remove('bad');
+    const th=$(dropId+' .thumb'),tx=$(dropId+' .txt small');tx.textContent=f.name;
+    if(f.type.startsWith('image/')){const r=new FileReader();r.onload=()=>th.innerHTML=`<img alt="" src="${r.result}">`;r.readAsDataURL(f)}
+  });
+}
+bindDrop('#gId','#dropId','id');bindDrop('#gLic','#dropLic','lic');
+$('#prevStep').onclick=()=>setStep(app.step-1);
+$('#nextStep').onclick=()=>{
+  if(app.step===1){
+    let ok=true;[$('#gName'),$('#gPhone')].forEach(i=>{i.classList.remove('bad');if(!i.value.trim()){void i.offsetWidth;i.classList.add('bad');ok=false}});
+    if(ok)setStep(2);
+  }else if(app.step===2){
+    if(!app.langs.size){toast(t('languages_spoken'));return}setStep(3);
+  }else{
+    if(!app.id){$('#dropId').classList.remove('bad');void $('#dropId').offsetWidth;$('#dropId').classList.add('bad');return}
+    const rec={name:$('#gName').value.trim(),phone:$('#gPhone').value.trim(),email:$('#gEmail').value.trim(),langs:[...app.langs],specs:[...app.specs],area:app.area,rate:app.rate,id:app.id,lic:app.lic,at:Date.now()};
+    store.set('application',rec);addNotif('apply',{},'doc');
+    $('#applyBody').hidden=true;$('#reviewBody').hidden=false;renderReview();window.scrollTo(0,0);
+  }
+};
+function renderReview(){
+  const a=store.get('application')||{};
+  const check='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-10"/></svg>';
+  $('#timeline').innerHTML=[['tl_sub','done'],['tl_doc','now'],['tl_train',''],['tl_ready','']].map(([k,c])=>`<li class="${c}"><span class="dot">${c==='done'?check:''}</span><span><b>${t(k)}</b>${c==='done'&&a.at?`<br><small style="color:var(--muted)">${new Date(a.at).toLocaleString(state.lang)}</small>`:''}</span></li>`).join('');
+  const p=PROV.find(x=>x.en===a.area);
+  $('#summary').innerHTML=`<dt>${t('fullname')}</dt><dd>${esc(a.name||'')}</dd><dt>${t('phone')}</dt><dd>${esc(a.phone||'')}</dd><dt>${t('languages_spoken')}</dt><dd>${(a.langs||[]).map(c=>LANGS.find(l=>l.c===c).n).join(', ')}</dd><dt>${t('service_area')}</dt><dd>${p?pname(p):''}</dd><dt>${t('rate')}</dt><dd>฿${(a.rate||0).toLocaleString()}${t('per_hour')}</dd>`;
+}
+$('#reviewDone').onclick=()=>show('home');
+
+/* ---------------- app shell: home · messages · alerts · profile ---------------- */
+const TABS=['home','inbox','notif','profile'];
+const TYPE_ART={
+ beach:{bg:'linear-gradient(160deg,#f2f4ff,#dde4ff)',fg:'#5568d4'},
+ mountain:{bg:'linear-gradient(160deg,#f1f8f4,#d8ede0)',fg:'#3b8761'},
+ temple:{bg:'linear-gradient(160deg,#fdf8ec,#f1e1b8)',fg:'#a2771f'},
+ city:{bg:'linear-gradient(160deg,#f7f3ff,#e3d9fe)',fg:'#6a4fcf'}
+};
+const FEATURED=['Bangkok','Chiang Mai','Phuket','Krabi','Chiang Rai','Ayutthaya','Phang Nga','Kanchanaburi','Surat Thani','Mae Hong Son'].map(n=>PROV.find(p=>p.en===n));
+let carList=[...FEATURED];
+const gcache={};
+function guidesFor(p){if(!gcache[p.en]){if(Map3D.cur!==p.en)Map3D.setWorld(p);gcache[p.en]=genGuides(p)}return gcache[p.en]}
+const SVG=(d,w=1.8,cls='')=>`<svg${cls?` class="${cls}"`:''} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+const IC={
+ bell:'<path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+ chat:'<path d="M4 5h16v11H9l-5 4z"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>',
+ globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+ help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01"/>',
+ logout:'<path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/>',
+ guide:'<path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/>',
+ spark:'<path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/>',check:'<circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/>',
+ pin:'<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+ doc:'<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/>',chev:'<path d="M9 6l6 6-6 6"/>',
+ gear:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+ coin:'<circle cx="12" cy="12" r="9"/><path d="M14.5 9.5c-.4-1-1.3-1.5-2.5-1.5-1.5 0-2.5.8-2.5 2s1 1.6 2.5 2 2.5.8 2.5 2-1 2-2.5 2c-1.2 0-2.1-.5-2.5-1.5M12 6v2M12 16v2"/>',
+ ruler:'<path d="M3 17L17 3l4 4L7 21z"/><path d="M7 13l2 2M10 10l2 2M13 7l2 2"/>',
+ map:'<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>',
+ cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+ wallet:'<rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10h18M16 15h2"/>',
+ phone:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>',
+ info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+ lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+ trash:'<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>',
+ food:'<path d="M4 3v8a3 3 0 0 0 6 0V3M7 3v18M17 21V3c-2.5 1-4 3.5-4 7v4h4"/>'
+};
+const SVC=[
+ {k:'now',ic:IC.pin,c:'#6a4fcf',bg:'#efe9ff'},
+ {k:'food',spec:'food',ic:IC.food,c:'#c0573f',bg:'#fdeee9'},
+ {k:'temple',spec:'temple',ic:ICONS.temple,c:'#a2771f',bg:'#fbf3df'},
+ {k:'nature',spec:'nature',ic:ICONS.mountain,c:'#3b8761',bg:'#e7f4ec'}
+];
+const seedChats=()=>[{id:'support',sys:true,initials:'J',color:'linear-gradient(135deg,#b9a6f8,#6a4fcf)',msgs:[{me:false,k:'support_hello',at:Date.now()}],unread:1}];
+let chats=store.get('chats')||seedChats();
+const seedNotifs=()=>[{k:'welcome',v:{},ic:'spark',at:Date.now(),unread:true}];
+let notifs=store.get('notifs')||seedNotifs();
+function save(){store.set('chats',chats);store.set('notifs',notifs)}
+function rel(at){const m=Math.floor((Date.now()-at)/60000);if(m<1)return t('just_now');if(m<60)return t('min_ago',{n:m});return new Date(at).toLocaleString(state.lang,{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}
+const msgText=m=>m.k?t(m.k):m.text;
+const chatName=c=>c.sys?t('support'):c.name;
+function renderBadges(){
+  const mu=chats.reduce((a,c)=>a+(c.unread||0),0),nu=notifs.filter(n=>n.unread).length;
+  for(const [id,v] of [['bMsg',mu],['bNotif',nu],['bBell',nu]]){const el=$('#'+id);if(el){el.hidden=!v;el.textContent=v>9?'9+':v}}
+}
+function addNotif(k,v,ic){if(['accept','arrive','booked'].includes(k)&&!settings.notifTrip)return;if(k==='apply'&&!settings.notifApply)return;notifs.unshift({k,v,ic,at:Date.now(),unread:true});save();renderBadges()}
+function ensureChat(g){
+  const p=state.province,id=p.en+':'+g.id;let c=chats.find(x=>x.id===id);
+  if(!c){c={id,name:g.name,initials:g.initials,color:g.color,prov:p.en,msgs:[{me:false,k:'chat_hello',at:Date.now()}],unread:1};chats.unshift(c);save();renderBadges()}
+  return c;
+}
+function openThread(id){state.thread=id;state.threadFrom=state.screen;show('thread')}
+function goMap(spec){state.spec=spec||null;show('map')}
+
+/* ----- home ----- */
+function renderHome(){
+  const u=state.user;
+  $('#hiName').textContent=t('hello',{n:u?(u.name||'').split(' ')[0]:t('guest')});
+  $('#services').innerHTML=SVC.map(s=>`<button class="svc" data-k="${s.k}"><span class="svc-ic" style="background:${s.bg};color:${s.c}">${SVG(s.ic)}</span><span>${t('svc_'+s.k)}</span></button>`).join('');
+  if(!state.province)state.province=carList[0];
+  if(!carList.includes(state.province))carList.unshift(state.province);
+  renderCarousel();renderDest();renderPopular();
+  $('#promoBtn').hidden=!settings.notifPromo;
+}
+$('#services').onclick=e=>{const b=e.target.closest('[data-k]');if(!b)return;goMap(SVC.find(x=>x.k===b.dataset.k).spec)};
+const car=$('#carousel');
+function renderCarousel(){
+  car.innerHTML=carList.map((p,i)=>{const tr=TIERS[p.tier];return `<button class="ccard t-${p.tier}" data-i="${i}" tabindex="-1"><span class="cc-art" style="background:${tr.bg};color:${tr.fg}">${icon(p.type)}</span><span class="cc-nm"><b>${pname(p)}</b><small>${psub(p)}</small></span><i class="cc-stripe" style="background:${tr.stripe}"></i></button>`}).join('');
+  requestAnimationFrame(()=>centerOn(state.province,false));
+}
+function centerOn(p,smooth){
+  const el=car.children[carList.indexOf(p)];if(!el)return;
+  car.scrollTo({left:el.offsetLeft-(car.clientWidth-el.offsetWidth)/2,behavior:smooth&&!matchMedia('(prefers-reduced-motion: reduce)').matches?'smooth':'auto'});
+  updateCar();
+}
+let carRaf=0,popT=0;
+function updateCar(){
+  carRaf=0;const r=car.getBoundingClientRect(),c=r.left+r.width/2;let best=null,bd=1e9;
+  for(const el of car.children){const b=el.getBoundingClientRect(),d=b.left+b.width/2-c;el.style.setProperty('--k',Math.min(1,Math.abs(d)/(b.width+14)).toFixed(3));if(Math.abs(d)<bd){bd=Math.abs(d);best=el}}
+  if(!best)return;
+  for(const el of car.children)el.classList.toggle('on',el===best);
+  const p=carList[+best.dataset.i];
+  if(state.province!==p){state.province=p;renderDest();clearTimeout(popT);popT=setTimeout(renderPopular,180)}
+}
+car.addEventListener('scroll',()=>{if(!carRaf)carRaf=requestAnimationFrame(updateCar)},{passive:true});
+car.addEventListener('click',e=>{if(car._noclick)return;const b=e.target.closest('.ccard');if(!b)return;const p=carList[+b.dataset.i];b.classList.contains('on')?goMap():centerOn(p,true)});
+function stepCar(d){const i=carList.indexOf(state.province);centerOn(carList[Math.max(0,Math.min(carList.length-1,i+d))],true)}
+$('#carPrev').onclick=()=>stepCar(-1);$('#carNext').onclick=()=>stepCar(1);
+car.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();stepCar(-1)}if(e.key==='ArrowRight'){e.preventDefault();stepCar(1)}if(e.key==='Enter')goMap()});
+let drag=null;
+car.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;drag={x:e.clientX,s:car.scrollLeft,moved:false};car.classList.add('dragging')});
+addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x;if(Math.abs(dx)>4)drag.moved=true;car.scrollLeft=drag.s-dx});
+addEventListener('pointerup',()=>{if(!drag)return;const m=drag.moved;drag=null;car.classList.remove('dragging');updateCar();centerOn(state.province,true);if(m){car._noclick=true;setTimeout(()=>car._noclick=false,0)}});
+addEventListener('resize',()=>{if(state.screen==='home')centerOn(state.province,false)});
+function renderDest(){
+  const p=state.province;if(!p)return;const a=TYPE_ART[p.type];
+  $('#destName').textContent=pname(p);
+  $('#destMeta').innerHTML=`<span class="tag-t" style="background:${a.bg};color:${a.fg}">${icon(p.type)}${t('cat_'+p.type)}</span><span><i class="live"></i>${t('guides_online',{n:guidesFor(p).length})}</span>`;
+  $('#popTitle').textContent=t('popular_in',{p:pname(p)});
+}
+function renderPopular(){
+  const p=state.province;if(!p)return;
+  const gs=[...guidesFor(p)].sort((a,b)=>b.rating-a.rating).slice(0,6);
+  $('#popGuides').innerHTML=gs.map(g=>`<button class="gcard" data-g="${g.id}"><span class="gc-top"><span class="av on" style="background:${g.color}">${g.initials}</span><span class="gc-id"><b>${g.name}</b><span class="rating">★ ${g.rating} <small>(${g.reviews})</small></span></span></span><span class="gc-tags">${g.specs.slice(0,2).map(s=>`<span class="tag">${t('sp_'+s)}</span>`).join('')}</span><span class="gc-foot"><span class="g-meta">${langCodes(g)}</span><b>${money(g.price)}<small>${t('per_hour')}</small></b></span></button>`).join('');
+}
+$('#popGuides').onclick=e=>{const b=e.target.closest('[data-g]');if(!b)return;state.pendingGuide=b.dataset.g;goMap()};
+$('#destGo').onclick=()=>goMap();$('#seeMap').onclick=()=>goMap();
+$('#promoBtn').onclick=()=>openApply();
+
+/* ----- search ----- */
+function openSearch(){$('#searchSheet').hidden=false;$('#pSearch').value='';renderSS();setTimeout(()=>$('#pSearch').focus(),60)}
+function closeSearch(){$('#searchSheet').hidden=true}
+function renderSS(){
+  const q=$('#pSearch').value.trim().toLowerCase();
+  const list=PROV.filter(p=>!q||p.en.toLowerCase().includes(q)||p.th.includes(q));
+  $('#ssList').innerHTML=list.length?list.map(p=>{const a=TYPE_ART[p.type];return `<button class="ss-row${p===state.province?' cur':''}" data-p="${p.en}"><span class="ss-ic" style="background:${a.bg};color:${a.fg}">${icon(p.type)}</span><span class="ss-t"><b>${pname(p)}</b><small>${psub(p)} · ${t('cat_'+p.type)}</small></span></button>`}).join(''):`<p class="empty-state">${t('no_match')}</p>`;
+}
+$('#openSearch').onclick=openSearch;$('#closeSearch').onclick=closeSearch;$('#pSearch').oninput=renderSS;
+$('#searchSheet').addEventListener('click',e=>{
+  if(e.target.id==='searchSheet')return closeSearch();
+  const b=e.target.closest('[data-p]');if(!b)return;const p=PROV.find(x=>x.en===b.dataset.p);
+  if(!carList.includes(p))carList.unshift(p);state.province=p;closeSearch();renderCarousel();renderDest();renderPopular();
+});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#searchSheet').hidden)closeSearch()});
+
+/* ----- messages ----- */
+function renderInbox(){
+  const list=[...chats].sort((a,b)=>b.msgs[b.msgs.length-1].at-a.msgs[a.msgs.length-1].at);
+  $('#inboxList').innerHTML=list.length?list.map(c=>{const m=c.msgs[c.msgs.length-1];return `<button class="row${c.unread?' unread':''}" data-c="${esc(c.id)}"><span class="av" style="background:${c.color}">${c.initials}</span><span class="row-main"><b>${esc(chatName(c))}</b><span>${m.me?t('you')+': ':''}${esc(msgText(m))}</span></span><span class="row-side"><span>${rel(m.at)}</span>${c.unread?`<span class="cnt">${c.unread}</span>`:''}</span></button>`}).join(''):`<div class="empty-state">${SVG(IC.chat,1.5)}<span>${t('no_msgs')}</span></div>`;
+}
+$('#inboxList').onclick=e=>{const b=e.target.closest('[data-c]');if(b)openThread(b.dataset.c)};
+function renderThread(){
+  const c=chats.find(x=>x.id===state.thread);if(!c)return;
+  c.unread=0;save();renderBadges();
+  const av=$('#thAv');av.style.background=c.color;av.textContent=c.initials;
+  $('#thName').textContent=chatName(c);
+  const p=c.prov&&PROV.find(x=>x.en===c.prov);$('#thSub').textContent=p?`${t('role_guide')} · ${pname(p)}`:'Journey';
+  $('#thCol').innerHTML=c.msgs.map(m=>`<div class="bub${m.me?' me':''}">${esc(msgText(m))}<time>${rel(m.at)}</time></div>`).join('');
+  const b=$('#thBody');b.scrollTop=b.scrollHeight;
+}
+$('#composer').addEventListener('submit',e=>{e.preventDefault();const i=$('#msgInput'),v=i.value.trim();if(!v)return;const c=chats.find(x=>x.id===state.thread);if(!c)return;c.msgs.push({me:true,text:v,at:Date.now()});i.value='';save();renderThread()});
+$('#thBack').onclick=()=>show(state.threadFrom&&state.threadFrom!=='thread'?state.threadFrom:'inbox');
+
+/* ----- alerts ----- */
+const NIC={spark:{d:IC.spark,c:'#6a4fcf',bg:'#efe9ff'},check:{d:IC.check,c:'#2f9e78',bg:'#e5f5ee'},pin:{d:IC.pin,c:'#6a4fcf',bg:'#efe9ff'},doc:{d:IC.doc,c:'#a2771f',bg:'#fbf3df'}};
+function renderNotif(){
+  $('#notifList').innerHTML=notifs.length?notifs.map(n=>{const ic=NIC[n.ic]||NIC.spark;return `<div class="row${n.unread?' unread':''}"><span class="n-ic" style="background:${ic.bg};color:${ic.c}">${SVG(ic.d)}</span><span class="row-main"><b>${esc(t('n_'+n.k+'_t',n.v))}</b><span class="wt">${esc(t('n_'+n.k+'_b',n.v))}</span></span><span class="row-side"><span>${rel(n.at)}</span>${n.unread?'<i class="udot"></i>':''}</span></div>`}).join(''):`<div class="empty-state">${SVG(IC.bell,1.5)}<span>${t('no_notifs')}</span></div>`;
+}
+
+/* ----- profile ----- */
+function renderProfile(){
+  const u=state.user,a=store.get('application'),L=LANGS.find(l=>l.c===state.lang)||LANGS[0];
+  $('#pfCard').innerHTML=`<span class="pf-av">${u?esc((u.name||'?')[0].toUpperCase()):SVG(IC.user)}</span><span class="pf-id"><b>${u?esc(u.name):t('guest')}</b><small>${u?esc(u.email):t('login_cta')}</small></span>${u?'':`<button class="btn light" data-act="login">${t('login')}</button>`}`;
+  $('#pfStats').innerHTML=`<div><b>${store.get('trips')||0}</b><span>${t('stat_trips')}</span></div><div><b>${chats.length}</b><span>${t('stat_chats')}</span></div><div><b>${L.e}</b><span>${t('language')}</span></div>`;
+  const rows=[['settings',IC.gear,t('settings'),''],['lang',IC.globe,t('language'),L.n],['guide',IC.guide,a?t('app_status'):t('become_guide'),a?t('tl_doc'):''],['help',IC.help,t('help'),'']];
+  if(u)rows.push(['logout',IC.logout,t('logout'),'']);
+  $('#pfMenu').innerHTML=rows.map(([k,ic,l,v])=>`<button class="row${k==='logout'?' danger':''}" data-act="${k}"><span class="r-ic">${SVG(ic)}</span><span class="row-main"><b>${l}</b></span>${v?`<span class="r-val">${esc(v)}</span>`:''}${SVG(IC.chev,2,'chev')}</button>`).join('');
+}
+$('#s-profile').addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;const k=b.dataset.act;
+  if(k==='settings')show('settings');
+  else if(k==='login'){state.authMode='login';syncAuth();show('auth')}
+  else if(k==='lang'){state.langReturn='profile';show('lang')}
+  else if(k==='guide')openApply();
+  else if(k==='help')openThread('support');
+  else if(k==='logout'){state.user=null;store.set('user',null);renderProfile();toast(t('logout'))}
+});
+
+/* ----- settings ----- */
+function setS(k,v){settings[k]=v;store.set('settings',settings);renderSettings()}
+const CUR=['THB','USD','EUR','CNY','JPY','KRW','RUB','INR','VND'];
+const PAY=['cash','card','promptpay'];
+function curName(c){try{return new Intl.DisplayNames([state.lang],{type:'currency'}).of(c)}catch(e){return c}}
+const segC=(k,opts)=>`<div class="mini-seg" data-set="${k}">${opts.map(([v,l])=>`<button type="button" data-v="${v}" aria-pressed="${settings[k]===v}">${l}</button>`).join('')}</div>`;
+const navRow=(k,ic,l,v,cls)=>`<button class="row${cls?' '+cls:''}" data-open="${k}"><span class="r-ic">${SVG(ic)}</span><span class="row-main"><b>${l}</b></span>${v?`<span class="r-val">${esc(v)}</span>`:''}${SVG(IC.chev,2,'chev')}</button>`;
+const segRow=(ic,l,h)=>`<div class="row"><span class="r-ic">${SVG(ic)}</span><span class="row-main"><b>${l}</b></span>${h}</div>`;
+const swRow=(k,ic,l,d)=>`<label class="row" for="sw-${k}"><span class="r-ic">${SVG(ic)}</span><span class="row-main"><b>${l}</b>${d?`<span class="wt">${d}</span>`:''}</span><input type="checkbox" class="switch" id="sw-${k}" data-set="${k}"${settings[k]?' checked':''}></label>`;
+const grp=(label,rows)=>`<div class="set-group">${label?`<span class="sec-label">${label}</span>`:''}<div class="list-card">${rows.join('')}</div></div>`;
+function renderSettings(){
+  const u=state.user,L=LANGS.find(l=>l.c===state.lang)||LANGS[0];
+  $('#setBody').innerHTML=[
+    grp(t('s_account'),[navRow('profile',IC.user,t('edit_profile'),u?u.name:t('guest'))]),
+    grp(t('s_prefs'),[navRow('lang',IC.globe,t('language'),L.n),navRow('currency',IC.coin,t('currency'),settings.currency),segRow(IC.ruler,t('distance_unit'),segC('unit',[['km','km'],['mi','mi']]))]),
+    grp(t('s_map'),[segRow(IC.map,t('map_view'),segC('mapView',[['3d','3D'],['2d','2D']]))]),
+    grp(t('s_booking'),[segRow(IC.cal,t('book_default'),segC('bookMode',[['hour',t('hourly')],['day',t('daily')]])),navRow('pay',IC.wallet,t('pay_method'),t('pay_'+settings.pay))]),
+    grp(t('s_notif'),[swRow('notifTrip',IC.bell,t('n_trip'),t('n_trip_d')),swRow('notifApply',IC.doc,t('n_apply_s')),swRow('notifPromo',IC.spark,t('n_promo'),t('n_promo_d'))]),
+    grp(t('s_privacy'),[swRow('shareLoc',IC.pin,t('share_loc'),t('share_loc_d')),navRow('emergency',IC.phone,t('emergency'),settings.emName||t('not_set'))]),
+    grp(t('s_about'),[`<div class="row"><span class="r-ic">${SVG(IC.info)}</span><span class="row-main"><b>${t('version')}</b></span><span class="r-val">1.0.0</span></div>`,navRow('terms',IC.doc,t('terms')),navRow('privacy',IC.lock,t('privacy_policy')),navRow('help',IC.help,t('help'))]),
+    grp('',[navRow('clear',IC.trash,t('clear_data'),'','danger')].concat(u?[navRow('logout',IC.logout,t('logout'),'','danger')]:[]))
+  ].join('');
+}
+$('#setBack').onclick=()=>show('profile');
+$('#setBody').addEventListener('click',e=>{
+  const sb=e.target.closest('.mini-seg button');if(sb){setS(sb.parentElement.dataset.set,sb.dataset.v);return}
+  const r=e.target.closest('[data-open]');if(!r)return;const k=r.dataset.open;
+  if(k==='lang'){state.langReturn='settings';show('lang')}
+  else if(k==='currency')pickSheet(t('currency'),CUR.map(c=>[c,c+' · '+curName(c),c==='THB'?'':t('approx')]),settings.currency,v=>setS('currency',v));
+  else if(k==='pay')pickSheet(t('pay_method'),PAY.map(p=>[p,t('pay_'+p),'']),settings.pay,v=>setS('pay',v));
+  else if(k==='profile')editProfile();
+  else if(k==='emergency')editEmergency();
+  else if(k==='terms'||k==='privacy')openSheet(k==='terms'?t('terms'):t('privacy_policy'),`<p class="note" style="font-size:15px">${t('legal_soon')}</p>`);
+  else if(k==='help')openThread('support');
+  else if(k==='clear')confirmClear();
+  else if(k==='logout'){state.user=null;store.set('user',null);renderSettings();toast(t('logout'))}
+});
+$('#setBody').addEventListener('change',e=>{if(e.target.matches('.switch'))setS(e.target.dataset.set,e.target.checked)});
+function openSheet(title,html,bind){$('#optTitle').textContent=title;$('#optBody').innerHTML=html;$('#optSheet').hidden=false;if(bind)bind($('#optBody'))}
+function closeSheet(){$('#optSheet').hidden=true}
+$('#optClose').onclick=closeSheet;
+$('#optSheet').addEventListener('click',e=>{if(e.target.id==='optSheet')closeSheet()});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#optSheet').hidden)closeSheet()});
+function pickSheet(title,opts,cur,cb){
+  openSheet(title,opts.map(([v,l,d])=>`<button class="opt" data-v="${v}" aria-pressed="${v===cur}"><span><b>${esc(l)}</b>${d?`<small>${esc(d)}</small>`:''}</span><i class="rd"></i></button>`).join(''),
+    b=>b.onclick=e=>{const o=e.target.closest('[data-v]');if(o){cb(o.dataset.v);closeSheet()}});
+}
+function editProfile(){
+  const u=state.user;
+  if(!u){toast(t('login_first'));state.authMode='login';syncAuth();show('auth');return}
+  openSheet(t('edit_profile'),`<form class="opt-form" id="pfForm" novalidate><div class="field"><label for="pfName">${t('fullname')}</label><input class="input" id="pfName" autocomplete="name" value="${esc(u.name||'')}"></div><div class="field"><label for="pfEmail">${t('email')}</label><input class="input" id="pfEmail" type="email" autocomplete="email" value="${esc(u.email||'')}"></div><div class="field"><label for="pfPhone">${t('phone')}</label><input class="input" id="pfPhone" type="tel" autocomplete="tel" value="${esc(u.phone||'')}"></div><button class="btn primary block" type="submit">${t('save')}</button></form>`,
+    b=>b.querySelector('#pfForm').onsubmit=e=>{e.preventDefault();const n=$('#pfName').value.trim();if(!n){$('#pfName').classList.add('bad');return}state.user={name:n,email:$('#pfEmail').value.trim(),phone:$('#pfPhone').value.trim()};store.set('user',state.user);closeSheet();renderSettings();toast(t('saved'))});
+}
+function editEmergency(){
+  openSheet(t('emergency'),`<form class="opt-form" id="emForm" novalidate><div class="field"><label for="emName">${t('contact_name')}</label><input class="input" id="emName" value="${esc(settings.emName)}"></div><div class="field"><label for="emPhone">${t('phone')}</label><input class="input" id="emPhone" type="tel" placeholder="+66 8x xxx xxxx" value="${esc(settings.emPhone)}"></div><button class="btn primary block" type="submit">${t('save')}</button></form>`,
+    b=>b.querySelector('#emForm').onsubmit=e=>{e.preventDefault();settings.emName=$('#emName').value.trim();settings.emPhone=$('#emPhone').value.trim();store.set('settings',settings);closeSheet();renderSettings();toast(t('saved'))});
+}
+function confirmClear(){
+  openSheet(t('clear_q'),`<p class="note" style="font-size:15px">${t('clear_d')}</p><div class="row2"><button class="btn line" id="ccNo">${t('cancel')}</button><button class="btn danger" id="ccYes">${t('clear_yes')}</button></div>`,
+    b=>{b.querySelector('#ccNo').onclick=closeSheet;b.querySelector('#ccYes').onclick=()=>{
+      try{Object.keys(localStorage).filter(k=>k.startsWith('jy_')).forEach(k=>localStorage.removeItem(k))}catch(e){}
+      state.user=null;settings=Object.assign({},DEF_SET);chats=seedChats();notifs=seedNotifs();state.langReturn=null;
+      closeSheet();renderBadges();show('lang');
+    }});
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)show(b.dataset.tab)});
+function renderScreen(n){
+  if(n==='settings')renderSettings();
+  if(n==='home')renderHome();else if(n==='inbox')renderInbox();else if(n==='notif')renderNotif();else if(n==='profile')renderProfile();else if(n==='thread')renderThread();
+}
+
+/* =====================================================================
+   3D MAP — canvas renderer (offline preview of a Google-style 3D city)
+   ===================================================================== */
+const C=130; // block pitch in metres
+const Map3D=(()=>{
+  const D=1800;
+  let cv,ctx,W=0,H=0,dpr=1,cx=0,cy=0,raf=0,running=false,dirty=true;
+  const cam={h:-0.5,t:0.95,z:0.55,tx:0,ty:0,gh:-0.5,gt:0.95,gz:0.55,gx:0,gy:0};
+  let curName=null,world=null,guides=[],selected=null,route=null,hits=[],onPick=()=>{},pulse=false;
+  const mixRGB=(a,b,k)=>`rgb(${a[0]+(b[0]-a[0])*k|0},${a[1]+(b[1]-a[1])*k|0},${a[2]+(b[2]-a[2])*k|0})`;
+  const FOG=[244,239,253],WALL_D=[160,138,214],WALL_L=[236,229,250],TOP=[248,245,254],TOP_T=[233,224,250],GOLD_W=[240,222,178],GOLD_T=[214,168,74],PLATE=[238,232,248],PARK=[214,236,218],WATER=[208,224,246],SAND=[245,236,214];
+
+  function build(p){
+    const R=rng(hash(p.en)),N=12;
+    const w={blocks:[],bld:[],water:[],sand:[],edge:Infinity,riverOff:null,type:p.type};
+    if(p.type==='beach'){w.edge=Math.round((3+Math.floor(R()*2))*C-10);}
+    else{w.riverOff=(R()<.5?-1:1)*(320+R()*200)}
+    const riverX=y=>w.riverOff+170*Math.sin(y/520);
+    w.riverX=riverX;
+    if(w.riverOff!==null){for(let y=-2000;y<2000;y+=100){w.water.push([[riverX(y)-42,y],[riverX(y)+42,y],[riverX(y+100)+42,y+100],[riverX(y+100)-42,y+100]])}}
+    if(isFinite(w.edge)){for(let x=-2400;x<2400;x+=200){w.sand.push([[x,w.edge-6],[x+200,w.edge-6],[x+200,w.edge+36],[x,w.edge+36]]);for(let y=w.edge+36;y<w.edge+2600;y+=260)w.water.push([[x,y],[x+200,y],[x+200,y+260],[x,y+260]])}}
+    const tall=p.type==='city'?170:p.type==='beach'?70:45;
+    for(let i=-N;i<N;i++)for(let j=-N;j<N;j++){
+      const rw=(i%4===0?14:9),rh=(j%4===0?14:9);
+      const x0=i*C+rw,x1=(i+1)*C-9,y0=j*C+rh,y1=(j+1)*C-9,mx=(x0+x1)/2,my=(y0+y1)/2;
+      if(Math.hypot(mx,my)>1650)continue;
+      if(y1>w.edge-8)continue;
+      if(w.riverOff!==null&&Math.abs(mx-riverX(my))<110)continue;
+      const park=R()<(p.type==='mountain'?.24:.08);
+      w.blocks.push({x0,y0,x1,y1,park});
+      if(park)continue;
+      const dist=Math.hypot(mx,my);
+      if(R()<(p.type==='temple'?.07:.02)){ // wat
+        const s=(x1-x0)*.28;w.bld.push({x0:mx-s,x1:mx+s,y0:my-s*1.3,y1:my+s*1.3,h:14,k:'gold'});
+        w.bld.push({x0:mx-5,x1:mx+5,y0:my-5,y1:my+5,h:46,k:'gold'});continue;
+      }
+      const lots=R()<.5?2:3,lw=(x1-x0)/lots,lh=(y1-y0)/2;
+      for(let a=0;a<lots;a++)for(let b=0;b<2;b++){
+        if(R()<.18)continue;
+        const ins=3+R()*6;
+        const h=6+R()*12+tall*Math.exp(-dist/(p.type==='city'?420:300))*(.3+R()*.9);
+        w.bld.push({x0:x0+a*lw+ins,x1:x0+(a+1)*lw-ins,y0:y0+b*lh+ins,y1:y0+(b+1)*lh-ins,h,k:'n'});
+      }
+    }
+    return w;
+  }
+  function isLand(x,y){if(!world)return true;if(y>world.edge-30)return false;if(world.riverOff!==null&&Math.abs(x-world.riverX(y))<70)return false;return true}
+
+  function resize(){
+    if(!cv)return;const r=cv.getBoundingClientRect();dpr=Math.min(2,window.devicePixelRatio||1);W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;
+    if(W>860){cx=(W-400)/2;cy=H*.56}else{cx=W/2;cy=H*.52}
+    dirty=true;
+  }
+  function init(canvas){
+    cv=canvas;ctx=cv.getContext('2d');
+    new ResizeObserver(resize).observe(cv);resize();
+    const ptrs=new Map();let start=null,moved=0,pinch0=0,z0=0;
+    cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,[e.clientX,e.clientY]);start=[e.clientX,e.clientY];moved=0;if(ptrs.size===2){const [a,b]=[...ptrs.values()];pinch0=Math.hypot(a[0]-b[0],a[1]-b[1]);z0=cam.gz}});
+    cv.addEventListener('pointermove',e=>{
+      if(!ptrs.has(e.pointerId))return;const prev=ptrs.get(e.pointerId);ptrs.set(e.pointerId,[e.clientX,e.clientY]);
+      if(ptrs.size===2){const [a,b]=[...ptrs.values()];const d=Math.hypot(a[0]-b[0],a[1]-b[1]);cam.gz=cam.z=Math.max(.22,Math.min(1.8,z0*d/pinch0));dirty=true;moved=99;return}
+      const dx=e.clientX-prev[0],dy=e.clientY-prev[1];moved+=Math.abs(dx)+Math.abs(dy);
+      cam.gh=cam.h=cam.h+dx*.006;cam.gt=cam.t=Math.max(.05,Math.min(1.2,cam.t-dy*.004));dirty=true;
+    });
+    const up=e=>{
+      if(ptrs.size===1&&moved<6&&start){const r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+        let best=null,bd=1e9;for(const h of hits){const d=Math.hypot(h.x-x,h.y-y);if(d<h.r+6&&d<bd){bd=d;best=h}}
+        if(best)onPick(best.id)}
+      ptrs.delete(e.pointerId);
+    };
+    cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',e=>ptrs.delete(e.pointerId));
+    cv.addEventListener('wheel',e=>{e.preventDefault();cam.gz=Math.max(.22,Math.min(1.8,cam.gz*Math.exp(-e.deltaY*.0012)))},{passive:false});
+  }
+
+  function draw(){
+    const ch=Math.cos(cam.h),sh=Math.sin(cam.h),ct=Math.cos(cam.t),st=Math.sin(cam.t),F=D*cam.z,tx=cam.tx,ty=cam.ty;
+    const P=(x,y,z)=>{x-=tx;y-=ty;const rx=x*ch-y*sh,ry=x*sh+y*ch,yy=ry*ct+z*st,zz=ry*st-z*ct,d=D+zz;if(d<80)return null;const s=F/d;return [cx+rx*s,cy-yy*s,d]};
+    const fogK=d=>Math.max(0,Math.min(.88,(d-D)/2600));
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    // sky + ground
+    const hz=st>.02?cy-F*ct/st:-1e4;
+    const sky=ctx.createLinearGradient(0,Math.max(0,hz-180),0,Math.max(1,hz));sky.addColorStop(0,'#e4d7fa');sky.addColorStop(1,'#f6f1fe');
+    ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
+    const gTop=Math.max(0,hz);
+    const gr=ctx.createLinearGradient(0,gTop,0,H);gr.addColorStop(0,'#f2edfc');gr.addColorStop(.25,'#fbf9ff');gr.addColorStop(1,'#fdfcff');
+    ctx.fillStyle=gr;ctx.fillRect(0,gTop,W,H-gTop);
+    const poly=(pts,fill,stroke)=>{const q=[];for(const p of pts){const r=P(p[0],p[1],p[2]||0);if(!r)return false;q.push(r)}let on=false;for(const r of q)if(r[0]>-60&&r[0]<W+60&&r[1]>-60&&r[1]<H+60){on=true;break}if(!on)return false;ctx.beginPath();ctx.moveTo(q[0][0],q[0][1]);for(let i=1;i<q.length;i++)ctx.lineTo(q[i][0],q[i][1]);ctx.closePath();ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=.6;ctx.stroke()}return q};
+    const dOf=(x,y)=>{x-=tx;y-=ty;return D+(x*sh+y*ch)*st};
+    if(!world)return;
+    for(const s of world.sand)poly(s,mixRGB(SAND,FOG,fogK(dOf(s[0][0],s[0][1]))));
+    for(const s of world.water)poly(s,mixRGB(WATER,FOG,fogK(dOf(s[0][0],s[0][1]))));
+    for(const b of world.blocks){const k=fogK(dOf((b.x0+b.x1)/2,(b.y0+b.y1)/2));poly([[b.x0,b.y0],[b.x1,b.y0],[b.x1,b.y1],[b.x0,b.y1]],mixRGB(b.park?PARK:PLATE,FOG,k))}
+    // buildings, painter's order
+    const cpx=-sh*D*st+tx,cpy=-ch*D*st+ty;
+    const list=[];
+    const lim=2400/cam.z;
+    for(const b of world.bld){const mx=(b.x0+b.x1)/2,my=(b.y0+b.y1)/2;if(Math.abs(mx-tx)>lim||Math.abs(my-ty)>lim)continue;const d=dOf(mx,my);if(d<120)continue;list.push([d,b])}
+    list.sort((a,b)=>b[0]-a[0]);
+    for(const [d,b] of list){
+      const k=fogK(d),g=b.k==='gold';
+      const faces=[[b.x0,b.y0,b.x1,b.y0,0,-1],[b.x1,b.y0,b.x1,b.y1,1,0],[b.x1,b.y1,b.x0,b.y1,0,1],[b.x0,b.y1,b.x0,b.y0,-1,0]];
+      for(const f of faces){
+        const fx=(f[0]+f[2])/2,fy=(f[1]+f[3])/2;
+        if(f[4]*(cpx-fx)+f[5]*(cpy-fy)<=0)continue;
+        const lit=.5+.5*(f[4]*.6-f[5]*.8);
+        const col=g?mixRGB(mixRGB(GOLD_T,GOLD_W,lit).match(/\d+/g).map(Number),FOG,k):mixRGB(mixRGB(WALL_D,WALL_L,lit).match(/\d+/g).map(Number),FOG,k);
+        poly([[f[0],f[1],0],[f[2],f[3],0],[f[2],f[3],b.h],[f[0],f[1],b.h]],col,'rgba(90,60,150,.10)');
+      }
+      poly([[b.x0,b.y0,b.h],[b.x1,b.y0,b.h],[b.x1,b.y1,b.h],[b.x0,b.y1,b.h]],mixRGB(g?GOLD_T:(b.h>60?TOP_T:TOP),FOG,k),'rgba(90,60,150,.12)');
+    }
+    // route
+    if(route&&route.length>1){
+      const pts=route.map(p=>P(p[0],p[1],1)).filter(Boolean);
+      if(pts.length>1){ctx.lineJoin='round';ctx.lineCap='round';
+        ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.strokeStyle='#fff';ctx.lineWidth=9;ctx.stroke();
+        ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.strokeStyle='#7f5bd0';ctx.lineWidth=5;ctx.stroke()}
+    }
+    // user
+    const u=P(0,0,0);
+    if(u){
+      if(pulse){const ph=(performance.now()%1600)/1600;ctx.beginPath();ctx.arc(u[0],u[1],10+ph*30,0,7);ctx.fillStyle=`rgba(127,91,208,${.28*(1-ph)})`;ctx.fill()}
+      else{ctx.beginPath();ctx.arc(u[0],u[1],22,0,7);ctx.fillStyle='rgba(127,91,208,.14)';ctx.fill()}
+      ctx.beginPath();ctx.arc(u[0],u[1],9,0,7);ctx.fillStyle='#4f3192';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle='#fff';ctx.stroke();
+      label(u[0],u[1]+28,t('you'),'#4f3192','#fff');
+    }
+    // guide pins
+    hits=[];
+    const pins=[];for(const g of guides){if(!g.visible)continue;const r=P(g.x,g.y,0);if(r)pins.push([r,g])}
+    pins.sort((a,b)=>b[0][2]-a[0][2]);
+    for(const [r,g] of pins){
+      const sel=selected===g.id,sc=sel?1.18:1,[bx,by]=r,hy=by-(30*sc)-16*sc;
+      ctx.beginPath();ctx.ellipse(bx,by,8,3,0,0,7);ctx.fillStyle='rgba(60,30,110,.2)';ctx.fill();
+      ctx.beginPath();ctx.moveTo(bx,by);ctx.lineTo(bx,hy+12);ctx.strokeStyle=sel?'#4f3192':'#9b7be0';ctx.lineWidth=2.5;ctx.stroke();
+      if(sel){ctx.beginPath();ctx.arc(bx,hy,16*sc+5,0,7);ctx.fillStyle='rgba(127,91,208,.22)';ctx.fill()}
+      ctx.beginPath();ctx.arc(bx,hy,16*sc,0,7);ctx.fillStyle=g.color;ctx.fill();ctx.lineWidth=3;ctx.strokeStyle='#fff';ctx.stroke();
+      ctx.fillStyle='#fff';ctx.font=`700 ${12*sc}px "Geist",sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(g.initials,bx,hy+.5);
+      if(sel)label(bx,hy-16*sc-16,`${g.name} · ${money(g.price)}`,'#fff','#271f3d');
+      hits.push({id:g.id,x:bx,y:hy,r:16*sc});
+    }
+    // compass icon
+    const ci=$('#compassIco');if(ci)ci.style.transform=`rotate(${cam.h}rad)`;
+  }
+  function label(x,y,txt,bg,fg){ctx.font='600 12px "Geist","Anuphan",sans-serif';const w=ctx.measureText(txt).width+16;ctx.fillStyle=bg;ctx.beginPath();ctx.roundRect?ctx.roundRect(x-w/2,y-11,w,22,11):ctx.rect(x-w/2,y-11,w,22);ctx.fill();if(bg==='#fff'){ctx.strokeStyle='rgba(79,49,146,.18)';ctx.lineWidth=1;ctx.stroke()}ctx.fillStyle=fg;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(txt,x,y+.5)}
+
+  function loop(){
+    if(!running)return;
+    const e=.14;let moving=false;
+    for(const [a,b] of [['tx','gx'],['ty','gy'],['h','gh'],['t','gt'],['z','gz']]){const d=cam[b]-cam[a];if(Math.abs(d)>(a==='tx'||a==='ty'?.3:.0005)){cam[a]+=d*e;moving=true}else cam[a]=cam[b]}
+    if(dirty||moving||pulse){draw();dirty=false}
+    raf=requestAnimationFrame(loop);
+  }
+  return {
+    get cur(){return curName},
+    init,isLand,
+    setWorld(p){world=build(p);curName=p.en;cam.tx=cam.gx=0;cam.ty=cam.gy=0;cam.gh=-0.5;cam.gt=settings.mapView==='2d'?.04:.95;cam.gz=.55;cam.h=cam.gh+.9;cam.z=.32;dirty=true},
+    setGuides(g){guides=g;dirty=true},
+    select(id){selected=id;dirty=true},
+    focus(x,y){cam.gx=x;cam.gy=y},
+    setRoute(r){route=r;dirty=true},
+    setPulse(v){pulse=v},
+    onPick(fn){onPick=fn},
+    zoom(f){cam.gz=Math.max(.22,Math.min(1.8,cam.gz*f))},
+    north(){cam.gh=Math.round(cam.h/(Math.PI*2))*Math.PI*2},
+    toggleTilt(){cam.gt=cam.gt>.4?.04:.95;return cam.gt>.4},
+    invalidate(){dirty=true},
+    start(){if(running)return;running=true;resize();loop()},
+    stop(){running=false;cancelAnimationFrame(raf)}
+  };
+})();
+
+/* =====================================================================
+   Google Maps adapter — used automatically when GOOGLE_MAPS_API_KEY is set
+   (vector map, 3D buildings, tilt 67.5°). Falls back to Map3D otherwise.
+   ===================================================================== */
+const GoogleMap=(()=>{
+  let map=null,markers={},userM=null,line=null,origin=null,onPick=()=>{},ready=null;
+  const toLL=(x,y)=>({lat:origin.lat+y/111320,lng:origin.lng+x/(111320*Math.cos(origin.lat*Math.PI/180))});
+  function load(){
+    if(ready)return ready;
+    ready=new Promise((res,rej)=>{
+      if(!GOOGLE_MAPS_API_KEY)return rej(new Error('no key'));
+      window.__ptGm=()=>res();
+      const s=document.createElement('script');
+      s.src=`https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(GOOGLE_MAPS_API_KEY)}&v=weekly&loading=async&libraries=marker&callback=__ptGm`;
+      s.async=true;s.onerror=()=>rej(new Error('blocked'));document.head.appendChild(s);
+      setTimeout(()=>rej(new Error('timeout')),8000);
+    });
+    return ready;
+  }
+  function pinEl(g,sel){const d=document.createElement('div');d.style.cssText=`width:${sel?40:34}px;height:${sel?40:34}px;border-radius:50%;background:${g.color};color:#fff;font:700 12px "Geist",sans-serif;display:grid;place-items:center;border:3px solid #fff;box-shadow:0 4px 12px rgba(79,49,146,.4)`;d.textContent=g.initials;return d}
+  return {
+    async init(el){await load();const {Map}=await google.maps.importLibrary('maps');await google.maps.importLibrary('marker');
+      map=new Map(el,{center:{lat:13.75,lng:100.5},zoom:17,tilt:67.5,heading:30,mapId:GOOGLE_MAP_ID||'DEMO_MAP_ID',disableDefaultUI:true,gestureHandling:'greedy'})},
+    setWorld(p){origin={lat:p.lat,lng:p.lng};map.moveCamera({center:origin,zoom:16.5,tilt:settings.mapView==='2d'?0:67.5,heading:30});
+      if(userM)userM.map=null;const u=document.createElement('div');u.style.cssText='width:18px;height:18px;border-radius:50%;background:#4f3192;border:3px solid #fff;box-shadow:0 0 0 8px rgba(127,91,208,.2)';
+      userM=new google.maps.marker.AdvancedMarkerElement({map,position:origin,content:u})},
+    setGuides(list){Object.values(markers).forEach(m=>m.map=null);markers={};
+      list.forEach(g=>{const m=new google.maps.marker.AdvancedMarkerElement({map:g.visible?map:null,position:toLL(g.x,g.y),content:pinEl(g,false),title:g.name});m.addListener('click',()=>onPick(g.id));markers[g.id]=m;m._g=g})},
+    select(id){Object.values(markers).forEach(m=>{m.content=pinEl(m._g,m._g.id===id);m.zIndex=m._g.id===id?99:1})},
+    focus(x,y){map&&map.panTo(toLL(x,y))},
+    setRoute(r){if(line)line.setMap(null);line=null;if(r&&r.length>1)line=new google.maps.Polyline({map,path:r.map(p=>toLL(p[0],p[1])),strokeColor:'#7f5bd0',strokeWeight:6})},
+    refresh(list){list.forEach(g=>{const m=markers[g.id];if(m){m.position=toLL(g.x,g.y);m.map=g.visible?map:null}})},
+    setPulse(){},invalidate(){},onPick(fn){onPick=fn},
+    zoom(f){map.setZoom(map.getZoom()+(f>1?1:-1))},
+    north(){map.setHeading(0)},
+    toggleTilt(){const on=map.getTilt()<30;map.setTilt(on?67.5:0);return on},
+    start(){},stop(){},isLand(){return true}
+  };
+})();
+
+let MAP=Map3D;
+window.gm_authFailure=()=>{MAP=Map3D;$('#gmap').hidden=true;$('#mapCanvas').hidden=false;$('#mapBadge').hidden=false;state._worldFor=null;if(state.screen==='map')enterMap();toast('Google Maps key rejected — showing preview map')};
+Map3D.init($('#mapCanvas'));
+Map3D.onPick(id=>selectGuide(id));
+GoogleMap.onPick(id=>selectGuide(id));
+let gmTried=false;
+
+async function enterMap(){
+  if(GOOGLE_MAPS_API_KEY&&!gmTried){
+    gmTried=true;
+    try{$('#gmap').hidden=false;await GoogleMap.init($('#gmap'));MAP=GoogleMap;$('#mapCanvas').hidden=true;$('#mapBadge').hidden=true;$('.hint').hidden=true}
+    catch(e){$('#gmap').hidden=true;MAP=Map3D}
+  }
+  const p=state.province||PROV[0];state.province=p;
+  $('#provName').textContent=pname(p);
+  if(state._worldFor!==p.en){
+    state._worldFor=p.en;
+    state.guides=guidesFor(p);
+    Map3D.setWorld(p);
+    state.selected=null;state.trip='idle';
+    if(MAP!==Map3D)MAP.setWorld(p);
+  }else if(Map3D.cur!==p.en)Map3D.setWorld(p);
+  applyFilter();
+  MAP.setGuides(state.guides);MAP.select(state.selected);
+  $('#tiltBtn').textContent=settings.mapView==='2d'&&MAP===Map3D?'2D':'3D';
+  if(!state.pendingGuide)$('#panel').classList.remove('min');
+  MAP.start();renderPanel();
+  if(state.pendingGuide){const id=state.pendingGuide;state.pendingGuide=null;selectGuide(id)}
+}
+
+/* ---------------- guides ---------------- */
+function genGuides(p){
+  const R=rng(hash(p.en+'guides')),out=[];
+  let tries=0;
+  while(out.length<10&&tries++<400){
+    const k=Math.round((R()*2-1)*6),along=Math.round((R()*2-1)*780);
+    let x,y;if(R()<.5){x=k*C;y=along}else{x=along;y=k*C}
+    if(Math.hypot(x,y)<180||!Map3D.isLand(x,y))continue;
+    if(out.some(g=>Math.hypot(g.x-x,g.y-y)<120))continue;
+    const first=FIRST[Math.floor(R()*FIRST.length)],last=LAST[Math.floor(R()*LAST.length)];
+    const langs=['th','en'];
+    const extra=['ja','zh','ko','ru','hi','vi'];
+    const nEx=Math.floor(R()*3);for(let i=0;i<nEx;i++){const l=extra[Math.floor(R()*extra.length)];if(!langs.includes(l))langs.push(l)}
+    if(R()<.08)langs.splice(1,1);
+    const specs=[];const pool=p.type==='beach'?['dive','food','photo','night','nature']:p.type==='temple'?['temple','photo','food','nature']:p.type==='mountain'?['nature','temple','photo','food']:['food','night','temple','photo'];
+    const ns=1+Math.floor(R()*3);for(let i=0;i<ns;i++){const s=pool[Math.floor(R()*pool.length)];if(!specs.includes(s))specs.push(s)}
+    const path=x%C===0&&Math.abs(x)>0&&y%C!==0?[[x,y],[x,0],[0,0]]:[[x,y],[0,y],[0,0]];
+    const dist=Math.abs(x)+Math.abs(y);
+    out.push({id:'g'+out.length,name:`${first} ${last}.`,initials:first[0]+last,color:`hsl(${248+Math.floor(R()*40)} ${42+Math.floor(R()*18)}% ${54+Math.floor(R()*10)}%)`,
+      langs,specs,rating:(4.5+R()*.5).toFixed(1),reviews:20+Math.floor(R()*880),price:300+Math.round(R()*18)*50,x,y,ox:x,oy:y,path,dist,eta:Math.max(2,Math.round(dist/230)),visible:true});
+  }
+  return out.sort((a,b)=>a.dist-b.dist);
+}
+function renderLangFilter(){
+  const s=$('#langFilter');if(!s)return;
+  s.innerHTML=`<option value="all">${t('all_lang')}</option>`+LANGS.map(l=>`<option value="${l.c}"${state.filter===l.c?' selected':''}>${l.n}</option>`).join('');
+  s.value=state.filter;
+}
+$('#langFilter').onchange=e=>{state.filter=e.target.value;applyFilter();if(MAP.refresh)MAP.refresh(state.guides);else MAP.invalidate();renderPanel()};
+function applyFilter(){state.guides.forEach(g=>g.visible=((state.filter==='all'||g.langs.includes(state.filter))&&(!state.spec||g.specs.includes(state.spec)))||(state.selected===g.id&&state.trip!=='idle'))}
+const fmtKm=m=>settings.unit==='mi'?(m/1609.34).toFixed(1)+' mi':(m/1000).toFixed(1)+' km';
+const langCodes=g=>g.langs.map(c=>c.toUpperCase()).join(' ');
+
+function selectGuide(id){
+  if(state.trip!=='idle'&&state.selected!==id)return;
+  if(state.trip==='idle'&&state.selected!==id)state.bookMode=settings.bookMode;
+  state.selected=id;MAP.select(id);
+  const g=state.guides.find(x=>x.id===id);
+  if(g)MAP.focus(g.x/2,g.y/2);
+  $('#panel').classList.remove('min');
+  renderPanel();
+}
+function renderPanel(){
+  const el=$('#panelScroll');if(!el)return;
+  const fc=$('#fabCount');if(fc)fc.textContent=state.guides.filter(x=>x.visible).length;
+  const g=state.guides.find(x=>x.id===state.selected);
+  if(!g){
+    const vis=state.guides.filter(x=>x.visible);
+    el.innerHTML=`<div class="panel-head"><h2>${t('guides_near')}</h2><span class="ph-r">${state.spec?`<button class="spec-chip" id="clrSpec">${t('sp_'+state.spec)} ✕</button>`:''}${vis.length}</span></div>`+
+      (vis.length?`<div class="glist">${vis.map(itemHTML).join('')}</div>`:`<p style="color:var(--muted);margin:0">${t('none')}</p>`);
+    const cs=$('#clrSpec');if(cs)cs.onclick=()=>{state.spec=null;applyFilter();if(MAP.refresh)MAP.refresh(state.guides);else MAP.invalidate();renderPanel()};
+    return;
+  }
+  let html=`${state.trip==='idle'?`<button class="back-link" id="toList"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>${t('guides_near')}</button>`:''}
+  <div class="detail"><div class="detail-head"><span class="av on" style="background:${g.color}">${g.initials}</span><div><h3>${g.name}</h3><p><span class="rating">★ ${g.rating}</span> · ${g.reviews} ${t('reviews')} · ${fmtKm(g.dist)}</p></div></div>
+  <div><div class="sec-label">${t('languages_spoken')}</div><div class="chips" style="margin-top:6px">${g.langs.map(c=>`<span class="tag">${LANGS.find(l=>l.c===c).n}</span>`).join('')}</div></div>
+  <div><div class="sec-label">${t('specialties')}</div><div class="chips" style="margin-top:6px">${g.specs.map(s=>`<span class="tag">${t('sp_'+s)}</span>`).join('')}</div></div>`;
+  if(state.trip==='idle'){
+    const day=state.bookMode==='day',qty=day?state.days:state.hours,rate=day?dayRate(g):g.price;
+    html+=`<div class="seg2" id="modeSeg"><button type="button" data-m="hour" aria-pressed="${!day}">${t('hourly')}</button><button type="button" data-m="day" aria-pressed="${day}">${t('daily')}</button></div>
+    ${day?`<div class="field"><label for="startDate">${t('start_date')}</label><input class="input" type="date" id="startDate" min="${isoDay(0)}" value="${state.startDate}"></div>`:''}
+    <div class="stepper"><span class="sec-label">${day?t('days'):t('hours')}</span><span class="ctr"><button id="hMinus" aria-label="−">−</button><output>${qty}</output><button id="hPlus" aria-label="+">+</button></span></div>
+    <div class="total-row"><span class="sec-label">${t('total')} · ${money(rate)}${day?t('per_day'):t('per_hour')}</span><b>${money(rate*qty)}</b></div>
+    ${day?`<p class="note">${t('day_note')}</p>`:''}${settings.currency!=='THB'?`<p class="note">${t('approx')}</p>`:''}
+    <button class="btn primary block" id="bookBtn">${day?t('book_day'):t('book')}</button>`;
+  }else if(state.trip==='booked'){
+    const b=state.booking;
+    html+=`<div class="trip-box"><h4>${t('booking_confirmed')}</h4><p>${esc(t('n_booked_b',{d:fmtDate(b.date),n:b.days,p:pname(state.province)}))}</p><div class="total-row"><span class="sec-label">${t('total')}</span><b>${money(b.total)}</b></div>
+    <div class="row2"><button class="btn line" id="chatBtn">${t('chat')}</button><button class="btn line" id="callBtn">${t('call')}</button></div>
+    <button class="btn primary" id="cancelBtn">${t('done')}</button></div>`;
+  }else if(state.trip==='finding'){
+    html+=`<div class="trip-box"><div class="pulse"></div><h4 style="text-align:center">${t('finding')}</h4><button class="btn line" id="cancelBtn">${t('cancel')}</button></div>`;
+  }else{
+    const arrived=state.trip==='arrived';
+    html+=`<div class="trip-box"><h4>${arrived?t('arrived'):t('accepted')}</h4>${arrived?'':`<p id="etaTxt">${t('arriving',{n:etaLeft()})}</p><div class="eta-bar"><i id="etaBar"></i></div>`}
+    <div class="row2"><button class="btn line" id="chatBtn">${t('chat')}</button><button class="btn line" id="callBtn">${t('call')}</button></div>
+    <button class="btn ${arrived?'primary':'line'}" id="cancelBtn">${arrived?t('done'):t('cancel')}</button></div>`;
+  }
+  html+='</div>';
+  el.innerHTML=html;
+  const q=s=>el.querySelector(s);
+  q('#toList')&&(q('#toList').onclick=()=>{state.selected=null;MAP.select(null);MAP.focus(0,0);renderPanel()});
+  const qk=state.bookMode==='day'?'days':'hours',qmax=state.bookMode==='day'?14:12;
+  q('#hMinus')&&(q('#hMinus').onclick=()=>{state[qk]=Math.max(1,state[qk]-1);renderPanel()});
+  q('#hPlus')&&(q('#hPlus').onclick=()=>{state[qk]=Math.min(qmax,state[qk]+1);renderPanel()});
+  q('#modeSeg')&&(q('#modeSeg').onclick=e=>{const b=e.target.closest('[data-m]');if(b){state.bookMode=b.dataset.m;renderPanel()}});
+  q('#startDate')&&(q('#startDate').onchange=e=>{state.startDate=e.target.value||isoDay(1)});
+  q('#bookBtn')&&(q('#bookBtn').onclick=book);
+  q('#cancelBtn')&&(q('#cancelBtn').onclick=()=>cancelTrip(false));
+  q('#chatBtn')&&(q('#chatBtn').onclick=()=>openThread(ensureChat(g).id));
+  q('#callBtn')&&(q('#callBtn').onclick=()=>toast(`${g.name} · +66 8${g.id.slice(1)} 234 5678`));
+}
+function itemHTML(g){
+  return `<button class="g-item" data-g="${g.id}" aria-pressed="${state.selected===g.id}"><span class="av on" style="background:${g.color}">${g.initials}</span>
+  <span class="g-main"><span class="g-name">${g.name}<span class="rating">★ ${g.rating}</span></span>
+  <span class="g-meta">${langCodes(g)} · ${fmtKm(g.dist)} · ${g.eta} min</span>
+  <span class="g-meta">${g.specs.map(s=>t('sp_'+s)).join(', ')}</span></span>
+  <span class="g-price">${money(g.price)}<small>${t('per_hour')}</small><br><small class="g-day">${money(dayRate(g))}${t('per_day')}</small></span></button>`;
+}
+$('#panelScroll').addEventListener('click',e=>{const b=e.target.closest('[data-g]');if(b)selectGuide(b.dataset.g)});
+$('#panelClose').onclick=()=>$('#panel').classList.add('min');
+$('#listFab').onclick=()=>$('#panel').classList.remove('min');
+
+/* ---------------- trip simulation ---------------- */
+let tripT0=0,tripDur=0,tripRaf=0,findTimer=0;
+function pathLen(p){let L=0;for(let i=1;i<p.length;i++)L+=Math.hypot(p[i][0]-p[i-1][0],p[i][1]-p[i-1][1]);return L}
+function pointAt(p,d){for(let i=1;i<p.length;i++){const s=Math.hypot(p[i][0]-p[i-1][0],p[i][1]-p[i-1][1]);if(d<=s){const k=s?d/s:0;return [p[i-1][0]+(p[i][0]-p[i-1][0])*k,p[i-1][1]+(p[i][1]-p[i-1][1])*k,i]}d-=s}const l=p[p.length-1];return [l[0],l[1],p.length-1]}
+function etaLeft(){const g=state.guides.find(x=>x.id===state.selected);if(!g)return 0;const k=Math.min(1,(performance.now()-tripT0)/tripDur);return Math.max(1,Math.ceil(g.eta*(1-k)))}
+function book(){
+  const g=state.guides.find(x=>x.id===state.selected);if(!g)return;
+  if(state.bookMode==='day'){
+    state.booking={date:state.startDate,days:state.days,total:dayRate(g)*state.days};state.trip='booked';
+    ensureChat(g);addNotif('booked',{g:g.name,d:fmtDate(state.startDate),n:state.days,p:pname(state.province)},'check');
+    store.set('trips',(store.get('trips')||0)+1);renderPanel();toast(t('booking_confirmed'));return;
+  }
+  state.trip='finding';MAP.setPulse(true);renderPanel();
+  findTimer=setTimeout(()=>{
+    state.trip='accepted';tripT0=performance.now();tripDur=Math.max(9000,Math.min(22000,g.eta*1600));
+    MAP.setRoute(g.path);ensureChat(g);addNotif('accept',{g:g.name,p:pname(state.province)},'pin');renderPanel();runTrip(g);
+  },2600);
+}
+function runTrip(g){
+  const L=pathLen(g.path)-14;
+  cancelAnimationFrame(tripRaf);
+  (function step(now){
+    if(state.trip!=='accepted')return;
+    const k=Math.min(1,(now-tripT0)/tripDur),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+    const [x,y,i]=pointAt(g.path,L*e);g.x=x;g.y=y;
+    MAP.setRoute([[x,y],...g.path.slice(i)]);
+    MAP.focus(x/2,y/2);
+    if(MAP.refresh)MAP.refresh(state.guides);else MAP.invalidate();
+    const bar=$('#etaBar');if(bar)bar.style.width=(k*100)+'%';
+    const et=$('#etaTxt');if(et)et.textContent=t('arriving',{n:etaLeft()});
+    if(k<1)tripRaf=requestAnimationFrame(step);
+    else{state.trip='arrived';MAP.setRoute(null);MAP.setPulse(false);MAP.focus(0,0);addNotif('arrive',{g:g.name},'check');store.set('trips',(store.get('trips')||0)+1);renderPanel();toast(t('arrived'))}
+  })(performance.now());
+}
+function cancelTrip(silent){
+  clearTimeout(findTimer);cancelAnimationFrame(tripRaf);
+  const g=state.guides.find(x=>x.id===state.selected);
+  if(g){g.x=g.ox;g.y=g.oy}
+  state.trip='idle';MAP.setRoute(null);MAP.setPulse(false);
+  if(MAP.refresh)MAP.refresh(state.guides);
+  applyFilter();MAP.invalidate();
+  if(!silent)renderPanel();
+}
+
+/* ---------------- map controls ---------------- */
+$('#zIn').onclick=()=>MAP.zoom(1.3);
+$('#zOut').onclick=()=>MAP.zoom(1/1.3);
+$('#compass').onclick=()=>MAP.north();
+$('#tiltBtn').onclick=()=>{const on=MAP.toggleTilt();$('#tiltBtn').textContent=on?'3D':'2D'};
+
+/* ---------------- boot ---------------- */
+if(!T[state.lang])state.lang='en';
+syncAuth();setStep(1);applyI18n();renderAvatar();
+show(store.get('lang')?(state.user?'home':'auth'):'lang');
+</script>
+
+</body>
+</html>
