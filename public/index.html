@@ -325,6 +325,78 @@ input[type=range]{accent-color:var(--lav-600);width:100%}
 .ss-t b{font-weight:550}
 .ss-t small{font-size:13px;color:var(--muted)}
 /* tab bar */
+/* language carousel */
+.lang-wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding-block:40px}
+.lang-inner{width:100%;max-width:820px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.lang-h,.lang-hint{padding-inline:16px;text-align:center}
+.lang-hint{margin:0;color:var(--faint);font-size:14px}
+.carousel.lang-car{width:100%;padding-block:22px 30px}
+.carousel.lang-car::before,.carousel.lang-car::after{flex-basis:calc(50% - 84px - 14px)}
+.lcard{--k:1;position:relative;flex:none;width:168px;height:224px;scroll-snap-align:center;border:0;border-radius:28px;padding:18px 16px;display:flex;flex-direction:column;justify-content:flex-end;gap:4px;text-align:left;overflow:hidden;background:linear-gradient(160deg,#fcfbff,#ece4ff);color:var(--ink);box-shadow:0 0 0 1px var(--line);transform:scale(calc(1 - var(--k) * .16));opacity:calc(1 - var(--k) * .55);user-select:none;-webkit-user-select:none;transition:background .25s,box-shadow .25s,color .25s}
+.lcard .lc-hi{position:absolute;top:18px;left:16px;right:14px;font-size:26px;font-weight:600;line-height:1.25;letter-spacing:-.03em;color:var(--lav-600);pointer-events:none}
+.lcard b{font-size:20px;font-weight:600;pointer-events:none}
+.lcard small{font-size:13px;color:var(--muted);pointer-events:none}
+.lcard.on{background:var(--grad);color:#fff;box-shadow:0 26px 44px -20px rgba(106,79,207,.85)}
+.lcard.on .lc-hi{color:#fff}
+.lcard.on small{color:rgba(255,255,255,.8)}
+.lang-go{min-width:min(260px,calc(100% - 32px))}
+/* regions */
+.regions{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:14px 20px 0}
+.regions::-webkit-scrollbar{display:none}
+.rchip{flex:none;min-height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:13.5px;font-weight:500;color:var(--muted)}
+.rchip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+/* questionnaire */
+.prefs{display:flex;flex-direction:column;gap:6px}
+#s-prefs.app{padding-bottom:calc(110px + env(safe-area-inset-bottom,0px))}
+.q-hero h1{font-size:clamp(28px,5vw,40px);line-height:1.2;letter-spacing:-.04em}
+.q-hero p{margin:6px 0 0;color:var(--muted)}
+.q-body{display:flex;flex-direction:column;gap:14px;margin-top:16px}
+.q-sec{display:flex;flex-direction:column;gap:12px;padding:18px;border-radius:24px;background:#fff;box-shadow:var(--shadow-sm)}
+.q-sec h2{font-size:17px;letter-spacing:-.02em}
+.seg3{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:2px;padding:4px;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
+.seg3 button{min-height:44px;padding:0 6px;border:0;border-radius:10px;background:transparent;font-size:14px;font-weight:550;color:var(--muted)}
+.seg3 button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:var(--shadow-sm)}
+.st-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.st-card{display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-height:100px;padding:14px;border:1px solid var(--line);border-radius:18px;background:#fff;text-align:left}
+.st-card b{font-size:14px;font-weight:550;line-height:1.3}
+.st-ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--lav-50);color:var(--lav-600)}
+.st-ic svg{width:20px;height:20px}
+.st-card[aria-pressed="true"]{border-color:var(--lav-500);background:var(--lav-50);box-shadow:0 0 0 3px rgba(156,134,236,.14)}
+.st-card[aria-pressed="true"] .st-ic{background:var(--grad);color:#fff}
+.q-foot{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:12px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:rgba(255,255,255,.9);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-top:1px solid var(--line)}
+.q-foot .btn{max-width:720px;margin:0 auto;display:flex}
+/* guide profile + trip plan */
+.mt{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:999px;background:var(--lav-100);color:var(--lav-800);font-size:11.5px;font-weight:600;letter-spacing:0;white-space:nowrap;vertical-align:middle}
+.facts{display:flex;flex-wrap:wrap;gap:6px}
+.facts span{padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:12.5px}
+.facts .ok{color:var(--ok);border-color:rgba(47,158,120,.3);background:#eef8f3}
+.bio{margin:0;font-size:14px;color:var(--muted)}
+.ph-link{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;border:0;background:transparent;padding:0;color:var(--lav-600);font-size:13.5px;font-weight:550}
+.ph-link svg{width:16px;height:16px}
+.privacy{display:flex;flex-direction:column;gap:10px;padding:12px 14px;border-radius:16px;border:1px solid var(--line);background:var(--surface)}
+.pv-row{display:flex;align-items:flex-start;gap:10px}
+.pv-row > span:last-child{display:flex;flex-direction:column;min-width:0;line-height:1.4}
+.pv-row b{font-size:13px;font-weight:600}
+.pv-row small{font-size:12.5px;color:var(--muted)}
+.pv-ic{width:24px;height:24px;flex:none;border-radius:50%;display:grid;place-items:center;background:#fff;border:1px solid var(--line);color:var(--muted)}
+.pv-ic svg{width:13px;height:13px}
+.pv-ic.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.tours{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.tour{display:flex;flex-direction:column;gap:6px;width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:16px;background:#fff;text-align:left}
+.tour-h{display:flex;align-items:center;gap:8px}
+.tour-h b{font-size:14px;font-weight:600}
+.tour-h small{flex:1;min-width:0;font-size:12.5px;color:var(--muted)}
+.tour-s{font-size:13px;line-height:1.5;color:var(--muted)}
+.tour[aria-pressed="true"]{border-color:var(--lav-500);background:var(--lav-50)}
+.tour[aria-pressed="true"] .rd{background:var(--grad);border-color:transparent}
+.tour[aria-pressed="true"] .rd::after{content:"";width:8px;height:4px;border:2px solid #fff;border-top:0;border-right:0;transform:translateY(-1px) rotate(-45deg)}
+.custom-box{display:flex;flex-direction:column;gap:10px;padding:12px;border-radius:16px;border:1px dashed var(--lav-300);background:var(--lav-50)}
+.custom-box .chip{min-height:34px;padding:0 12px;font-size:13px}
+.add-row{display:flex;gap:8px}
+.add-row .input{min-width:0}
+.add-row .btn{flex:none;min-height:50px}
+textarea.input{min-height:0;padding:12px 16px;resize:vertical;font-size:15px}
+.g-name .mt{margin-left:auto}
 /* settings */
 .page-h.sub{justify-content:flex-start}
 .page-h.sub h1{font-size:28px}
@@ -466,10 +538,12 @@ label.row{cursor:pointer}
 
 <!-- ============ LANGUAGE ============ -->
 <section class="screen" id="s-lang">
-  <div class="wrap lang-wrap">
+  <div class="lang-wrap">
     <div class="lang-inner">
-      <h1 class="lang-h" data-i18n="choose_lang"></h1>
-      <div class="lang-list" id="langGrid" role="radiogroup"></div>
+      <h1 class="lang-h" id="langH">Choose your language</h1>
+      <p class="lang-hint" id="langHint"></p>
+      <div class="carousel lang-car" id="langCar" tabindex="0" aria-label="Language"></div>
+      <button class="btn primary lang-go" id="langGo">Continue</button>
     </div>
   </div>
 </section>
@@ -577,6 +651,7 @@ label.row{cursor:pointer}
     <div class="services" id="services"></div>
     <section class="dest">
       <div class="sec-h"><h2 data-i18n="dest_title"></h2><span class="sec-hint" data-i18n="swipe_hint"></span></div>
+      <div class="regions" id="regions"></div>
       <div class="car-wrap">
         <button class="car-nav prev" id="carPrev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
         <div class="carousel" id="carousel" tabindex="0" aria-label="Destinations"></div>
@@ -608,6 +683,13 @@ label.row{cursor:pointer}
   <header class="page-h sub"><button class="icon-btn" id="setBack" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><h1 data-i18n="settings"></h1></header>
   <div class="set-body" id="setBody"></div>
 </div></div></section>
+<section class="screen app" id="s-prefs" hidden><div class="wrap"><div class="app-inner prefs">
+  <header class="page-h sub"><button class="icon-btn" id="prefBack" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span class="spacer"></span><button class="skip-link" id="prefSkip" data-i18n="skip"></button></header>
+  <div class="q-hero"><h1 data-i18n="q_title"></h1><p data-i18n="q_sub"></p></div>
+  <div class="q-body" id="prefBody"></div>
+</div></div>
+<div class="q-foot"><button class="btn primary block" id="prefGo" data-i18n="q_go"></button></div>
+</section>
 <section class="screen" id="s-thread" hidden>
   <header class="th-head wrap"><button class="icon-btn" id="thBack" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span class="av" id="thAv"></span><span class="th-id"><b id="thName"></b><small id="thSub"></small></span></header>
   <div class="th-body wrap" id="thBody"><div class="th-col" id="thCol"></div></div>
@@ -676,6 +758,7 @@ const LANGS=[
   {c:'en',n:'English',e:'EN',x:'English'},{c:'th',n:'ไทย',e:'TH',x:'Thai'},{c:'hi',n:'हिन्दी',e:'HI',x:'Hindi'},{c:'ru',n:'Русский',e:'RU',x:'Russian'},
   {c:'vi',n:'Tiếng Việt',e:'VI',x:'Vietnamese'},{c:'ja',n:'日本語',e:'JA',x:'Japanese'},{c:'zh',n:'中文',e:'ZH',x:'Chinese'},{c:'ko',n:'한국어',e:'KO',x:'Korean'}
 ];
+const GREET={en:'Hello',th:'สวัสดี',hi:'नमस्ते',ru:'Привет',vi:'Xin chào',ja:'こんにちは',zh:'你好',ko:'안녕하세요'};
 const T={
 en:{welcome_title:"Travel Thailand with a local guide",welcome_sub:"Pick a province, see guides near you on the map, and book in one tap.",start:"Get started",become_guide:"Become a guide",choose_lang:"Choose your language",auth_title:"Welcome",login:"Log in",register:"Sign up",skip:"Skip for now",email:"Email",password:"Password",fullname:"Full name",phone:"Phone number",role:"I am a",role_traveler:"Traveler",role_guide:"Guide",continue:"Continue",back:"Back",pick_title:"Where are you going?",pick_sub:"Spin for a surprise, or pick a province yourself.",spin:"Spin",confirm:"Confirm",search:"Search province",guides_near:"Guides nearby",per_hour:"/hr",reviews:"reviews",book:"Request guide",hours:"Hours",total:"Total",finding:"Notifying guide…",accepted:"Guide accepted",arriving:"Arriving in {n} min",arrived:"Your guide is here",chat:"Chat",call:"Call",cancel:"Cancel",apply_title:"Guide application",step_profile:"Profile",step_skills:"Skills",step_docs:"Documents",languages_spoken:"Languages you speak",specialties:"Specialties",service_area:"Service province",rate:"Hourly rate (THB)",id_upload:"Upload ID card photo",license_upload:"Tour guide license (optional)",submit:"Submit application",under_review:"Application under review",review_sub:"We'll check your documents within 24–48 hours.",all_lang:"All languages",change:"Change",you:"You",trips:"trips",drag_hint:"Drag to rotate · scroll to zoom",selected:"Your destination",done:"Done",sp_temple:"Temples",sp_food:"Food",sp_nature:"Nature",sp_night:"Nightlife",sp_dive:"Diving",sp_photo:"Photography",tl_sub:"Submitted",tl_doc:"Document check",tl_train:"Online training",tl_ready:"Start accepting trips",none:"No guides speak this language here yet."},
 th:{welcome_title:"เที่ยวไทยกับไกด์ท้องถิ่น",welcome_sub:"เลือกจังหวัด ดูไกด์ใกล้คุณบนแผนที่ แล้วจองได้ในแตะเดียว",start:"เริ่มต้นใช้งาน",become_guide:"สมัครเป็นไกด์",choose_lang:"เลือกภาษา",auth_title:"ยินดีต้อนรับ",login:"เข้าสู่ระบบ",register:"สมัครสมาชิก",skip:"ข้ามไปก่อน",email:"อีเมล",password:"รหัสผ่าน",fullname:"ชื่อ-นามสกุล",phone:"เบอร์โทรศัพท์",role:"สมัครในฐานะ",role_traveler:"นักท่องเที่ยว",role_guide:"ไกด์",continue:"ดำเนินการต่อ",back:"ย้อนกลับ",pick_title:"จะไปเที่ยวที่ไหนดี?",pick_sub:"หมุนสุ่มเพื่อเซอร์ไพรส์ หรือเลือกจังหวัดเอง",spin:"หมุนสุ่ม",confirm:"ยืนยัน",search:"ค้นหาจังหวัด",guides_near:"ไกด์ใกล้คุณ",per_hour:"/ชม.",reviews:"รีวิว",book:"เรียกไกด์",hours:"จำนวนชั่วโมง",total:"รวม",finding:"กำลังแจ้งไกด์…",accepted:"ไกด์รับงานแล้ว",arriving:"จะถึงในอีก {n} นาที",arrived:"ไกด์มาถึงแล้ว",chat:"แชท",call:"โทร",cancel:"ยกเลิก",apply_title:"ใบสมัครไกด์",step_profile:"ข้อมูลส่วนตัว",step_skills:"ความสามารถ",step_docs:"เอกสาร",languages_spoken:"ภาษาที่พูดได้",specialties:"ความถนัด",service_area:"จังหวัดที่ให้บริการ",rate:"ค่าบริการต่อชั่วโมง (บาท)",id_upload:"อัปโหลดรูปบัตรประชาชน",license_upload:"ใบอนุญาตมัคคุเทศก์ (ถ้ามี)",submit:"ส่งใบสมัคร",under_review:"ใบสมัครอยู่ระหว่างตรวจสอบ",review_sub:"เราจะตรวจสอบเอกสารภายใน 24–48 ชั่วโมง",all_lang:"ทุกภาษา",change:"เปลี่ยน",you:"คุณ",trips:"ทริป",drag_hint:"ลากเพื่อหมุน · เลื่อนเพื่อซูม",selected:"จังหวัดที่ได้",done:"เสร็จสิ้น",sp_temple:"วัด",sp_food:"อาหาร",sp_nature:"ธรรมชาติ",sp_night:"ไนต์ไลฟ์",sp_dive:"ดำน้ำ",sp_photo:"ถ่ายภาพ",tl_sub:"ส่งใบสมัครแล้ว",tl_doc:"ตรวจสอบเอกสาร",tl_train:"อบรมออนไลน์",tl_ready:"เริ่มรับงาน",none:"ยังไม่มีไกด์ที่พูดภาษานี้ในพื้นที่"},
@@ -703,6 +786,7 @@ const T4={"en": {"tab_home": "Home", "tab_msg": "Messages", "tab_notif": "Alerts
 for(const k in T4)Object.assign(T[k],T4[k]);
 const T5={"en": {"settings": "Settings", "s_account": "Account", "edit_profile": "Edit profile", "s_prefs": "Preferences", "currency": "Currency", "distance_unit": "Distance unit", "s_map": "Map", "map_view": "Default map view", "s_booking": "Booking", "book_default": "Default booking type", "s_notif": "Notifications", "n_trip": "Trip updates", "n_trip_d": "Guide accepted, arriving and booking confirmations", "n_apply_s": "Guide application updates", "n_promo": "News and offers", "n_promo_d": "Show offers on the home screen", "s_privacy": "Privacy & safety", "share_loc": "Share live location with guide", "share_loc_d": "Your guide sees where you are only during an active trip", "emergency": "Emergency contact", "not_set": "Not set", "s_payment": "Payment", "pay_method": "Preferred payment", "pay_cash": "Cash", "pay_card": "Credit/debit card", "pay_promptpay": "PromptPay", "s_about": "About", "version": "Version", "terms": "Terms of service", "privacy_policy": "Privacy policy", "legal_soon": "The full document will be published before launch.", "clear_data": "Clear app data", "clear_q": "Clear all app data?", "clear_d": "This removes your account, chats, alerts and settings from this device.", "clear_yes": "Clear data", "save": "Save", "saved": "Saved", "login_first": "Log in to edit your profile", "hourly": "Hourly", "daily": "Daily", "days": "Days", "per_day": "/day", "day_note": "8 hours per day", "start_date": "Start date", "n_booked_t": "Booked {g}", "n_booked_b": "{d} · {n} day(s) in {p}", "booking_confirmed": "Booking confirmed", "open_list": "Guides", "approx": "Prices in other currencies are approximate", "contact_name": "Name"}, "th": {"settings": "ตั้งค่า", "s_account": "บัญชี", "edit_profile": "แก้ไขโปรไฟล์", "s_prefs": "การใช้งาน", "currency": "สกุลเงิน", "distance_unit": "หน่วยระยะทาง", "s_map": "แผนที่", "map_view": "มุมมองแผนที่เริ่มต้น", "s_booking": "การจอง", "book_default": "รูปแบบการจองเริ่มต้น", "s_notif": "การแจ้งเตือน", "n_trip": "อัปเดตทริป", "n_trip_d": "ไกด์รับงาน กำลังมาถึง และยืนยันการจอง", "n_apply_s": "อัปเดตใบสมัครไกด์", "n_promo": "ข่าวสารและโปรโมชัน", "n_promo_d": "แสดงข้อเสนอพิเศษบนหน้าแรก", "s_privacy": "ความเป็นส่วนตัวและความปลอดภัย", "share_loc": "แชร์ตำแหน่งสดกับไกด์", "share_loc_d": "ไกด์เห็นตำแหน่งคุณเฉพาะระหว่างทริปเท่านั้น", "emergency": "ผู้ติดต่อฉุกเฉิน", "not_set": "ยังไม่ได้ตั้ง", "s_payment": "การชำระเงิน", "pay_method": "วิธีชำระเงินหลัก", "pay_cash": "เงินสด", "pay_card": "บัตรเครดิต/เดบิต", "pay_promptpay": "พร้อมเพย์", "s_about": "เกี่ยวกับ", "version": "เวอร์ชัน", "terms": "ข้อกำหนดการใช้งาน", "privacy_policy": "นโยบายความเป็นส่วนตัว", "legal_soon": "ฉบับเต็มจะประกาศก่อนเปิดให้บริการ", "clear_data": "ล้างข้อมูลแอป", "clear_q": "ล้างข้อมูลทั้งหมด?", "clear_d": "บัญชี แชท การแจ้งเตือน และการตั้งค่าในเครื่องนี้จะถูกลบ", "clear_yes": "ล้างข้อมูล", "save": "บันทึก", "saved": "บันทึกแล้ว", "login_first": "เข้าสู่ระบบก่อนแก้ไขโปรไฟล์", "hourly": "รายชั่วโมง", "daily": "รายวัน", "days": "จำนวนวัน", "per_day": "/วัน", "day_note": "วันละ 8 ชั่วโมง", "start_date": "วันที่เริ่ม", "n_booked_t": "จองไกด์ {g} แล้ว", "n_booked_b": "{d} · {n} วัน ที่{p}", "booking_confirmed": "ยืนยันการจองแล้ว", "open_list": "ไกด์", "approx": "ราคาสกุลเงินอื่นเป็นค่าประมาณ", "contact_name": "ชื่อ"}, "hi": {"settings": "सेटिंग्स", "s_account": "खाता", "edit_profile": "प्रोफ़ाइल संपादित करें", "s_prefs": "प्राथमिकताएँ", "currency": "मुद्रा", "distance_unit": "दूरी की इकाई", "s_map": "मैप", "map_view": "डिफ़ॉल्ट मैप व्यू", "s_booking": "बुकिंग", "book_default": "डिफ़ॉल्ट बुकिंग प्रकार", "s_notif": "सूचनाएँ", "n_trip": "यात्रा अपडेट", "n_trip_d": "गाइड ने स्वीकार किया, पहुँच रहे हैं और बुकिंग पुष्टि", "n_apply_s": "गाइड आवेदन अपडेट", "n_promo": "समाचार और ऑफ़र", "n_promo_d": "होम स्क्रीन पर ऑफ़र दिखाएँ", "s_privacy": "गोपनीयता और सुरक्षा", "share_loc": "गाइड के साथ लाइव लोकेशन साझा करें", "share_loc_d": "गाइड आपकी लोकेशन केवल सक्रिय यात्रा के दौरान देखता है", "emergency": "आपातकालीन संपर्क", "not_set": "सेट नहीं", "s_payment": "भुगतान", "pay_method": "पसंदीदा भुगतान", "pay_cash": "नकद", "pay_card": "क्रेडिट/डेबिट कार्ड", "pay_promptpay": "PromptPay", "s_about": "जानकारी", "version": "संस्करण", "terms": "सेवा की शर्तें", "privacy_policy": "गोपनीयता नीति", "legal_soon": "पूरा दस्तावेज़ लॉन्च से पहले प्रकाशित होगा।", "clear_data": "ऐप डेटा साफ़ करें", "clear_q": "सारा ऐप डेटा साफ़ करें?", "clear_d": "इससे इस डिवाइस से आपका खाता, चैट, सूचनाएँ और सेटिंग्स हट जाएँगी।", "clear_yes": "डेटा साफ़ करें", "save": "सहेजें", "saved": "सहेजा गया", "login_first": "प्रोफ़ाइल संपादित करने के लिए लॉग इन करें", "hourly": "प्रति घंटा", "daily": "प्रति दिन", "days": "दिन", "per_day": "/दिन", "day_note": "प्रतिदिन 8 घंटे", "start_date": "आरंभ तिथि", "n_booked_t": "{g} बुक किया गया", "n_booked_b": "{d} · {p} में {n} दिन", "booking_confirmed": "बुकिंग की पुष्टि हुई", "open_list": "गाइड", "approx": "अन्य मुद्राओं में कीमतें अनुमानित हैं", "contact_name": "नाम"}, "ru": {"settings": "Настройки", "s_account": "Аккаунт", "edit_profile": "Редактировать профиль", "s_prefs": "Параметры", "currency": "Валюта", "distance_unit": "Единицы расстояния", "s_map": "Карта", "map_view": "Вид карты по умолчанию", "s_booking": "Бронирование", "book_default": "Тип бронирования по умолчанию", "s_notif": "Уведомления", "n_trip": "Обновления поездки", "n_trip_d": "Гид принял заказ, прибытие и подтверждения бронирования", "n_apply_s": "Статус заявки гида", "n_promo": "Новости и предложения", "n_promo_d": "Показывать предложения на главной", "s_privacy": "Конфиденциальность и безопасность", "share_loc": "Делиться геопозицией с гидом", "share_loc_d": "Гид видит вас только во время активной поездки", "emergency": "Экстренный контакт", "not_set": "Не указан", "s_payment": "Оплата", "pay_method": "Предпочтительный способ оплаты", "pay_cash": "Наличные", "pay_card": "Банковская карта", "pay_promptpay": "PromptPay", "s_about": "О приложении", "version": "Версия", "terms": "Условия использования", "privacy_policy": "Политика конфиденциальности", "legal_soon": "Полный документ будет опубликован до запуска.", "clear_data": "Очистить данные приложения", "clear_q": "Удалить все данные приложения?", "clear_d": "С этого устройства будут удалены аккаунт, чаты, уведомления и настройки.", "clear_yes": "Очистить", "save": "Сохранить", "saved": "Сохранено", "login_first": "Войдите, чтобы изменить профиль", "hourly": "Почасово", "daily": "Посуточно", "days": "Дни", "per_day": "/день", "day_note": "8 часов в день", "start_date": "Дата начала", "n_booked_t": "Гид {g} забронирован", "n_booked_b": "{d} · {n} дн., {p}", "booking_confirmed": "Бронирование подтверждено", "open_list": "Гиды", "approx": "Цены в других валютах приблизительные", "contact_name": "Имя"}, "vi": {"settings": "Cài đặt", "s_account": "Tài khoản", "edit_profile": "Chỉnh sửa hồ sơ", "s_prefs": "Tùy chọn", "currency": "Tiền tệ", "distance_unit": "Đơn vị khoảng cách", "s_map": "Bản đồ", "map_view": "Chế độ bản đồ mặc định", "s_booking": "Đặt chỗ", "book_default": "Kiểu đặt mặc định", "s_notif": "Thông báo", "n_trip": "Cập nhật chuyến đi", "n_trip_d": "Hướng dẫn viên nhận chuyến, sắp đến và xác nhận đặt chỗ", "n_apply_s": "Cập nhật đơn đăng ký", "n_promo": "Tin tức và ưu đãi", "n_promo_d": "Hiển thị ưu đãi trên trang chủ", "s_privacy": "Quyền riêng tư và an toàn", "share_loc": "Chia sẻ vị trí trực tiếp với hướng dẫn viên", "share_loc_d": "Hướng dẫn viên chỉ thấy vị trí của bạn trong chuyến đi", "emergency": "Liên hệ khẩn cấp", "not_set": "Chưa đặt", "s_payment": "Thanh toán", "pay_method": "Phương thức ưu tiên", "pay_cash": "Tiền mặt", "pay_card": "Thẻ tín dụng/ghi nợ", "pay_promptpay": "PromptPay", "s_about": "Giới thiệu", "version": "Phiên bản", "terms": "Điều khoản dịch vụ", "privacy_policy": "Chính sách quyền riêng tư", "legal_soon": "Văn bản đầy đủ sẽ được công bố trước khi ra mắt.", "clear_data": "Xóa dữ liệu ứng dụng", "clear_q": "Xóa toàn bộ dữ liệu ứng dụng?", "clear_d": "Tài khoản, tin nhắn, thông báo và cài đặt trên thiết bị này sẽ bị xóa.", "clear_yes": "Xóa dữ liệu", "save": "Lưu", "saved": "Đã lưu", "login_first": "Đăng nhập để chỉnh sửa hồ sơ", "hourly": "Theo giờ", "daily": "Theo ngày", "days": "Số ngày", "per_day": "/ngày", "day_note": "8 giờ mỗi ngày", "start_date": "Ngày bắt đầu", "n_booked_t": "Đã đặt {g}", "n_booked_b": "{d} · {n} ngày ở {p}", "booking_confirmed": "Đã xác nhận đặt chỗ", "open_list": "Hướng dẫn viên", "approx": "Giá ở các loại tiền khác là ước tính", "contact_name": "Tên"}, "ja": {"settings": "設定", "s_account": "アカウント", "edit_profile": "プロフィールを編集", "s_prefs": "一般", "currency": "通貨", "distance_unit": "距離の単位", "s_map": "地図", "map_view": "地図の初期表示", "s_booking": "予約", "book_default": "予約タイプの初期設定", "s_notif": "通知", "n_trip": "旅行の更新", "n_trip_d": "ガイドの承諾・到着・予約確定", "n_apply_s": "ガイド申請の更新", "n_promo": "お知らせとキャンペーン", "n_promo_d": "ホーム画面にキャンペーンを表示", "s_privacy": "プライバシーと安全", "share_loc": "ガイドと現在地を共有", "share_loc_d": "ガイドが位置を見られるのは旅行中のみです", "emergency": "緊急連絡先", "not_set": "未設定", "s_payment": "支払い", "pay_method": "優先の支払い方法", "pay_cash": "現金", "pay_card": "クレジット/デビットカード", "pay_promptpay": "PromptPay", "s_about": "このアプリについて", "version": "バージョン", "terms": "利用規約", "privacy_policy": "プライバシーポリシー", "legal_soon": "正式版はサービス開始前に公開します。", "clear_data": "アプリのデータを消去", "clear_q": "すべてのデータを消去しますか？", "clear_d": "この端末のアカウント・チャット・通知・設定が削除されます。", "clear_yes": "消去する", "save": "保存", "saved": "保存しました", "login_first": "プロフィールの編集にはログインが必要です", "hourly": "時間単位", "daily": "日単位", "days": "日数", "per_day": "/日", "day_note": "1日8時間", "start_date": "開始日", "n_booked_t": "{g}を予約しました", "n_booked_b": "{d}・{p}で{n}日間", "booking_confirmed": "予約が確定しました", "open_list": "ガイド", "approx": "他の通貨の金額は概算です", "contact_name": "名前"}, "zh": {"settings": "设置", "s_account": "账户", "edit_profile": "编辑资料", "s_prefs": "偏好设置", "currency": "货币", "distance_unit": "距离单位", "s_map": "地图", "map_view": "默认地图视图", "s_booking": "预订", "book_default": "默认预订方式", "s_notif": "通知", "n_trip": "行程动态", "n_trip_d": "导游接单、即将到达和预订确认", "n_apply_s": "导游申请进度", "n_promo": "资讯与优惠", "n_promo_d": "在首页显示优惠", "s_privacy": "隐私与安全", "share_loc": "与导游共享实时位置", "share_loc_d": "仅在行程进行中导游才能看到你的位置", "emergency": "紧急联系人", "not_set": "未设置", "s_payment": "支付", "pay_method": "首选支付方式", "pay_cash": "现金", "pay_card": "信用卡/借记卡", "pay_promptpay": "PromptPay", "s_about": "关于", "version": "版本", "terms": "服务条款", "privacy_policy": "隐私政策", "legal_soon": "完整文本将在正式上线前发布。", "clear_data": "清除应用数据", "clear_q": "清除所有应用数据？", "clear_d": "将从此设备删除你的账户、聊天、通知和设置。", "clear_yes": "清除数据", "save": "保存", "saved": "已保存", "login_first": "请先登录再编辑资料", "hourly": "按小时", "daily": "按天", "days": "天数", "per_day": "/天", "day_note": "每天 8 小时", "start_date": "开始日期", "n_booked_t": "已预订 {g}", "n_booked_b": "{d} · 在{p} {n} 天", "booking_confirmed": "预订已确认", "open_list": "导游", "approx": "其他货币价格为估算值", "contact_name": "姓名"}, "ko": {"settings": "설정", "s_account": "계정", "edit_profile": "프로필 수정", "s_prefs": "환경 설정", "currency": "통화", "distance_unit": "거리 단위", "s_map": "지도", "map_view": "기본 지도 보기", "s_booking": "예약", "book_default": "기본 예약 방식", "s_notif": "알림", "n_trip": "여행 업데이트", "n_trip_d": "가이드 수락, 도착 및 예약 확정", "n_apply_s": "가이드 지원 업데이트", "n_promo": "소식 및 혜택", "n_promo_d": "홈 화면에 혜택 표시", "s_privacy": "개인정보 및 안전", "share_loc": "가이드와 실시간 위치 공유", "share_loc_d": "가이드는 여행 중에만 내 위치를 볼 수 있어요", "emergency": "비상 연락처", "not_set": "설정 안 됨", "s_payment": "결제", "pay_method": "기본 결제 수단", "pay_cash": "현금", "pay_card": "신용/체크카드", "pay_promptpay": "PromptPay", "s_about": "앱 정보", "version": "버전", "terms": "이용약관", "privacy_policy": "개인정보처리방침", "legal_soon": "전체 문서는 출시 전에 공개됩니다.", "clear_data": "앱 데이터 삭제", "clear_q": "모든 앱 데이터를 삭제할까요?", "clear_d": "이 기기에서 계정, 채팅, 알림, 설정이 삭제됩니다.", "clear_yes": "데이터 삭제", "save": "저장", "saved": "저장했어요", "login_first": "프로필을 수정하려면 로그인하세요", "hourly": "시간 단위", "daily": "일 단위", "days": "일수", "per_day": "/일", "day_note": "하루 8시간", "start_date": "시작일", "n_booked_t": "{g} 예약 완료", "n_booked_b": "{d} · {p}에서 {n}일", "booking_confirmed": "예약이 확정되었어요", "open_list": "가이드", "approx": "다른 통화 가격은 대략적인 금액이에요", "contact_name": "이름"}};
 for(const k in T5)Object.assign(T[k],T5[k]);
+const T6={"en": {"r_all": "All", "r_n": "North", "r_ne": "Northeast", "r_c": "Central", "r_e": "East", "r_w": "West", "r_s": "South", "g_market": "Local market", "g_temple": "Main provincial temple", "g_food": "Local food spots", "g_museum": "Local museum", "g_night": "Night market", "g_beach": "Beaches", "g_island": "Nearby islands", "g_seafood": "Fresh seafood", "g_sunset": "Sunset viewpoint", "g_view": "Viewpoint", "g_waterfall": "Waterfall", "g_park": "National park", "g_cafe": "Mountain-view café", "g_ruins": "Historic ruins", "q_title": "What kind of guide do you want?", "q_sub": "We'll rank the guides that fit you best.", "q_lang": "Which language should your guide speak?", "any_lang": "Any language", "q_gender": "Guide gender", "g_any": "No preference", "g_f": "Women only", "g_m": "Men only", "q_style": "What guide style do you like?", "st_friendly": "Friendly and chatty", "st_calm": "Calm and easy-going", "st_adventure": "Adventurous", "st_expert": "History expert", "st_photo": "Great at photos", "q_interest": "What do you want to do?", "q_group": "How many people?", "q_go": "Show matching guides", "edit_prefs": "Edit preferences", "match": "{n}% match", "female": "Female", "male": "Male", "age": "Age {n}", "exp": "{n} yrs experience", "licensed": "Verified license", "bio": "Local guide in {p} for {n} years", "vis_title": "What you can see", "vis_list": "Nickname, gender, age, languages, reviews and verified license", "hid_title": "Kept private for safety", "hid_list": "Real phone number, full surname and address. You talk through in-app chat and calls only.", "where_go": "Where your guide will take you", "tour_half": "Half-day trip", "tour_full": "Full-day trip", "custom_trip": "Design your own trip", "custom_sub": "Pick places or add your own", "add_stop": "Add a place…", "add": "Add", "note_guide": "Note to your guide (optional)", "plan_msg": "Trip plan: {s}", "in_app_call": "Calling through the app. Neither side sees the other's real number.", "pick_stops": "Pick at least one place", "guide_prefs": "Guide preferences", "hrs": "{n} hrs", "none2": "No guides match your preferences yet. Try changing them.", "style_label": "Style"}, "th": {"r_all": "ทั้งหมด", "r_n": "ภาคเหนือ", "r_ne": "ภาคอีสาน", "r_c": "ภาคกลาง", "r_e": "ภาคตะวันออก", "r_w": "ภาคตะวันตก", "r_s": "ภาคใต้", "g_market": "ตลาดท้องถิ่น", "g_temple": "วัดสำคัญประจำจังหวัด", "g_food": "ร้านอาหารพื้นเมือง", "g_museum": "พิพิธภัณฑ์ท้องถิ่น", "g_night": "ตลาดกลางคืน", "g_beach": "ชายหาด", "g_island": "เกาะใกล้เคียง", "g_seafood": "อาหารทะเลสด", "g_sunset": "จุดชมพระอาทิตย์ตก", "g_view": "จุดชมวิว", "g_waterfall": "น้ำตก", "g_park": "อุทยานแห่งชาติ", "g_cafe": "คาเฟ่วิวภูเขา", "g_ruins": "โบราณสถาน", "q_title": "อยากได้ไกด์แบบไหน?", "q_sub": "เราจะจัดอันดับไกด์ที่ตรงใจคุณที่สุด", "q_lang": "อยากให้ไกด์พูดภาษาอะไร", "any_lang": "ภาษาไหนก็ได้", "q_gender": "เพศของไกด์", "g_any": "ไม่จำกัด", "g_f": "เฉพาะผู้หญิง", "g_m": "เฉพาะผู้ชาย", "q_style": "ชอบไกด์สไตล์ไหน", "st_friendly": "เป็นกันเอง ช่างคุย", "st_calm": "สุขุม ใจเย็น", "st_adventure": "สายลุย แอดเวนเจอร์", "st_expert": "สายความรู้ ประวัติศาสตร์", "st_photo": "ถ่ายรูปเก่ง", "q_interest": "อยากเที่ยวแนวไหน", "q_group": "ไปกี่คน", "q_go": "ดูไกด์ที่ตรงใจ", "edit_prefs": "ปรับความต้องการ", "match": "ตรงใจ {n}%", "female": "หญิง", "male": "ชาย", "age": "อายุ {n}", "exp": "ประสบการณ์ {n} ปี", "licensed": "ใบอนุญาตยืนยันแล้ว", "bio": "ไกด์ท้องถิ่น{p} พาเที่ยวมา {n} ปี", "vis_title": "ข้อมูลที่คุณเห็น", "vis_list": "ชื่อเล่น เพศ อายุ ภาษา รีวิว และใบอนุญาตที่ยืนยันแล้ว", "hid_title": "ซ่อนไว้เพื่อความปลอดภัย", "hid_list": "เบอร์โทรจริง นามสกุลเต็ม และที่อยู่ ติดต่อกันผ่านแชทและโทรในแอปเท่านั้น", "where_go": "ไกด์จะพาไปไหน", "tour_half": "ทริปครึ่งวัน", "tour_full": "ทริปเต็มวัน", "custom_trip": "ออกแบบทริปเอง", "custom_sub": "เลือกจุดที่อยากไป หรือเพิ่มเอง", "add_stop": "เพิ่มสถานที่…", "add": "เพิ่ม", "note_guide": "ข้อความถึงไกด์ (ไม่บังคับ)", "plan_msg": "แผนทริป: {s}", "in_app_call": "โทรผ่านแอป ทั้งสองฝ่ายไม่เห็นเบอร์จริงของกัน", "pick_stops": "เลือกอย่างน้อย 1 จุด", "guide_prefs": "ความต้องการไกด์", "hrs": "{n} ชม.", "none2": "ยังไม่มีไกด์ที่ตรงกับความต้องการ ลองปรับความต้องการดู", "style_label": "สไตล์"}, "hi": {"r_all": "सभी", "r_n": "उत्तर", "r_ne": "पूर्वोत्तर", "r_c": "मध्य", "r_e": "पूर्व", "r_w": "पश्चिम", "r_s": "दक्षिण", "g_market": "स्थानीय बाज़ार", "g_temple": "प्रांत का प्रमुख मंदिर", "g_food": "स्थानीय खाने की जगहें", "g_museum": "स्थानीय संग्रहालय", "g_night": "रात का बाज़ार", "g_beach": "समुद्र तट", "g_island": "पास के द्वीप", "g_seafood": "ताज़ा सीफ़ूड", "g_sunset": "सूर्यास्त व्यूपॉइंट", "g_view": "व्यूपॉइंट", "g_waterfall": "झरना", "g_park": "राष्ट्रीय उद्यान", "g_cafe": "पहाड़ी दृश्य वाला कैफ़े", "g_ruins": "ऐतिहासिक खंडहर", "q_title": "आपको कैसा गाइड चाहिए?", "q_sub": "हम आपके लिए सबसे उपयुक्त गाइड पहले दिखाएँगे।", "q_lang": "गाइड कौन सी भाषा बोले?", "any_lang": "कोई भी भाषा", "q_gender": "गाइड का लिंग", "g_any": "कोई प्राथमिकता नहीं", "g_f": "केवल महिलाएँ", "g_m": "केवल पुरुष", "q_style": "आपको कैसी शैली का गाइड पसंद है?", "st_friendly": "मिलनसार और बातूनी", "st_calm": "शांत और सहज", "st_adventure": "साहसी", "st_expert": "इतिहास विशेषज्ञ", "st_photo": "फ़ोटो में माहिर", "q_interest": "आप क्या करना चाहते हैं?", "q_group": "कितने लोग?", "q_go": "मेल खाते गाइड दिखाएँ", "edit_prefs": "प्राथमिकताएँ बदलें", "match": "{n}% मेल", "female": "महिला", "male": "पुरुष", "age": "उम्र {n}", "exp": "{n} वर्ष का अनुभव", "licensed": "सत्यापित लाइसेंस", "bio": "{p} में {n} वर्षों से स्थानीय गाइड", "vis_title": "आप क्या देख सकते हैं", "vis_list": "उपनाम, लिंग, उम्र, भाषाएँ, समीक्षाएँ और सत्यापित लाइसेंस", "hid_title": "सुरक्षा के लिए छिपाया गया", "hid_list": "असली फ़ोन नंबर, पूरा उपनाम और पता। बात केवल ऐप चैट और कॉल से होती है।", "where_go": "गाइड आपको कहाँ ले जाएगा", "tour_half": "आधे दिन की यात्रा", "tour_full": "पूरे दिन की यात्रा", "custom_trip": "अपनी यात्रा खुद बनाएँ", "custom_sub": "जगहें चुनें या अपनी जोड़ें", "add_stop": "जगह जोड़ें…", "add": "जोड़ें", "note_guide": "गाइड के लिए नोट (वैकल्पिक)", "plan_msg": "यात्रा योजना: {s}", "in_app_call": "ऐप से कॉल हो रही है। कोई भी पक्ष दूसरे का असली नंबर नहीं देखता।", "pick_stops": "कम से कम एक जगह चुनें", "guide_prefs": "गाइड प्राथमिकताएँ", "hrs": "{n} घंटे", "none2": "अभी कोई गाइड आपकी प्राथमिकताओं से मेल नहीं खाता। उन्हें बदलकर देखें।", "style_label": "शैली"}, "ru": {"r_all": "Все", "r_n": "Север", "r_ne": "Северо-восток", "r_c": "Центр", "r_e": "Восток", "r_w": "Запад", "r_s": "Юг", "g_market": "Местный рынок", "g_temple": "Главный храм провинции", "g_food": "Местная кухня", "g_museum": "Местный музей", "g_night": "Ночной рынок", "g_beach": "Пляжи", "g_island": "Ближайшие острова", "g_seafood": "Свежие морепродукты", "g_sunset": "Точка для заката", "g_view": "Смотровая площадка", "g_waterfall": "Водопад", "g_park": "Национальный парк", "g_cafe": "Кафе с видом на горы", "g_ruins": "Исторические руины", "q_title": "Какой гид вам нужен?", "q_sub": "Мы поставим подходящих гидов на первое место.", "q_lang": "На каком языке должен говорить гид?", "any_lang": "Любой язык", "q_gender": "Пол гида", "g_any": "Не важно", "g_f": "Только женщины", "g_m": "Только мужчины", "q_style": "Какой стиль гида вам нравится?", "st_friendly": "Дружелюбный и разговорчивый", "st_calm": "Спокойный", "st_adventure": "Любитель приключений", "st_expert": "Знаток истории", "st_photo": "Хорошо фотографирует", "q_interest": "Чем хотите заняться?", "q_group": "Сколько человек?", "q_go": "Показать подходящих гидов", "edit_prefs": "Изменить предпочтения", "match": "Совпадение {n}%", "female": "Женщина", "male": "Мужчина", "age": "Возраст {n}", "exp": "Опыт {n} лет", "licensed": "Лицензия проверена", "bio": "Местный гид в {p} уже {n} лет", "vis_title": "Что вы видите", "vis_list": "Имя, пол, возраст, языки, отзывы и проверенная лицензия", "hid_title": "Скрыто ради безопасности", "hid_list": "Реальный номер телефона, полная фамилия и адрес. Общение только через чат и звонки в приложении.", "where_go": "Куда отвезёт гид", "tour_half": "Поездка на полдня", "tour_full": "Поездка на весь день", "custom_trip": "Свой маршрут", "custom_sub": "Выберите места или добавьте свои", "add_stop": "Добавить место…", "add": "Добавить", "note_guide": "Сообщение гиду (необязательно)", "plan_msg": "План поездки: {s}", "in_app_call": "Звонок через приложение. Никто не видит реальный номер другого.", "pick_stops": "Выберите хотя бы одно место", "guide_prefs": "Предпочтения по гиду", "hrs": "{n} ч", "none2": "Пока нет гидов под ваши предпочтения. Попробуйте их изменить.", "style_label": "Стиль"}, "vi": {"r_all": "Tất cả", "r_n": "Miền Bắc", "r_ne": "Đông Bắc", "r_c": "Miền Trung", "r_e": "Miền Đông", "r_w": "Miền Tây", "r_s": "Miền Nam", "g_market": "Chợ địa phương", "g_temple": "Chùa chính của tỉnh", "g_food": "Quán ăn địa phương", "g_museum": "Bảo tàng địa phương", "g_night": "Chợ đêm", "g_beach": "Bãi biển", "g_island": "Đảo lân cận", "g_seafood": "Hải sản tươi", "g_sunset": "Điểm ngắm hoàng hôn", "g_view": "Điểm ngắm cảnh", "g_waterfall": "Thác nước", "g_park": "Vườn quốc gia", "g_cafe": "Quán cà phê view núi", "g_ruins": "Di tích lịch sử", "q_title": "Bạn muốn hướng dẫn viên thế nào?", "q_sub": "Chúng tôi sẽ xếp những người phù hợp nhất lên đầu.", "q_lang": "Hướng dẫn viên nói ngôn ngữ nào?", "any_lang": "Ngôn ngữ nào cũng được", "q_gender": "Giới tính hướng dẫn viên", "g_any": "Không quan trọng", "g_f": "Chỉ nữ", "g_m": "Chỉ nam", "q_style": "Bạn thích phong cách nào?", "st_friendly": "Thân thiện, hay nói chuyện", "st_calm": "Điềm tĩnh, nhẹ nhàng", "st_adventure": "Thích phiêu lưu", "st_expert": "Am hiểu lịch sử", "st_photo": "Chụp ảnh đẹp", "q_interest": "Bạn muốn làm gì?", "q_group": "Đi mấy người?", "q_go": "Xem hướng dẫn viên phù hợp", "edit_prefs": "Sửa yêu cầu", "match": "Phù hợp {n}%", "female": "Nữ", "male": "Nam", "age": "{n} tuổi", "exp": "{n} năm kinh nghiệm", "licensed": "Giấy phép đã xác minh", "bio": "Hướng dẫn viên địa phương ở {p} {n} năm", "vis_title": "Thông tin bạn thấy", "vis_list": "Tên gọi, giới tính, tuổi, ngôn ngữ, đánh giá và giấy phép đã xác minh", "hid_title": "Ẩn để đảm bảo an toàn", "hid_list": "Số điện thoại thật, họ đầy đủ và địa chỉ. Chỉ liên lạc qua chat và cuộc gọi trong ứng dụng.", "where_go": "Hướng dẫn viên sẽ đưa bạn đi đâu", "tour_half": "Chuyến nửa ngày", "tour_full": "Chuyến cả ngày", "custom_trip": "Tự thiết kế chuyến đi", "custom_sub": "Chọn địa điểm hoặc tự thêm", "add_stop": "Thêm địa điểm…", "add": "Thêm", "note_guide": "Lời nhắn cho hướng dẫn viên (không bắt buộc)", "plan_msg": "Kế hoạch: {s}", "in_app_call": "Gọi qua ứng dụng. Hai bên không thấy số thật của nhau.", "pick_stops": "Chọn ít nhất một địa điểm", "guide_prefs": "Yêu cầu về hướng dẫn viên", "hrs": "{n} giờ", "none2": "Chưa có hướng dẫn viên phù hợp. Hãy thử thay đổi yêu cầu.", "style_label": "Phong cách"}, "ja": {"r_all": "すべて", "r_n": "北部", "r_ne": "東北部", "r_c": "中部", "r_e": "東部", "r_w": "西部", "r_s": "南部", "g_market": "地元の市場", "g_temple": "県を代表する寺院", "g_food": "地元の食堂", "g_museum": "地元の博物館", "g_night": "ナイトマーケット", "g_beach": "ビーチ", "g_island": "近くの島", "g_seafood": "新鮮なシーフード", "g_sunset": "夕日スポット", "g_view": "展望スポット", "g_waterfall": "滝", "g_park": "国立公園", "g_cafe": "山の見えるカフェ", "g_ruins": "遺跡", "q_title": "どんなガイドがいいですか？", "q_sub": "あなたに合うガイドを上位に表示します。", "q_lang": "ガイドに話してほしい言語", "any_lang": "どの言語でも", "q_gender": "ガイドの性別", "g_any": "こだわらない", "g_f": "女性のみ", "g_m": "男性のみ", "q_style": "好きなガイドのタイプ", "st_friendly": "気さくでおしゃべり", "st_calm": "落ち着いている", "st_adventure": "アクティブ派", "st_expert": "歴史に詳しい", "st_photo": "写真が上手", "q_interest": "何をしたいですか？", "q_group": "何人で行きますか？", "q_go": "合うガイドを見る", "edit_prefs": "条件を変更", "match": "相性 {n}%", "female": "女性", "male": "男性", "age": "{n}歳", "exp": "経験{n}年", "licensed": "ライセンス確認済み", "bio": "{p}で{n}年案内している地元ガイド", "vis_title": "表示される情報", "vis_list": "ニックネーム、性別、年齢、言語、レビュー、確認済みライセンス", "hid_title": "安全のため非公開", "hid_list": "本当の電話番号、フルネーム、住所。連絡はアプリ内のチャットと通話のみです。", "where_go": "ガイドが案内する場所", "tour_half": "半日ツアー", "tour_full": "1日ツアー", "custom_trip": "自分でプランを作る", "custom_sub": "行きたい場所を選ぶか追加", "add_stop": "場所を追加…", "add": "追加", "note_guide": "ガイドへのメッセージ（任意）", "plan_msg": "旅行プラン：{s}", "in_app_call": "アプリ経由で通話します。お互いの本当の番号は表示されません。", "pick_stops": "1か所以上選んでください", "guide_prefs": "ガイドの希望条件", "hrs": "{n}時間", "none2": "条件に合うガイドがまだいません。条件を変えてみてください。", "style_label": "スタイル"}, "zh": {"r_all": "全部", "r_n": "北部", "r_ne": "东北部", "r_c": "中部", "r_e": "东部", "r_w": "西部", "r_s": "南部", "g_market": "当地市场", "g_temple": "府内主要寺庙", "g_food": "当地美食", "g_museum": "当地博物馆", "g_night": "夜市", "g_beach": "海滩", "g_island": "附近岛屿", "g_seafood": "新鲜海鲜", "g_sunset": "日落观景点", "g_view": "观景点", "g_waterfall": "瀑布", "g_park": "国家公园", "g_cafe": "山景咖啡馆", "g_ruins": "历史遗迹", "q_title": "你想要什么样的导游？", "q_sub": "我们会把最合适的导游排在前面。", "q_lang": "希望导游说什么语言", "any_lang": "任何语言", "q_gender": "导游性别", "g_any": "不限", "g_f": "仅女性", "g_m": "仅男性", "q_style": "喜欢哪种风格的导游", "st_friendly": "热情健谈", "st_calm": "沉稳随和", "st_adventure": "爱冒险", "st_expert": "历史达人", "st_photo": "擅长拍照", "q_interest": "想玩什么？", "q_group": "几个人？", "q_go": "查看匹配的导游", "edit_prefs": "修改偏好", "match": "匹配 {n}%", "female": "女", "male": "男", "age": "{n} 岁", "exp": "{n} 年经验", "licensed": "执照已认证", "bio": "在{p}带团 {n} 年的本地导游", "vis_title": "你能看到的信息", "vis_list": "昵称、性别、年龄、语言、评价和已认证执照", "hid_title": "为安全而隐藏", "hid_list": "真实电话、完整姓氏和住址。只通过应用内聊天和通话联系。", "where_go": "导游会带你去哪里", "tour_half": "半日游", "tour_full": "一日游", "custom_trip": "自己设计行程", "custom_sub": "选择地点或自行添加", "add_stop": "添加地点…", "add": "添加", "note_guide": "给导游的留言（选填）", "plan_msg": "行程计划：{s}", "in_app_call": "通过应用通话，双方都看不到对方的真实号码。", "pick_stops": "至少选择一个地点", "guide_prefs": "导游偏好", "hrs": "{n} 小时", "none2": "暂时没有符合偏好的导游，试试修改偏好。", "style_label": "风格"}, "ko": {"r_all": "전체", "r_n": "북부", "r_ne": "동북부", "r_c": "중부", "r_e": "동부", "r_w": "서부", "r_s": "남부", "g_market": "현지 시장", "g_temple": "주 대표 사원", "g_food": "현지 맛집", "g_museum": "지역 박물관", "g_night": "야시장", "g_beach": "해변", "g_island": "근처 섬", "g_seafood": "신선한 해산물", "g_sunset": "일몰 명소", "g_view": "전망대", "g_waterfall": "폭포", "g_park": "국립공원", "g_cafe": "산 전망 카페", "g_ruins": "유적지", "q_title": "어떤 가이드를 원하세요?", "q_sub": "잘 맞는 가이드를 먼저 보여드릴게요.", "q_lang": "가이드가 쓰면 좋은 언어", "any_lang": "아무 언어나", "q_gender": "가이드 성별", "g_any": "상관없음", "g_f": "여성만", "g_m": "남성만", "q_style": "좋아하는 가이드 스타일", "st_friendly": "친근하고 수다스러운", "st_calm": "차분하고 여유로운", "st_adventure": "모험을 좋아하는", "st_expert": "역사 전문가", "st_photo": "사진을 잘 찍는", "q_interest": "무엇을 하고 싶으세요?", "q_group": "몇 명이 가세요?", "q_go": "맞는 가이드 보기", "edit_prefs": "조건 변경", "match": "{n}% 일치", "female": "여성", "male": "남성", "age": "{n}세", "exp": "경력 {n}년", "licensed": "자격증 인증됨", "bio": "{p}에서 {n}년째 활동하는 현지 가이드", "vis_title": "보이는 정보", "vis_list": "닉네임, 성별, 나이, 언어, 리뷰, 인증된 자격증", "hid_title": "안전을 위해 비공개", "hid_list": "실제 전화번호, 전체 성, 주소. 연락은 앱 채팅과 통화로만 해요.", "where_go": "가이드가 데려갈 곳", "tour_half": "반나절 투어", "tour_full": "하루 투어", "custom_trip": "직접 여행 짜기", "custom_sub": "가고 싶은 곳을 고르거나 추가하세요", "add_stop": "장소 추가…", "add": "추가", "note_guide": "가이드에게 남길 말 (선택)", "plan_msg": "여행 계획: {s}", "in_app_call": "앱으로 통화해요. 서로의 실제 번호는 보이지 않아요.", "pick_stops": "장소를 하나 이상 고르세요", "guide_prefs": "가이드 조건", "hrs": "{n}시간", "none2": "조건에 맞는 가이드가 아직 없어요. 조건을 바꿔 보세요.", "style_label": "스타일"}};for(const k in T6)Object.assign(T[k],T6[k]);
 const BD={"en": "Book guide", "th": "จองไกด์", "hi": "गाइड बुक करें", "ru": "Забронировать гида", "vi": "Đặt hướng dẫn viên", "ja": "ガイドを予約", "zh": "预订导游", "ko": "가이드 예약"};for(const k in BD)T[k].book_day=BD[k];
 const SPECS=['temple','food','nature','night','dive','photo'];
 
@@ -714,28 +798,120 @@ const TIERS={
   epic:{w:7,bg:'linear-gradient(160deg,#dccbfa,#b99ded)',fg:'#5a37ad',stripe:'#5f36b8'},
   legendary:{w:3,bg:'linear-gradient(160deg,#fbf2dc,#ecd39a)',fg:'#9a7120',stripe:'#d6a84a'}
 };
-const PROV=[
- {en:'Bangkok',th:'กรุงเทพมหานคร',lat:13.7563,lng:100.5018,type:'city',tier:'epic'},
- {en:'Chiang Mai',th:'เชียงใหม่',lat:18.7883,lng:98.9853,type:'mountain',tier:'legendary'},
- {en:'Phuket',th:'ภูเก็ต',lat:7.8804,lng:98.3923,type:'beach',tier:'legendary'},
- {en:'Krabi',th:'กระบี่',lat:8.0863,lng:98.9063,type:'beach',tier:'epic'},
- {en:'Chiang Rai',th:'เชียงราย',lat:19.9105,lng:99.8406,type:'temple',tier:'rare'},
- {en:'Ayutthaya',th:'พระนครศรีอยุธยา',lat:14.3532,lng:100.5689,type:'temple',tier:'rare'},
- {en:'Kanchanaburi',th:'กาญจนบุรี',lat:14.0228,lng:99.5328,type:'mountain',tier:'uncommon'},
- {en:'Surat Thani',th:'สุราษฎร์ธานี',lat:9.1382,lng:99.3215,type:'beach',tier:'rare'},
- {en:'Chon Buri',th:'ชลบุรี',lat:13.3611,lng:100.9847,type:'city',tier:'uncommon'},
- {en:'Prachuap Khiri Khan',th:'ประจวบคีรีขันธ์',lat:11.8124,lng:99.7973,type:'beach',tier:'common'},
- {en:'Phang Nga',th:'พังงา',lat:8.4509,lng:98.5255,type:'beach',tier:'epic'},
- {en:'Nan',th:'น่าน',lat:18.7756,lng:100.7730,type:'temple',tier:'uncommon'},
- {en:'Mae Hong Son',th:'แม่ฮ่องสอน',lat:19.3020,lng:97.9654,type:'mountain',tier:'rare'},
- {en:'Sukhothai',th:'สุโขทัย',lat:17.0070,lng:99.8230,type:'temple',tier:'uncommon'},
- {en:'Loei',th:'เลย',lat:17.4860,lng:101.7223,type:'mountain',tier:'common'},
- {en:'Trat',th:'ตราด',lat:12.2428,lng:102.5175,type:'beach',tier:'common'},
- {en:'Nakhon Ratchasima',th:'นครราชสีมา',lat:14.9799,lng:102.0978,type:'mountain',tier:'common'},
- {en:'Udon Thani',th:'อุดรธานี',lat:17.4156,lng:102.7872,type:'city',tier:'common'},
- {en:'Songkhla',th:'สงขลา',lat:7.1898,lng:100.5951,type:'beach',tier:'common'},
- {en:'Rayong',th:'ระยอง',lat:12.6814,lng:101.2816,type:'beach',tier:'common'}
+// [en, th, lat, lng, type, tier, region]
+const PROV_RAW=[
+['Bangkok','กรุงเทพมหานคร',13.7563,100.5018,'city','epic','c'],
+['Chiang Mai','เชียงใหม่',18.7883,98.9853,'mountain','legendary','n'],
+['Phuket','ภูเก็ต',7.8804,98.3923,'beach','legendary','s'],
+['Krabi','กระบี่',8.0863,98.9063,'beach','epic','s'],
+['Chiang Rai','เชียงราย',19.9105,99.8406,'temple','rare','n'],
+['Ayutthaya','พระนครศรีอยุธยา',14.3532,100.5689,'temple','rare','c'],
+['Kanchanaburi','กาญจนบุรี',14.0228,99.5328,'mountain','rare','w'],
+['Surat Thani','สุราษฎร์ธานี',9.1382,99.3215,'beach','epic','s'],
+['Chon Buri','ชลบุรี',13.3611,100.9847,'beach','rare','e'],
+['Prachuap Khiri Khan','ประจวบคีรีขันธ์',11.8124,99.7973,'beach','rare','w'],
+['Phang Nga','พังงา',8.4509,98.5255,'beach','epic','s'],
+['Nan','น่าน',18.7756,100.7730,'temple','uncommon','n'],
+['Mae Hong Son','แม่ฮ่องสอน',19.3020,97.9654,'mountain','rare','n'],
+['Sukhothai','สุโขทัย',17.0070,99.8230,'temple','uncommon','n'],
+['Loei','เลย',17.4860,101.7223,'mountain','uncommon','ne'],
+['Trat','ตราด',12.2428,102.5175,'beach','uncommon','e'],
+['Nakhon Ratchasima','นครราชสีมา',14.9799,102.0978,'mountain','uncommon','ne'],
+['Udon Thani','อุดรธานี',17.4156,102.7872,'city','uncommon','ne'],
+['Songkhla','สงขลา',7.1898,100.5951,'beach','uncommon','s'],
+['Rayong','ระยอง',12.6814,101.2816,'beach','uncommon','e'],
+['Lampang','ลำปาง',18.2888,99.4908,'temple','common','n'],
+['Lamphun','ลำพูน',18.5745,99.0087,'temple','common','n'],
+['Phayao','พะเยา',19.1665,99.9019,'mountain','common','n'],
+['Phrae','แพร่',18.1446,100.1403,'temple','common','n'],
+['Uttaradit','อุตรดิตถ์',17.6201,100.0993,'mountain','common','n'],
+['Phitsanulok','พิษณุโลก',16.8211,100.2659,'temple','common','n'],
+['Phichit','พิจิตร',16.4419,100.3488,'city','common','n'],
+['Phetchabun','เพชรบูรณ์',16.4190,101.1591,'mountain','uncommon','n'],
+['Kamphaeng Phet','กำแพงเพชร',16.4828,99.5227,'temple','common','n'],
+['Nakhon Sawan','นครสวรรค์',15.7047,100.1372,'city','common','n'],
+['Uthai Thani','อุทัยธานี',15.3835,100.0246,'mountain','common','n'],
+['Buriram','บุรีรัมย์',14.9930,103.1029,'temple','uncommon','ne'],
+['Surin','สุรินทร์',14.8818,103.4936,'city','common','ne'],
+['Sisaket','ศรีสะเกษ',15.1186,104.3220,'temple','common','ne'],
+['Ubon Ratchathani','อุบลราชธานี',15.2448,104.8473,'city','uncommon','ne'],
+['Yasothon','ยโสธร',15.7926,104.1453,'city','common','ne'],
+['Amnat Charoen','อำนาจเจริญ',15.8657,104.6258,'city','common','ne'],
+['Chaiyaphum','ชัยภูมิ',15.8068,102.0318,'mountain','common','ne'],
+['Khon Kaen','ขอนแก่น',16.4322,102.8236,'city','uncommon','ne'],
+['Nong Khai','หนองคาย',17.8783,102.7413,'city','common','ne'],
+['Nong Bua Lamphu','หนองบัวลำภู',17.2048,102.4407,'mountain','common','ne'],
+['Bueng Kan','บึงกาฬ',18.3609,103.6466,'mountain','common','ne'],
+['Sakon Nakhon','สกลนคร',17.1546,104.1348,'temple','common','ne'],
+['Nakhon Phanom','นครพนม',17.4048,104.7690,'temple','common','ne'],
+['Mukdahan','มุกดาหาร',16.5436,104.7235,'city','common','ne'],
+['Kalasin','กาฬสินธุ์',16.4314,103.5059,'mountain','common','ne'],
+['Maha Sarakham','มหาสารคาม',16.1851,103.3027,'city','common','ne'],
+['Roi Et','ร้อยเอ็ด',16.0538,103.6520,'temple','common','ne'],
+['Nonthaburi','นนทบุรี',13.8621,100.5144,'city','common','c'],
+['Pathum Thani','ปทุมธานี',14.0208,100.5250,'city','common','c'],
+['Samut Prakan','สมุทรปราการ',13.5991,100.5998,'city','common','c'],
+['Samut Sakhon','สมุทรสาคร',13.5475,100.2744,'city','common','c'],
+['Samut Songkhram','สมุทรสงคราม',13.4098,100.0023,'city','uncommon','c'],
+['Nakhon Pathom','นครปฐม',13.8199,100.0622,'temple','common','c'],
+['Ang Thong','อ่างทอง',14.5896,100.4550,'temple','common','c'],
+['Sing Buri','สิงห์บุรี',14.8936,100.3967,'temple','common','c'],
+['Chai Nat','ชัยนาท',15.1852,100.1251,'city','common','c'],
+['Lopburi','ลพบุรี',14.7995,100.6534,'temple','uncommon','c'],
+['Saraburi','สระบุรี',14.5289,100.9101,'mountain','common','c'],
+['Suphan Buri','สุพรรณบุรี',14.4745,100.1177,'city','common','c'],
+['Nakhon Nayok','นครนายก',14.2069,101.2130,'mountain','common','c'],
+['Chanthaburi','จันทบุรี',12.6114,102.1039,'beach','uncommon','e'],
+['Chachoengsao','ฉะเชิงเทรา',13.6904,101.0780,'temple','common','e'],
+['Prachin Buri','ปราจีนบุรี',14.0509,101.3717,'mountain','common','e'],
+['Sa Kaeo','สระแก้ว',13.8240,102.0646,'city','common','e'],
+['Ratchaburi','ราชบุรี',13.5283,99.8134,'city','common','w'],
+['Phetchaburi','เพชรบุรี',13.1119,99.9398,'beach','uncommon','w'],
+['Tak','ตาก',16.8840,99.1259,'mountain','common','w'],
+['Chumphon','ชุมพร',10.4930,99.1800,'beach','common','s'],
+['Ranong','ระนอง',9.9529,98.6085,'beach','common','s'],
+['Nakhon Si Thammarat','นครศรีธรรมราช',8.4304,99.9631,'temple','uncommon','s'],
+['Trang','ตรัง',7.5563,99.6114,'beach','uncommon','s'],
+['Phatthalung','พัทลุง',7.6167,100.0740,'city','common','s'],
+['Satun','สตูล',6.6238,100.0674,'beach','uncommon','s'],
+['Pattani','ปัตตานี',6.8692,101.2502,'city','common','s'],
+['Yala','ยะลา',6.5411,101.2804,'mountain','common','s'],
+['Narathiwat','นราธิวาส',6.4255,101.8253,'beach','common','s']
 ];
+const PROV=PROV_RAW.map(([en,th,lat,lng,type,tier,r])=>({en,th,lat,lng,type,tier,r}));
+const REGIONS=['all','n','ne','c','e','w','s'];
+// famous places: [th, en, interest]
+const PLACES={
+'Bangkok':[['วัดพระแก้วและพระบรมมหาราชวัง','Grand Palace & Wat Phra Kaew','temple'],['วัดอรุณราชวราราม','Wat Arun','temple'],['เยาวราช','Yaowarat Chinatown','food'],['ล่องเรือเจ้าพระยา','Chao Phraya river cruise','photo'],['ตลาดนัดจตุจักร','Chatuchak Weekend Market','food'],['ข้าวสาร','Khao San Road','night']],
+'Chiang Mai':[['วัดพระธาตุดอยสุเทพ','Wat Phra That Doi Suthep','temple'],['วัดเจดีย์หลวง','Wat Chedi Luang','temple'],['ถนนคนเดินท่าแพ','Tha Phae Walking Street','food'],['นิมมานเหมินท์','Nimmanhaemin','night'],['ดอยอินทนนท์','Doi Inthanon','nature'],['ม่อนแจ่ม','Mon Jam','photo']],
+'Phuket':[['เมืองเก่าภูเก็ต','Phuket Old Town','photo'],['หาดป่าตอง','Patong Beach','dive'],['แหลมพรหมเทพ','Promthep Cape','photo'],['พระใหญ่ภูเก็ต','Big Buddha Phuket','temple'],['เกาะเฮ','Coral Island','dive'],['ถนนบางลา','Bangla Road','night']],
+'Krabi':[['อ่าวนาง','Ao Nang','dive'],['ไร่เลย์','Railay','nature'],['เกาะพีพี','Phi Phi Islands','dive'],['สระมรกต','Emerald Pool','nature'],['วัดถ้ำเสือ','Wat Tham Suea','temple']],
+'Chiang Rai':[['วัดร่องขุ่น','White Temple','temple'],['วัดร่องเสือเต้น','Blue Temple','temple'],['บ้านดำ','Baan Dam Museum','photo'],['ดอยตุง','Doi Tung','nature'],['สามเหลี่ยมทองคำ','Golden Triangle','photo']],
+'Ayutthaya':[['วัดมหาธาตุ','Wat Mahathat','temple'],['วัดไชยวัฒนาราม','Wat Chaiwatthanaram','photo'],['วัดพระศรีสรรเพชญ์','Wat Phra Si Sanphet','temple'],['ตลาดน้ำอโยธยา','Ayothaya Floating Market','food']],
+'Kanchanaburi':[['สะพานข้ามแม่น้ำแคว','Bridge on the River Kwai','photo'],['น้ำตกเอราวัณ','Erawan Falls','nature'],['ทางรถไฟสายมรณะ','Death Railway','photo'],['สังขละบุรี','Sangkhlaburi','temple']],
+'Surat Thani':[['เกาะสมุย','Koh Samui','dive'],['เกาะพะงัน','Koh Phangan','night'],['เขื่อนเชี่ยวหลาน','Cheow Lan Lake','nature'],['หมู่เกาะอ่างทอง','Ang Thong Marine Park','dive']],
+'Chon Buri':[['พัทยา','Pattaya','night'],['เกาะล้าน','Koh Larn','dive'],['ปราสาทสัจธรรม','Sanctuary of Truth','temple'],['ตลาดอาหารทะเลบางแสน','Bang Saen seafood','food']],
+'Prachuap Khiri Khan':[['หัวหิน','Hua Hin','food'],['ตลาดโต้รุ่งหัวหิน','Hua Hin Night Market','night'],['ถ้ำพระยานคร','Phraya Nakhon Cave','photo'],['เขาสามร้อยยอด','Khao Sam Roi Yot','nature']],
+'Phang Nga':[['อ่าวพังงา','Phang Nga Bay','photo'],['หมู่เกาะสิมิลัน','Similan Islands','dive'],['เขาหลัก','Khao Lak','dive'],['เกาะยาวน้อย','Koh Yao Noi','nature']],
+'Nan':[['วัดภูมินทร์','Wat Phumin','temple'],['ปัว','Pua','nature'],['บ่อเกลือ','Bo Kluea','photo'],['ดอยเสมอดาว','Doi Samer Dao','nature']],
+'Mae Hong Son':[['ปาย','Pai','night'],['ปางอุ๋ง','Pang Ung','photo'],['บ้านรักไทย','Ban Rak Thai','food'],['ถ้ำลอด','Tham Lod','nature']],
+'Sukhothai':[['อุทยานประวัติศาสตร์สุโขทัย','Sukhothai Historical Park','temple'],['วัดศรีชุม','Wat Si Chum','photo'],['ศรีสัชนาลัย','Si Satchanalai','temple']],
+'Loei':[['ภูกระดึง','Phu Kradueng','nature'],['เชียงคาน','Chiang Khan','food'],['ภูเรือ','Phu Ruea','nature'],['ภูป่าเปาะ','Phu Pa Po','photo']],
+'Trat':[['เกาะช้าง','Koh Chang','dive'],['เกาะกูด','Koh Kood','dive'],['เกาะหมาก','Koh Mak','nature']],
+'Nakhon Ratchasima':[['เขาใหญ่','Khao Yai','nature'],['ปราสาทหินพิมาย','Phimai Historical Park','temple'],['อนุสาวรีย์ท้าวสุรนารี','Thao Suranari Monument','food'],['วังน้ำเขียว','Wang Nam Khiao','photo']],
+'Udon Thani':[['ทะเลบัวแดง','Red Lotus Lake','photo'],['บ้านเชียง','Ban Chiang','temple'],['คำชะโนด','Kham Chanot','temple']],
+'Songkhla':[['หาดสมิหลา','Samila Beach','photo'],['หาดใหญ่','Hat Yai','food'],['ตลาดน้ำคลองแห','Khlong Hae Floating Market','food'],['ย่านเมืองเก่าสงขลา','Songkhla Old Town','photo']],
+'Rayong':[['เกาะเสม็ด','Koh Samet','dive'],['ตลาดบ้านเพ','Ban Phe Market','food'],['สวนผลไม้ระยอง','Rayong fruit orchards','nature'],['หาดแม่รำพึง','Mae Ramphueng Beach','photo']]
+};
+const GENERIC={
+ city:[['g_market','food'],['g_temple','temple'],['g_food','food'],['g_museum','photo'],['g_night','night']],
+ beach:[['g_beach','dive'],['g_island','dive'],['g_seafood','food'],['g_sunset','photo'],['g_market','food']],
+ mountain:[['g_view','photo'],['g_waterfall','nature'],['g_park','nature'],['g_cafe','food'],['g_market','food']],
+ temple:[['g_temple','temple'],['g_ruins','temple'],['g_market','food'],['g_museum','photo'],['g_food','food']]
+};
+function placesOf(p){return PLACES[p.en]?PLACES[p.en].map(([th,en,k],i)=>({id:'p'+i,th,en,k})):GENERIC[p.type].map(([key,k])=>({id:key,key,k}))}
+const placeName=x=>x.key?t(x.key):(state.lang==='th'?x.th:x.en);
+
 const ICONS={
  city:'<path d="M3 21V9h5v12M8 21V4h8v17M16 21v-9h5v9M2 21h20M11 8h2M11 12h2M11 16h2"/>',
  beach:'<path d="M2 19c2 0 2-1.5 4-1.5S8 19 10 19s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/><path d="M12 15V6"/><path d="M12 6c-3 0-6 2-7 5 2-1 5-1 7 0 2-1 5-1 7 0-1-3-4-5-7-5z"/>',
@@ -764,7 +940,7 @@ function money(thb){const c=settings.currency;if(c==='THB'||!RATES[c])return '�
 function isoDay(o){const d=new Date();d.setDate(d.getDate()+o);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
 const fmtDate=v=>new Date(v+'T00:00').toLocaleDateString(state.lang,{weekday:'short',day:'numeric',month:'short'});
 const dayRate=g=>Math.round(g.price*7/50)*50;
-state.days=1;state.startDate=isoDay(1);state.bookMode=settings.bookMode;
+state.days=1;state.startDate=isoDay(1);state.plan={mode:'half',stops:[],extra:[],note:''};state.bookMode=settings.bookMode;
 const pname=p=>state.lang==='th'?p.th:p.en;
 const psub=p=>state.lang==='th'?p.en:p.th;
 
@@ -785,11 +961,15 @@ function applyI18n(){
   renderAvatar();
 }
 function renderLangGrid(){
-  $('#langGrid').innerHTML=LANGS.map(l=>`<button class="lang-opt" role="radio" data-lang="${l.c}" aria-checked="${l.c===state.lang}" aria-pressed="${l.c===state.lang}"><b>${l.n}</b><span>${l.x}</span><i class="rd"></i></button>`).join('');
+  const el=$('#langCar');if(!el)return;
+  if(!el.children.length)el.innerHTML=LANGS.map((l,i)=>`<button class="lcard" data-i="${i}" tabindex="-1"><span class="lc-hi">${GREET[l.c]}</span><b>${l.n}</b><small>${l.x}</small></button>`).join('');
+  $('#langH').textContent=t('choose_lang');$('#langHint').textContent=t('swipe_hint');$('#langGo').textContent=t('continue');
   const lc=$('#langCode');if(lc)lc.textContent=(LANGS.find(l=>l.c===state.lang)||LANGS[0]).e;
 }
 document.addEventListener('change',e=>{if(e.target.matches('select.lang-mini:not(#langFilter)'))setLang(e.target.value)});
-$('#langGrid').addEventListener('click',e=>{const b=e.target.closest('[data-lang]');if(!b)return;setLang(b.dataset.lang);clearTimeout(setLang._t);setLang._t=setTimeout(()=>{const r=state.langReturn;state.langReturn=null;show(r||(state.user?'home':'auth'))},280)});
+const LCar=makeCarousel($('#langCar'),{onCenter:i=>{const l=LANGS[i];if(l&&l.c!==state.lang)setLang(l.c)},onActivate:()=>langContinue()});
+function langContinue(){store.set('langDone',true);const r=state.langReturn;state.langReturn=null;show(r||(state.user?'home':'auth'))}
+$('#langGo').onclick=langContinue;
 
 /* ---------------- routing ---------------- */
 function show(name){
@@ -799,6 +979,7 @@ function show(name){
   $$('.tab').forEach(b=>b.setAttribute('aria-current',b.dataset.tab===name?'page':'false'));
   window.scrollTo(0,0);
   renderScreen(name);
+  if(name==='lang')requestAnimationFrame(()=>LCar.center(Math.max(0,LANGS.findIndex(l=>l.c===state.lang)),false));
   if(name==='notif'){notifs.forEach(n=>n.unread=false);save();renderBadges()}
   if(name==='map')enterMap();else Map3D.stop();
 }
@@ -899,7 +1080,7 @@ const TYPE_ART={
  city:{bg:'linear-gradient(160deg,#f7f3ff,#e3d9fe)',fg:'#6a4fcf'}
 };
 const FEATURED=['Bangkok','Chiang Mai','Phuket','Krabi','Chiang Rai','Ayutthaya','Phang Nga','Kanchanaburi','Surat Thani','Mae Hong Son'].map(n=>PROV.find(p=>p.en===n));
-let carList=[...FEATURED];
+let carList=[];state.region='all';
 const gcache={};
 function guidesFor(p){if(!gcache[p.en]){if(Map3D.cur!==p.en)Map3D.setWorld(p);gcache[p.en]=genGuides(p)}return gcache[p.en]}
 const SVG=(d,w=1.8,cls='')=>`<svg${cls?` class="${cls}"`:''} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
@@ -950,48 +1131,46 @@ function ensureChat(g){
   return c;
 }
 function openThread(id){state.thread=id;state.threadFrom=state.screen;show('thread')}
-function goMap(spec){state.spec=spec||null;show('map')}
+function goMap(spec){state.spec=spec||null;if(!prefs.done){if(!store.get('prefs'))prefs.lang=state.lang;state.prefFrom=state.screen;show('prefs')}else show('map')}
 
 /* ----- home ----- */
 function renderHome(){
   const u=state.user;
   $('#hiName').textContent=t('hello',{n:u?(u.name||'').split(' ')[0]:t('guest')});
   $('#services').innerHTML=SVC.map(s=>`<button class="svc" data-k="${s.k}"><span class="svc-ic" style="background:${s.bg};color:${s.c}">${SVG(s.ic)}</span><span>${t('svc_'+s.k)}</span></button>`).join('');
-  if(!state.province)state.province=carList[0];
-  if(!carList.includes(state.province))carList.unshift(state.province);
-  renderCarousel();renderDest();renderPopular();
+  renderRegions();renderCarousel();renderDest();renderPopular();
   $('#promoBtn').hidden=!settings.notifPromo;
 }
 $('#services').onclick=e=>{const b=e.target.closest('[data-k]');if(!b)return;goMap(SVC.find(x=>x.k===b.dataset.k).spec)};
-const car=$('#carousel');
+function makeCarousel(el,{onCenter,onActivate}){
+  const C={el,idx:-1,raf:0,drag:null,noclick:false};
+  C.update=()=>{C.raf=0;const r=el.getBoundingClientRect(),c=r.left+r.width/2,ch=el.children;let best=-1,bd=1e9;
+    for(let i=0;i<ch.length;i++){const b=ch[i].getBoundingClientRect(),d=b.left+b.width/2-c;ch[i].style.setProperty('--k',Math.min(1,Math.abs(d)/(b.width+14)).toFixed(3));if(Math.abs(d)<bd){bd=Math.abs(d);best=i}}
+    for(let i=0;i<ch.length;i++)ch[i].classList.toggle('on',i===best);
+    if(best>=0&&best!==C.idx){C.idx=best;onCenter(best)}};
+  C.center=(i,smooth)=>{const e=el.children[i];if(!e)return;el.scrollTo({left:e.offsetLeft-(el.clientWidth-e.offsetWidth)/2,behavior:smooth&&!matchMedia('(prefers-reduced-motion: reduce)').matches?'smooth':'auto'});C.update()};
+  C.step=d=>C.center(Math.max(0,Math.min(el.children.length-1,C.idx+d)),true);
+  el.addEventListener('scroll',()=>{if(!C.raf)C.raf=requestAnimationFrame(C.update)},{passive:true});
+  el.addEventListener('click',e=>{if(C.noclick)return;const b=e.target.closest('[data-i]');if(!b)return;const i=+b.dataset.i;if(i===C.idx){if(onActivate)onActivate(i)}else C.center(i,true)});
+  el.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();C.step(-1)}else if(e.key==='ArrowRight'){e.preventDefault();C.step(1)}else if(e.key==='Enter'&&onActivate)onActivate(C.idx)});
+  el.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;C.drag={x:e.clientX,s:el.scrollLeft,moved:false};el.classList.add('dragging')});
+  addEventListener('pointermove',e=>{if(!C.drag)return;const dx=e.clientX-C.drag.x;if(Math.abs(dx)>4)C.drag.moved=true;el.scrollLeft=C.drag.s-dx});
+  addEventListener('pointerup',()=>{if(!C.drag)return;const m=C.drag.moved;C.drag=null;el.classList.remove('dragging');C.update();C.center(C.idx,true);if(m){C.noclick=true;setTimeout(()=>C.noclick=false,0)}});
+  return C;
+}
+const car=$('#carousel');let popT=0;
+const TIER_ORDER={legendary:0,epic:1,rare:2,uncommon:3,common:4};
+const PCar=makeCarousel(car,{onCenter:i=>{const p=carList[i];if(p&&state.province!==p){state.province=p;renderDest();clearTimeout(popT);popT=setTimeout(renderPopular,180)}},onActivate:()=>goMap()});
+function renderRegions(){$('#regions').innerHTML=REGIONS.map(r=>`<button class="rchip" data-r="${r}" aria-pressed="${state.region===r}">${t('r_'+r)}</button>`).join('')}
+$('#regions').onclick=e=>{const b=e.target.closest('[data-r]');if(!b)return;state.region=b.dataset.r;renderRegions();renderCarousel();renderDest();renderPopular()};
 function renderCarousel(){
+  carList=PROV.filter(p=>state.region==='all'||p.r===state.region).sort((a,b)=>TIER_ORDER[a.tier]-TIER_ORDER[b.tier]);
+  if(!carList.includes(state.province))state.province=carList[0];
   car.innerHTML=carList.map((p,i)=>{const tr=TIERS[p.tier];return `<button class="ccard t-${p.tier}" data-i="${i}" tabindex="-1"><span class="cc-art" style="background:${tr.bg};color:${tr.fg}">${icon(p.type)}</span><span class="cc-nm"><b>${pname(p)}</b><small>${psub(p)}</small></span><i class="cc-stripe" style="background:${tr.stripe}"></i></button>`}).join('');
-  requestAnimationFrame(()=>centerOn(state.province,false));
+  PCar.idx=-1;requestAnimationFrame(()=>PCar.center(carList.indexOf(state.province),false));
 }
-function centerOn(p,smooth){
-  const el=car.children[carList.indexOf(p)];if(!el)return;
-  car.scrollTo({left:el.offsetLeft-(car.clientWidth-el.offsetWidth)/2,behavior:smooth&&!matchMedia('(prefers-reduced-motion: reduce)').matches?'smooth':'auto'});
-  updateCar();
-}
-let carRaf=0,popT=0;
-function updateCar(){
-  carRaf=0;const r=car.getBoundingClientRect(),c=r.left+r.width/2;let best=null,bd=1e9;
-  for(const el of car.children){const b=el.getBoundingClientRect(),d=b.left+b.width/2-c;el.style.setProperty('--k',Math.min(1,Math.abs(d)/(b.width+14)).toFixed(3));if(Math.abs(d)<bd){bd=Math.abs(d);best=el}}
-  if(!best)return;
-  for(const el of car.children)el.classList.toggle('on',el===best);
-  const p=carList[+best.dataset.i];
-  if(state.province!==p){state.province=p;renderDest();clearTimeout(popT);popT=setTimeout(renderPopular,180)}
-}
-car.addEventListener('scroll',()=>{if(!carRaf)carRaf=requestAnimationFrame(updateCar)},{passive:true});
-car.addEventListener('click',e=>{if(car._noclick)return;const b=e.target.closest('.ccard');if(!b)return;const p=carList[+b.dataset.i];b.classList.contains('on')?goMap():centerOn(p,true)});
-function stepCar(d){const i=carList.indexOf(state.province);centerOn(carList[Math.max(0,Math.min(carList.length-1,i+d))],true)}
-$('#carPrev').onclick=()=>stepCar(-1);$('#carNext').onclick=()=>stepCar(1);
-car.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();stepCar(-1)}if(e.key==='ArrowRight'){e.preventDefault();stepCar(1)}if(e.key==='Enter')goMap()});
-let drag=null;
-car.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;drag={x:e.clientX,s:car.scrollLeft,moved:false};car.classList.add('dragging')});
-addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x;if(Math.abs(dx)>4)drag.moved=true;car.scrollLeft=drag.s-dx});
-addEventListener('pointerup',()=>{if(!drag)return;const m=drag.moved;drag=null;car.classList.remove('dragging');updateCar();centerOn(state.province,true);if(m){car._noclick=true;setTimeout(()=>car._noclick=false,0)}});
-addEventListener('resize',()=>{if(state.screen==='home')centerOn(state.province,false)});
+$('#carPrev').onclick=()=>PCar.step(-1);$('#carNext').onclick=()=>PCar.step(1);
+addEventListener('resize',()=>{if(state.screen==='home')PCar.center(carList.indexOf(state.province),false)});
 function renderDest(){
   const p=state.province;if(!p)return;const a=TYPE_ART[p.type];
   $('#destName').textContent=pname(p);
@@ -1013,13 +1192,13 @@ function closeSearch(){$('#searchSheet').hidden=true}
 function renderSS(){
   const q=$('#pSearch').value.trim().toLowerCase();
   const list=PROV.filter(p=>!q||p.en.toLowerCase().includes(q)||p.th.includes(q));
-  $('#ssList').innerHTML=list.length?list.map(p=>{const a=TYPE_ART[p.type];return `<button class="ss-row${p===state.province?' cur':''}" data-p="${p.en}"><span class="ss-ic" style="background:${a.bg};color:${a.fg}">${icon(p.type)}</span><span class="ss-t"><b>${pname(p)}</b><small>${psub(p)} · ${t('cat_'+p.type)}</small></span></button>`}).join(''):`<p class="empty-state">${t('no_match')}</p>`;
+  $('#ssList').innerHTML=list.length?list.map(p=>{const a=TYPE_ART[p.type];return `<button class="ss-row${p===state.province?' cur':''}" data-p="${p.en}"><span class="ss-ic" style="background:${a.bg};color:${a.fg}">${icon(p.type)}</span><span class="ss-t"><b>${pname(p)}</b><small>${psub(p)} · ${t('r_'+p.r)}</small></span></button>`}).join(''):`<p class="empty-state">${t('no_match')}</p>`;
 }
 $('#openSearch').onclick=openSearch;$('#closeSearch').onclick=closeSearch;$('#pSearch').oninput=renderSS;
 $('#searchSheet').addEventListener('click',e=>{
   if(e.target.id==='searchSheet')return closeSearch();
   const b=e.target.closest('[data-p]');if(!b)return;const p=PROV.find(x=>x.en===b.dataset.p);
-  if(!carList.includes(p))carList.unshift(p);state.province=p;closeSearch();renderCarousel();renderDest();renderPopular();
+  if(state.region!=='all'&&p.r!==state.region){state.region='all';renderRegions()}state.province=p;closeSearch();renderCarousel();renderDest();renderPopular();
 });
 addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#searchSheet').hidden)closeSearch()});
 
@@ -1066,6 +1245,29 @@ $('#s-profile').addEventListener('click',e=>{
   else if(k==='logout'){state.user=null;store.set('user',null);renderProfile();toast(t('logout'))}
 });
 
+/* ----- guide questionnaire ----- */
+const DEF_PREFS={done:false,lang:'any',gender:'any',styles:[],interests:[],group:'1'};
+let prefs=Object.assign({},DEF_PREFS,{styles:[],interests:[]},store.get('prefs')||{lang:state.lang});
+const STY_IC={friendly:'<circle cx="12" cy="12" r="9"/><path d="M8.5 14.5a4.5 4.5 0 0 0 7 0M9 10h.01M15 10h.01"/>',calm:'<path d="M5 19c0-8 6-14 15-14 0 9-6 15-14 15"/><path d="M5 19l7-7"/>',adventure:ICONS.mountain,expert:'<path d="M4 5h6a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H4zM20 5h-6a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h6z"/>',photo:'<rect x="3" y="7" width="18" height="13" rx="3"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8 7l1.5-3h5L16 7"/>'};
+function renderPrefs(){
+  const q=(h,b)=>`<section class="q-sec"><h2>${h}</h2>${b}</section>`;
+  const chip=(k,v,l,on)=>`<button type="button" class="chip" data-q="${k}" data-v="${v}" aria-pressed="${on}">${l}</button>`;
+  const seg=(k,opts)=>`<div class="seg3">${opts.map(([v,l])=>`<button type="button" data-q="${k}" data-v="${v}" aria-pressed="${prefs[k]===v}">${l}</button>`).join('')}</div>`;
+  $('#prefBody').innerHTML=[
+    q(t('q_lang'),`<div class="chips">${chip('lang','any',t('any_lang'),prefs.lang==='any')}${LANGS.map(l=>chip('lang',l.c,l.n,prefs.lang===l.c)).join('')}</div>`),
+    q(t('q_gender'),seg('gender',[['any',t('g_any')],['f',t('g_f')],['m',t('g_m')]])),
+    q(t('q_style'),`<div class="st-grid">${STYLES.map(st=>`<button type="button" class="st-card" data-q="styles" data-v="${st}" aria-pressed="${prefs.styles.includes(st)}"><span class="st-ic">${SVG(STY_IC[st])}</span><b>${t('st_'+st)}</b></button>`).join('')}</div>`),
+    q(t('q_interest'),`<div class="chips">${SPECS.map(x=>chip('interests',x,t('sp_'+x),prefs.interests.includes(x))).join('')}</div>`),
+    q(t('q_group'),seg('group',[['1','1'],['2','2'],['3-4','3–4'],['5+','5+']]))
+  ].join('');
+}
+$('#prefBody').onclick=e=>{const b=e.target.closest('[data-q]');if(!b)return;const k=b.dataset.q,v=b.dataset.v;if(Array.isArray(prefs[k])){const a=prefs[k];a.includes(v)?a.splice(a.indexOf(v),1):a.push(v)}else prefs[k]=v;renderPrefs()};
+function prefsDone(){prefs.done=true;store.set('prefs',prefs);state.filter=prefs.lang==='any'?'all':prefs.lang;renderLangFilter();
+  if(state.prefFrom==='settings'){toast(t('saved'));show('settings')}else show('map')}
+$('#prefGo').onclick=prefsDone;
+$('#prefSkip').onclick=()=>{prefs=Object.assign({},DEF_PREFS,{styles:[],interests:[]});prefsDone()};
+$('#prefBack').onclick=()=>show(state.prefFrom&&state.prefFrom!=='prefs'?state.prefFrom:'home');
+
 /* ----- settings ----- */
 function setS(k,v){settings[k]=v;store.set('settings',settings);renderSettings()}
 const CUR=['THB','USD','EUR','CNY','JPY','KRW','RUB','INR','VND'];
@@ -1082,7 +1284,7 @@ function renderSettings(){
     grp(t('s_account'),[navRow('profile',IC.user,t('edit_profile'),u?u.name:t('guest'))]),
     grp(t('s_prefs'),[navRow('lang',IC.globe,t('language'),L.n),navRow('currency',IC.coin,t('currency'),settings.currency),segRow(IC.ruler,t('distance_unit'),segC('unit',[['km','km'],['mi','mi']]))]),
     grp(t('s_map'),[segRow(IC.map,t('map_view'),segC('mapView',[['3d','3D'],['2d','2D']]))]),
-    grp(t('s_booking'),[segRow(IC.cal,t('book_default'),segC('bookMode',[['hour',t('hourly')],['day',t('daily')]])),navRow('pay',IC.wallet,t('pay_method'),t('pay_'+settings.pay))]),
+    grp(t('s_booking'),[navRow('gprefs',IC.user,t('guide_prefs'),''),segRow(IC.cal,t('book_default'),segC('bookMode',[['hour',t('hourly')],['day',t('daily')]])),navRow('pay',IC.wallet,t('pay_method'),t('pay_'+settings.pay))]),
     grp(t('s_notif'),[swRow('notifTrip',IC.bell,t('n_trip'),t('n_trip_d')),swRow('notifApply',IC.doc,t('n_apply_s')),swRow('notifPromo',IC.spark,t('n_promo'),t('n_promo_d'))]),
     grp(t('s_privacy'),[swRow('shareLoc',IC.pin,t('share_loc'),t('share_loc_d')),navRow('emergency',IC.phone,t('emergency'),settings.emName||t('not_set'))]),
     grp(t('s_about'),[`<div class="row"><span class="r-ic">${SVG(IC.info)}</span><span class="row-main"><b>${t('version')}</b></span><span class="r-val">1.0.0</span></div>`,navRow('terms',IC.doc,t('terms')),navRow('privacy',IC.lock,t('privacy_policy')),navRow('help',IC.help,t('help'))]),
@@ -1100,6 +1302,7 @@ $('#setBody').addEventListener('click',e=>{
   else if(k==='emergency')editEmergency();
   else if(k==='terms'||k==='privacy')openSheet(k==='terms'?t('terms'):t('privacy_policy'),`<p class="note" style="font-size:15px">${t('legal_soon')}</p>`);
   else if(k==='help')openThread('support');
+  else if(k==='gprefs'){state.prefFrom='settings';show('prefs')}
   else if(k==='clear')confirmClear();
   else if(k==='logout'){state.user=null;store.set('user',null);renderSettings();toast(t('logout'))}
 });
@@ -1127,12 +1330,13 @@ function confirmClear(){
   openSheet(t('clear_q'),`<p class="note" style="font-size:15px">${t('clear_d')}</p><div class="row2"><button class="btn line" id="ccNo">${t('cancel')}</button><button class="btn danger" id="ccYes">${t('clear_yes')}</button></div>`,
     b=>{b.querySelector('#ccNo').onclick=closeSheet;b.querySelector('#ccYes').onclick=()=>{
       try{Object.keys(localStorage).filter(k=>k.startsWith('jy_')).forEach(k=>localStorage.removeItem(k))}catch(e){}
-      state.user=null;settings=Object.assign({},DEF_SET);chats=seedChats();notifs=seedNotifs();state.langReturn=null;
+      state.user=null;settings=Object.assign({},DEF_SET);chats=seedChats();notifs=seedNotifs();prefs=Object.assign({},DEF_PREFS,{styles:[],interests:[],lang:state.lang});state.region='all';state.filter='all';state.langReturn=null;
       closeSheet();renderBadges();show('lang');
     }});
 }
 document.addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)show(b.dataset.tab)});
 function renderScreen(n){
+  if(n==='prefs')renderPrefs();
   if(n==='settings')renderSettings();
   if(n==='home')renderHome();else if(n==='inbox')renderInbox();else if(n==='notif')renderNotif();else if(n==='profile')renderProfile();else if(n==='thread')renderThread();
 }
@@ -1378,25 +1582,29 @@ async function enterMap(){
 }
 
 /* ---------------- guides ---------------- */
+const FEM=['Nattaya','Pimchanok','Siriporn','Ploy','Kanya','Mali','Anong','Ratana','Suda','Lalita'];
+const STYLES=['friendly','calm','adventure','expert','photo'];
+function makeTours(p,specs,R){const ord=placesOf(p).map(x=>[x,(specs.includes(x.k)?0:1)+R()]).sort((a,b)=>a[1]-b[1]).map(a=>a[0].id);return [{k:'half',hours:4,stops:ord.slice(0,3)},{k:'full',hours:8,stops:ord.slice(0,5)}]}
 function genGuides(p){
   const R=rng(hash(p.en+'guides')),out=[];
   let tries=0;
-  while(out.length<10&&tries++<400){
+  while(out.length<14&&tries++<700){
     const k=Math.round((R()*2-1)*6),along=Math.round((R()*2-1)*780);
     let x,y;if(R()<.5){x=k*C;y=along}else{x=along;y=k*C}
     if(Math.hypot(x,y)<180||!Map3D.isLand(x,y))continue;
     if(out.some(g=>Math.hypot(g.x-x,g.y-y)<120))continue;
-    const first=FIRST[Math.floor(R()*FIRST.length)],last=LAST[Math.floor(R()*LAST.length)];
+    const first=FIRST[Math.floor(R()*FIRST.length)],last=LAST[Math.floor(R()*LAST.length)];const gender=FEM.includes(first)?'f':'m';
     const langs=['th','en'];
     const extra=['ja','zh','ko','ru','hi','vi'];
-    const nEx=Math.floor(R()*3);for(let i=0;i<nEx;i++){const l=extra[Math.floor(R()*extra.length)];if(!langs.includes(l))langs.push(l)}
+    const nEx=Math.floor(R()*2);for(let i=0;i<nEx;i++){const l=extra[Math.floor(R()*extra.length)];if(!langs.includes(l))langs.push(l)}
+    const gl=extra[out.length%extra.length];if(!langs.includes(gl))langs.push(gl);
     if(R()<.08)langs.splice(1,1);
     const specs=[];const pool=p.type==='beach'?['dive','food','photo','night','nature']:p.type==='temple'?['temple','photo','food','nature']:p.type==='mountain'?['nature','temple','photo','food']:['food','night','temple','photo'];
     const ns=1+Math.floor(R()*3);for(let i=0;i<ns;i++){const s=pool[Math.floor(R()*pool.length)];if(!specs.includes(s))specs.push(s)}
     const path=x%C===0&&Math.abs(x)>0&&y%C!==0?[[x,y],[x,0],[0,0]]:[[x,y],[0,y],[0,0]];
     const dist=Math.abs(x)+Math.abs(y);
     out.push({id:'g'+out.length,name:`${first} ${last}.`,initials:first[0]+last,color:`hsl(${248+Math.floor(R()*40)} ${42+Math.floor(R()*18)}% ${54+Math.floor(R()*10)}%)`,
-      langs,specs,rating:(4.5+R()*.5).toFixed(1),reviews:20+Math.floor(R()*880),price:300+Math.round(R()*18)*50,x,y,ox:x,oy:y,path,dist,eta:Math.max(2,Math.round(dist/230)),visible:true});
+      langs,specs,gender,age:22+Math.floor(R()*30),years:1+Math.floor(R()*14),licensed:R()<.75,styles:[...new Set([STYLES[Math.floor(R()*5)],STYLES[Math.floor(R()*5)]])].slice(0,R()<.5?1:2),tours:makeTours(p,specs,R),rating:(4.5+R()*.5).toFixed(1),reviews:20+Math.floor(R()*880),price:300+Math.round(R()*18)*50,x,y,ox:x,oy:y,path,dist,eta:Math.max(2,Math.round(dist/230)),visible:true});
   }
   return out.sort((a,b)=>a.dist-b.dist);
 }
@@ -1406,13 +1614,13 @@ function renderLangFilter(){
   s.value=state.filter;
 }
 $('#langFilter').onchange=e=>{state.filter=e.target.value;applyFilter();if(MAP.refresh)MAP.refresh(state.guides);else MAP.invalidate();renderPanel()};
-function applyFilter(){state.guides.forEach(g=>g.visible=((state.filter==='all'||g.langs.includes(state.filter))&&(!state.spec||g.specs.includes(state.spec)))||(state.selected===g.id&&state.trip!=='idle'))}
+function applyFilter(){state.guides.forEach(g=>g.visible=((state.filter==='all'||g.langs.includes(state.filter))&&(!state.spec||g.specs.includes(state.spec))&&(prefs.gender==='any'||g.gender===prefs.gender))||(state.selected===g.id&&state.trip!=='idle'))}
 const fmtKm=m=>settings.unit==='mi'?(m/1609.34).toFixed(1)+' mi':(m/1000).toFixed(1)+' km';
 const langCodes=g=>g.langs.map(c=>c.toUpperCase()).join(' ');
 
 function selectGuide(id){
   if(state.trip!=='idle'&&state.selected!==id)return;
-  if(state.trip==='idle'&&state.selected!==id)state.bookMode=settings.bookMode;
+  if(state.trip==='idle'&&state.selected!==id){state.bookMode=settings.bookMode;state.plan={mode:'half',stops:[],extra:[],note:''}}
   state.selected=id;MAP.select(id);
   const g=state.guides.find(x=>x.id===id);
   if(g)MAP.focus(g.x/2,g.y/2);
@@ -1424,17 +1632,23 @@ function renderPanel(){
   const fc=$('#fabCount');if(fc)fc.textContent=state.guides.filter(x=>x.visible).length;
   const g=state.guides.find(x=>x.id===state.selected);
   if(!g){
-    const vis=state.guides.filter(x=>x.visible);
-    el.innerHTML=`<div class="panel-head"><h2>${t('guides_near')}</h2><span class="ph-r">${state.spec?`<button class="spec-chip" id="clrSpec">${t('sp_'+state.spec)} ✕</button>`:''}${vis.length}</span></div>`+
-      (vis.length?`<div class="glist">${vis.map(itemHTML).join('')}</div>`:`<p style="color:var(--muted);margin:0">${t('none')}</p>`);
+    const vis=state.guides.filter(x=>x.visible).sort((a,b)=>matchScore(b)-matchScore(a));
+    el._g=null;
+    el.innerHTML=`<div class="panel-head"><h2>${t('guides_near')}</h2><span class="ph-r">${state.spec?`<button class="spec-chip" id="clrSpec">${t('sp_'+state.spec)} ✕</button>`:''}${vis.length}</span></div><button class="ph-link" id="editPrefs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>${t('edit_prefs')}</button>`+
+      (vis.length?`<div class="glist">${vis.map(itemHTML).join('')}</div>`:`<p class="note" style="font-size:14px">${t('none2')}</p>`);
+    const ep=$('#editPrefs');if(ep)ep.onclick=()=>{state.prefFrom='map';show('prefs')};
     const cs=$('#clrSpec');if(cs)cs.onclick=()=>{state.spec=null;applyFilter();if(MAP.refresh)MAP.refresh(state.guides);else MAP.invalidate();renderPanel()};
     return;
   }
   let html=`${state.trip==='idle'?`<button class="back-link" id="toList"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>${t('guides_near')}</button>`:''}
-  <div class="detail"><div class="detail-head"><span class="av on" style="background:${g.color}">${g.initials}</span><div><h3>${g.name}</h3><p><span class="rating">★ ${g.rating}</span> · ${g.reviews} ${t('reviews')} · ${fmtKm(g.dist)}</p></div></div>
+  <div class="detail"><div class="detail-head"><span class="av on" style="background:${g.color}">${g.initials}</span><div><h3>${g.name} <span class="mt">${t('match',{n:matchScore(g)})}</span></h3><p><span class="rating">★ ${g.rating}</span> · ${g.reviews} ${t('reviews')} · ${fmtKm(g.dist)}</p></div></div>
+  <div class="facts"><span>${g.gender==='f'?t('female'):t('male')}</span><span>${t('age',{n:g.age})}</span><span>${t('exp',{n:g.years})}</span>${g.licensed?`<span class="ok">✓ ${t('licensed')}</span>`:''}</div>
+  <p class="bio">${esc(t('bio',{p:pname(state.province),n:g.years}))}</p>
+  <div><div class="sec-label">${t('style_label')}</div><div class="chips" style="margin-top:6px">${g.styles.map(s=>`<span class="tag">${t('st_'+s)}</span>`).join('')}</div></div>
   <div><div class="sec-label">${t('languages_spoken')}</div><div class="chips" style="margin-top:6px">${g.langs.map(c=>`<span class="tag">${LANGS.find(l=>l.c===c).n}</span>`).join('')}</div></div>
   <div><div class="sec-label">${t('specialties')}</div><div class="chips" style="margin-top:6px">${g.specs.map(s=>`<span class="tag">${t('sp_'+s)}</span>`).join('')}</div></div>`;
   if(state.trip==='idle'){
+    html+=planHTML(g);
     const day=state.bookMode==='day',qty=day?state.days:state.hours,rate=day?dayRate(g):g.price;
     html+=`<div class="seg2" id="modeSeg"><button type="button" data-m="hour" aria-pressed="${!day}">${t('hourly')}</button><button type="button" data-m="day" aria-pressed="${day}">${t('daily')}</button></div>
     ${day?`<div class="field"><label for="startDate">${t('start_date')}</label><input class="input" type="date" id="startDate" min="${isoDay(0)}" value="${state.startDate}"></div>`:''}
@@ -1444,7 +1658,7 @@ function renderPanel(){
     <button class="btn primary block" id="bookBtn">${day?t('book_day'):t('book')}</button>`;
   }else if(state.trip==='booked'){
     const b=state.booking;
-    html+=`<div class="trip-box"><h4>${t('booking_confirmed')}</h4><p>${esc(t('n_booked_b',{d:fmtDate(b.date),n:b.days,p:pname(state.province)}))}</p><div class="total-row"><span class="sec-label">${t('total')}</span><b>${money(b.total)}</b></div>
+    html+=`<div class="trip-box"><h4>${t('booking_confirmed')}</h4><p>${esc(t('n_booked_b',{d:fmtDate(b.date),n:b.days,p:pname(state.province)}))}</p><p>${esc(planStops().join(' → '))}</p><div class="total-row"><span class="sec-label">${t('total')}</span><b>${money(b.total)}</b></div>
     <div class="row2"><button class="btn line" id="chatBtn">${t('chat')}</button><button class="btn line" id="callBtn">${t('call')}</button></div>
     <button class="btn primary" id="cancelBtn">${t('done')}</button></div>`;
   }else if(state.trip==='finding'){
@@ -1456,7 +1670,8 @@ function renderPanel(){
     <button class="btn ${arrived?'primary':'line'}" id="cancelBtn">${arrived?t('done'):t('cancel')}</button></div>`;
   }
   html+='</div>';
-  el.innerHTML=html;
+  const keep=el._g===state.selected,st=el.scrollTop;
+  el.innerHTML=html;el.scrollTop=keep?st:0;el._g=state.selected;
   const q=s=>el.querySelector(s);
   q('#toList')&&(q('#toList').onclick=()=>{state.selected=null;MAP.select(null);MAP.focus(0,0);renderPanel()});
   const qk=state.bookMode==='day'?'days':'hours',qmax=state.bookMode==='day'?14:12;
@@ -1464,14 +1679,44 @@ function renderPanel(){
   q('#hPlus')&&(q('#hPlus').onclick=()=>{state[qk]=Math.min(qmax,state[qk]+1);renderPanel()});
   q('#modeSeg')&&(q('#modeSeg').onclick=e=>{const b=e.target.closest('[data-m]');if(b){state.bookMode=b.dataset.m;renderPanel()}});
   q('#startDate')&&(q('#startDate').onchange=e=>{state.startDate=e.target.value||isoDay(1)});
+  el.querySelectorAll('[data-plan]').forEach(b=>b.onclick=()=>{state.plan.mode=b.dataset.plan;renderPanel()});
+  el.querySelectorAll('[data-stop]').forEach(b=>b.onclick=()=>{const a=state.plan.stops,v=b.dataset.stop;a.includes(v)?a.splice(a.indexOf(v),1):a.push(v);renderPanel()});
+  el.querySelectorAll('[data-xstop]').forEach(b=>b.onclick=()=>{state.plan.extra.splice(+b.dataset.xstop,1);renderPanel()});
+  const addStop=()=>{const i=q('#stopIn'),v=i&&i.value.trim();if(v){state.plan.extra.push(v.slice(0,60));renderPanel()}};
+  q('#stopAdd')&&(q('#stopAdd').onclick=addStop);
+  q('#stopIn')&&(q('#stopIn').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();addStop()}});
+  q('#noteIn')&&(q('#noteIn').oninput=e=>{state.plan.note=e.target.value.slice(0,300)});
   q('#bookBtn')&&(q('#bookBtn').onclick=book);
   q('#cancelBtn')&&(q('#cancelBtn').onclick=()=>cancelTrip(false));
   q('#chatBtn')&&(q('#chatBtn').onclick=()=>openThread(ensureChat(g).id));
-  q('#callBtn')&&(q('#callBtn').onclick=()=>toast(`${g.name} · +66 8${g.id.slice(1)} 234 5678`));
+  q('#callBtn')&&(q('#callBtn').onclick=()=>toast(t('in_app_call')));
+}
+function planHTML(g){
+  const pl=placesOf(state.province),pn=id=>{const x=pl.find(y=>y.id===id);return x?placeName(x):id},m=state.plan.mode;
+  const tours=g.tours.map(tr=>`<button type="button" class="tour" data-plan="${tr.k}" aria-pressed="${m===tr.k}"><span class="tour-h"><b>${t('tour_'+tr.k)}</b><small>${t('hrs',{n:tr.hours})}</small><i class="rd"></i></span><span class="tour-s">${esc(tr.stops.map(pn).join(' → '))}</span></button>`).join('');
+  let custom=`<button type="button" class="tour" data-plan="custom" aria-pressed="${m==='custom'}"><span class="tour-h"><b>${t('custom_trip')}</b><small>${t('custom_sub')}</small><i class="rd"></i></span></button>`;
+  if(m==='custom')custom+=`<div class="custom-box"><div class="chips">${pl.map(x=>`<button type="button" class="chip" data-stop="${x.id}" aria-pressed="${state.plan.stops.includes(x.id)}">${esc(placeName(x))}</button>`).join('')}${state.plan.extra.map((e,i)=>`<button type="button" class="chip" data-xstop="${i}" aria-pressed="true">${esc(e)} ✕</button>`).join('')}</div><div class="add-row"><input class="input" id="stopIn" maxlength="60" placeholder="${t('add_stop')}"><button type="button" class="btn line" id="stopAdd">${t('add')}</button></div><textarea class="input" id="noteIn" rows="2" maxlength="300" placeholder="${t('note_guide')}">${esc(state.plan.note)}</textarea></div>`;
+  return `<div class="privacy"><div class="pv-row"><span class="pv-ic ok">${SVG('<path d="M5 12l5 5 9-10"/>',3)}</span><span><b>${t('vis_title')}</b><small>${t('vis_list')}</small></span></div><div class="pv-row"><span class="pv-ic">${SVG(IC.lock,2)}</span><span><b>${t('hid_title')}</b><small>${t('hid_list')}</small></span></div></div>
+  <div><div class="sec-label">${t('where_go')}</div><div class="tours">${tours}${custom}</div></div>`;
+}
+function planStops(){
+  const g=state.guides.find(x=>x.id===state.selected);if(!g)return [];
+  const pl=placesOf(state.province),m=state.plan.mode;
+  const ids=m==='custom'?state.plan.stops:(g.tours.find(x=>x.k===m)||g.tours[0]).stops;
+  return ids.map(id=>{const x=pl.find(y=>y.id===id);return x?placeName(x):id}).concat(m==='custom'?state.plan.extra:[]);
+}
+function sendPlan(g){const c=ensureChat(g);c.msgs.push({me:true,text:t('plan_msg',{s:planStops().join(' → ')})+(state.plan.note?'\n'+state.plan.note:''),at:Date.now()});save();renderBadges();return c}
+function matchScore(g){
+  let s=60;
+  if(prefs.lang&&prefs.lang!=='any')s+=g.langs.includes(prefs.lang)?15:-25;
+  if(prefs.styles.length)s+=prefs.styles.some(x=>g.styles.includes(x))?15:-5;
+  if(prefs.interests.length){const o=prefs.interests.filter(x=>g.specs.includes(x)).length;s+=o?Math.min(14,o*7):-6}
+  s+=Math.round((+g.rating-4.5)*12);
+  return Math.max(20,Math.min(99,s));
 }
 function itemHTML(g){
   return `<button class="g-item" data-g="${g.id}" aria-pressed="${state.selected===g.id}"><span class="av on" style="background:${g.color}">${g.initials}</span>
-  <span class="g-main"><span class="g-name">${g.name}<span class="rating">★ ${g.rating}</span></span>
+  <span class="g-main"><span class="g-name">${g.name}<span class="rating">★ ${g.rating}</span><span class="mt">${t('match',{n:matchScore(g)})}</span></span>
   <span class="g-meta">${langCodes(g)} · ${fmtKm(g.dist)} · ${g.eta} min</span>
   <span class="g-meta">${g.specs.map(s=>t('sp_'+s)).join(', ')}</span></span>
   <span class="g-price">${money(g.price)}<small>${t('per_hour')}</small><br><small class="g-day">${money(dayRate(g))}${t('per_day')}</small></span></button>`;
@@ -1487,15 +1732,16 @@ function pointAt(p,d){for(let i=1;i<p.length;i++){const s=Math.hypot(p[i][0]-p[i
 function etaLeft(){const g=state.guides.find(x=>x.id===state.selected);if(!g)return 0;const k=Math.min(1,(performance.now()-tripT0)/tripDur);return Math.max(1,Math.ceil(g.eta*(1-k)))}
 function book(){
   const g=state.guides.find(x=>x.id===state.selected);if(!g)return;
+  if(state.plan.mode==='custom'&&!state.plan.stops.length&&!state.plan.extra.length){toast(t('pick_stops'));return}
   if(state.bookMode==='day'){
     state.booking={date:state.startDate,days:state.days,total:dayRate(g)*state.days};state.trip='booked';
-    ensureChat(g);addNotif('booked',{g:g.name,d:fmtDate(state.startDate),n:state.days,p:pname(state.province)},'check');
+    sendPlan(g);addNotif('booked',{g:g.name,d:fmtDate(state.startDate),n:state.days,p:pname(state.province)},'check');
     store.set('trips',(store.get('trips')||0)+1);renderPanel();toast(t('booking_confirmed'));return;
   }
   state.trip='finding';MAP.setPulse(true);renderPanel();
   findTimer=setTimeout(()=>{
     state.trip='accepted';tripT0=performance.now();tripDur=Math.max(9000,Math.min(22000,g.eta*1600));
-    MAP.setRoute(g.path);ensureChat(g);addNotif('accept',{g:g.name,p:pname(state.province)},'pin');renderPanel();runTrip(g);
+    MAP.setRoute(g.path);sendPlan(g);addNotif('accept',{g:g.name,p:pname(state.province)},'pin');renderPanel();runTrip(g);
   },2600);
 }
 function runTrip(g){
@@ -1533,7 +1779,7 @@ $('#tiltBtn').onclick=()=>{const on=MAP.toggleTilt();$('#tiltBtn').textContent=o
 /* ---------------- boot ---------------- */
 if(!T[state.lang])state.lang='en';
 syncAuth();setStep(1);applyI18n();renderAvatar();
-show(store.get('lang')?(state.user?'home':'auth'):'lang');
+show(store.get('langDone')?(state.user?'home':'auth'):'lang');
 </script>
 
 </body>
