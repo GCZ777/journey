@@ -392,6 +392,17 @@ input[type=range]{accent-color:var(--lav-600);width:100%}
 .tour-h b{font-size:14px;font-weight:600}
 .tour-h small{flex:1;min-width:0;font-size:12.5px;color:var(--muted)}
 .tour-s{font-size:13px;line-height:1.5;color:var(--muted)}
+.tour-th{display:flex;gap:6px;margin-top:2px}
+.tour-th img{width:54px;height:42px;border-radius:10px;object-fit:cover;background:var(--lav-100);flex:none}
+.pmk{position:relative;width:126px;padding:3px;border-radius:15px;background:#fff;box-shadow:0 10px 24px -10px rgba(40,20,90,.5);transform:translateY(-10px)}
+.pmk img,.pmk .ph{display:block;width:100%;height:84px;border-radius:12px;object-fit:cover;background:linear-gradient(135deg,#f3eeff,#d9ccfb)}
+.pmk b{display:block;padding:6px 6px 4px;font:600 12.5px/1.25 var(--f-ui);color:var(--ink);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pmk i{position:absolute;top:-9px;left:-9px;width:26px;height:26px;border-radius:50%;border:2.5px solid #fff;background:#6a4fcf;color:#fff;font:700 12.5px/21px var(--f-ui);font-style:normal;text-align:center}
+.pmk::after{content:"";position:absolute;left:50%;bottom:-7px;transform:translateX(-50%);border:7px solid transparent;border-top-color:#fff;border-bottom:0}
+.pmk.dim{opacity:.5}
+@media (max-width:500px){.pmk{width:104px}.pmk img,.pmk .ph{height:68px}}
+.photo-credit{position:absolute;z-index:4;left:max(12px,env(safe-area-inset-left,0px));bottom:calc(40px + env(safe-area-inset-bottom,0px));font-size:10.5px;color:var(--muted);background:rgba(255,255,255,.85);padding:3px 8px;border-radius:999px}
+@media (max-width:860px){.photo-credit{bottom:auto;top:calc(66px + env(safe-area-inset-top,0px));left:auto;right:max(12px,env(safe-area-inset-right,0px))}}
 .tour[aria-pressed="true"]{border-color:var(--lav-500);background:var(--lav-50)}
 .tour[aria-pressed="true"] .rd{background:var(--grad);border-color:transparent}
 .tour[aria-pressed="true"] .rd::after{content:"";width:8px;height:4px;border:2px solid #fff;border-top:0;border-right:0;transform:translateY(-1px) rotate(-45deg)}
@@ -744,6 +755,7 @@ label.row{cursor:pointer}
   <div class="loc-chip" id="locChip" role="status" hidden></div>
   <div class="hint" data-i18n="drag_hint"></div>
   <span class="badge-demo" id="mapBadge">3D preview map</span>
+  <span class="photo-credit" id="photoCredit" hidden>Photos: Wikipedia</span>
   <aside class="panel" id="panel">
     <button class="sheet-grab" id="sheetGrab" aria-label="Resize guide list"><i></i></button>
     <div class="panel-top"><select class="lang-mini" id="langFilter" aria-label="Guide language"></select><button class="icon-btn" id="panelClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button></div>
@@ -894,26 +906,26 @@ const PROV=PROV_RAW.map(([en,th,lat,lng,type,tier,r])=>({en,th,lat,lng,type,tier
 const REGIONS=['all','n','ne','c','e','w','s'];
 // famous places: [th, en, interest]
 const PLACES={
-'Bangkok':[['วัดพระแก้วและพระบรมมหาราชวัง','Grand Palace & Wat Phra Kaew','temple'],['วัดอรุณราชวราราม','Wat Arun','temple'],['เยาวราช','Yaowarat Chinatown','food'],['ล่องเรือเจ้าพระยา','Chao Phraya river cruise','photo'],['ตลาดนัดจตุจักร','Chatuchak Weekend Market','food'],['ข้าวสาร','Khao San Road','night']],
-'Chiang Mai':[['วัดพระธาตุดอยสุเทพ','Wat Phra That Doi Suthep','temple'],['วัดเจดีย์หลวง','Wat Chedi Luang','temple'],['ถนนคนเดินท่าแพ','Tha Phae Walking Street','food'],['นิมมานเหมินท์','Nimmanhaemin','night'],['ดอยอินทนนท์','Doi Inthanon','nature'],['ม่อนแจ่ม','Mon Jam','photo']],
-'Phuket':[['เมืองเก่าภูเก็ต','Phuket Old Town','photo'],['หาดป่าตอง','Patong Beach','dive'],['แหลมพรหมเทพ','Promthep Cape','photo'],['พระใหญ่ภูเก็ต','Big Buddha Phuket','temple'],['เกาะเฮ','Coral Island','dive'],['ถนนบางลา','Bangla Road','night']],
-'Krabi':[['อ่าวนาง','Ao Nang','dive'],['ไร่เลย์','Railay','nature'],['เกาะพีพี','Phi Phi Islands','dive'],['สระมรกต','Emerald Pool','nature'],['วัดถ้ำเสือ','Wat Tham Suea','temple']],
-'Chiang Rai':[['วัดร่องขุ่น','White Temple','temple'],['วัดร่องเสือเต้น','Blue Temple','temple'],['บ้านดำ','Baan Dam Museum','photo'],['ดอยตุง','Doi Tung','nature'],['สามเหลี่ยมทองคำ','Golden Triangle','photo']],
-'Ayutthaya':[['วัดมหาธาตุ','Wat Mahathat','temple'],['วัดไชยวัฒนาราม','Wat Chaiwatthanaram','photo'],['วัดพระศรีสรรเพชญ์','Wat Phra Si Sanphet','temple'],['ตลาดน้ำอโยธยา','Ayothaya Floating Market','food']],
-'Kanchanaburi':[['สะพานข้ามแม่น้ำแคว','Bridge on the River Kwai','photo'],['น้ำตกเอราวัณ','Erawan Falls','nature'],['ทางรถไฟสายมรณะ','Death Railway','photo'],['สังขละบุรี','Sangkhlaburi','temple']],
-'Surat Thani':[['เกาะสมุย','Koh Samui','dive'],['เกาะพะงัน','Koh Phangan','night'],['เขื่อนเชี่ยวหลาน','Cheow Lan Lake','nature'],['หมู่เกาะอ่างทอง','Ang Thong Marine Park','dive']],
-'Chon Buri':[['พัทยา','Pattaya','night'],['เกาะล้าน','Koh Larn','dive'],['ปราสาทสัจธรรม','Sanctuary of Truth','temple'],['ตลาดอาหารทะเลบางแสน','Bang Saen seafood','food']],
-'Prachuap Khiri Khan':[['หัวหิน','Hua Hin','food'],['ตลาดโต้รุ่งหัวหิน','Hua Hin Night Market','night'],['ถ้ำพระยานคร','Phraya Nakhon Cave','photo'],['เขาสามร้อยยอด','Khao Sam Roi Yot','nature']],
-'Phang Nga':[['อ่าวพังงา','Phang Nga Bay','photo'],['หมู่เกาะสิมิลัน','Similan Islands','dive'],['เขาหลัก','Khao Lak','dive'],['เกาะยาวน้อย','Koh Yao Noi','nature']],
-'Nan':[['วัดภูมินทร์','Wat Phumin','temple'],['ปัว','Pua','nature'],['บ่อเกลือ','Bo Kluea','photo'],['ดอยเสมอดาว','Doi Samer Dao','nature']],
-'Mae Hong Son':[['ปาย','Pai','night'],['ปางอุ๋ง','Pang Ung','photo'],['บ้านรักไทย','Ban Rak Thai','food'],['ถ้ำลอด','Tham Lod','nature']],
-'Sukhothai':[['อุทยานประวัติศาสตร์สุโขทัย','Sukhothai Historical Park','temple'],['วัดศรีชุม','Wat Si Chum','photo'],['ศรีสัชนาลัย','Si Satchanalai','temple']],
-'Loei':[['ภูกระดึง','Phu Kradueng','nature'],['เชียงคาน','Chiang Khan','food'],['ภูเรือ','Phu Ruea','nature'],['ภูป่าเปาะ','Phu Pa Po','photo']],
-'Trat':[['เกาะช้าง','Koh Chang','dive'],['เกาะกูด','Koh Kood','dive'],['เกาะหมาก','Koh Mak','nature']],
-'Nakhon Ratchasima':[['เขาใหญ่','Khao Yai','nature'],['ปราสาทหินพิมาย','Phimai Historical Park','temple'],['อนุสาวรีย์ท้าวสุรนารี','Thao Suranari Monument','food'],['วังน้ำเขียว','Wang Nam Khiao','photo']],
-'Udon Thani':[['ทะเลบัวแดง','Red Lotus Lake','photo'],['บ้านเชียง','Ban Chiang','temple'],['คำชะโนด','Kham Chanot','temple']],
-'Songkhla':[['หาดสมิหลา','Samila Beach','photo'],['หาดใหญ่','Hat Yai','food'],['ตลาดน้ำคลองแห','Khlong Hae Floating Market','food'],['ย่านเมืองเก่าสงขลา','Songkhla Old Town','photo']],
-'Rayong':[['เกาะเสม็ด','Koh Samet','dive'],['ตลาดบ้านเพ','Ban Phe Market','food'],['สวนผลไม้ระยอง','Rayong fruit orchards','nature'],['หาดแม่รำพึง','Mae Ramphueng Beach','photo']]
+'Bangkok':[['วัดพระแก้วและพระบรมมหาราชวัง','Grand Palace & Wat Phra Kaew','temple','Grand Palace'],['วัดอรุณราชวราราม','Wat Arun','temple','Wat Arun'],['เยาวราช','Yaowarat Chinatown','food','Yaowarat Road'],['ล่องเรือเจ้าพระยา','Chao Phraya river cruise','photo','Chao Phraya River'],['ตลาดนัดจตุจักร','Chatuchak Weekend Market','food','Chatuchak Weekend Market'],['ข้าวสาร','Khao San Road','night','Khaosan Road']],
+'Chiang Mai':[['วัดพระธาตุดอยสุเทพ','Wat Phra That Doi Suthep','temple','Wat Phra That Doi Suthep'],['วัดเจดีย์หลวง','Wat Chedi Luang','temple','Wat Chedi Luang'],['ถนนคนเดินท่าแพ','Tha Phae Walking Street','food','Tha Phae Gate'],['นิมมานเหมินท์','Nimmanhaemin','night','Nimmanhaemin Road'],['ดอยอินทนนท์','Doi Inthanon','nature','Doi Inthanon'],['ม่อนแจ่ม','Mon Jam','photo','Mon Jam']],
+'Phuket':[['เมืองเก่าภูเก็ต','Phuket Old Town','photo','Phuket (city)'],['หาดป่าตอง','Patong Beach','dive','Patong'],['แหลมพรหมเทพ','Promthep Cape','photo','Promthep Cape'],['พระใหญ่ภูเก็ต','Big Buddha Phuket','temple','Big Buddha (Phuket)'],['เกาะเฮ','Coral Island','dive','Ko Hae'],['ถนนบางลา','Bangla Road','night','Bangla Road']],
+'Krabi':[['อ่าวนาง','Ao Nang','dive','Ao Nang'],['ไร่เลย์','Railay','nature','Railay Beach'],['เกาะพีพี','Phi Phi Islands','dive','Phi Phi Islands'],['สระมรกต','Emerald Pool','nature','Khlong Thom district'],['วัดถ้ำเสือ','Wat Tham Suea','temple','Wat Tham Suea (Krabi)']],
+'Chiang Rai':[['วัดร่องขุ่น','White Temple','temple','Wat Rong Khun'],['วัดร่องเสือเต้น','Blue Temple','temple','Wat Rong Suea Ten'],['บ้านดำ','Baan Dam Museum','photo','Baan Dam Museum'],['ดอยตุง','Doi Tung','nature','Doi Tung'],['สามเหลี่ยมทองคำ','Golden Triangle','photo','Golden Triangle (Southeast Asia)']],
+'Ayutthaya':[['วัดมหาธาตุ','Wat Mahathat','temple','Wat Mahathat (Ayutthaya)'],['วัดไชยวัฒนาราม','Wat Chaiwatthanaram','photo','Wat Chaiwatthanaram'],['วัดพระศรีสรรเพชญ์','Wat Phra Si Sanphet','temple','Wat Phra Si Sanphet'],['ตลาดน้ำอโยธยา','Ayothaya Floating Market','food','Ayothaya Floating Market']],
+'Kanchanaburi':[['สะพานข้ามแม่น้ำแคว','Bridge on the River Kwai','photo','Mae Klong River'],['น้ำตกเอราวัณ','Erawan Falls','nature','Erawan National Park'],['ทางรถไฟสายมรณะ','Death Railway','photo','Burma Railway'],['สังขละบุรี','Sangkhlaburi','temple','Sangkhla Buri district']],
+'Surat Thani':[['เกาะสมุย','Koh Samui','dive','Ko Samui'],['เกาะพะงัน','Koh Phangan','night','Ko Pha-ngan'],['เขื่อนเชี่ยวหลาน','Cheow Lan Lake','nature','Ratchaprapha Dam'],['หมู่เกาะอ่างทอง','Ang Thong Marine Park','dive','Mu Ko Ang Thong National Park']],
+'Chon Buri':[['พัทยา','Pattaya','night','Pattaya'],['เกาะล้าน','Koh Larn','dive','Ko Lan'],['ปราสาทสัจธรรม','Sanctuary of Truth','temple','Sanctuary of Truth'],['ตลาดอาหารทะเลบางแสน','Bang Saen seafood','food','Bang Saen Beach']],
+'Prachuap Khiri Khan':[['หัวหิน','Hua Hin','food','Hua Hin'],['ตลาดโต้รุ่งหัวหิน','Hua Hin Night Market','night','Hua Hin railway station'],['ถ้ำพระยานคร','Phraya Nakhon Cave','photo','Phraya Nakhon Cave'],['เขาสามร้อยยอด','Khao Sam Roi Yot','nature','Khao Sam Roi Yot National Park']],
+'Phang Nga':[['อ่าวพังงา','Phang Nga Bay','photo','Phang Nga Bay'],['หมู่เกาะสิมิลัน','Similan Islands','dive','Mu Ko Similan National Park'],['เขาหลัก','Khao Lak','dive','Khao Lak'],['เกาะยาวน้อย','Koh Yao Noi','nature','Ko Yao Noi']],
+'Nan':[['วัดภูมินทร์','Wat Phumin','temple','Wat Phumin'],['ปัว','Pua','nature','Pua district'],['บ่อเกลือ','Bo Kluea','photo','Bo Kluea district'],['ดอยเสมอดาว','Doi Samer Dao','nature','Si Nan National Park']],
+'Mae Hong Son':[['ปาย','Pai','night','Pai, Thailand'],['ปางอุ๋ง','Pang Ung','photo','Pang Ung'],['บ้านรักไทย','Ban Rak Thai','food','Ban Rak Thai'],['ถ้ำลอด','Tham Lod','nature','Tham Lot']],
+'Sukhothai':[['อุทยานประวัติศาสตร์สุโขทัย','Sukhothai Historical Park','temple','Sukhothai Historical Park'],['วัดศรีชุม','Wat Si Chum','photo','Wat Si Chum'],['ศรีสัชนาลัย','Si Satchanalai','temple','Si Satchanalai Historical Park']],
+'Loei':[['ภูกระดึง','Phu Kradueng','nature','Phu Kradueng National Park'],['เชียงคาน','Chiang Khan','food','Chiang Khan district'],['ภูเรือ','Phu Ruea','nature','Phu Ruea National Park'],['ภูป่าเปาะ','Phu Pa Po','photo','Phu Pa Po']],
+'Trat':[['เกาะช้าง','Koh Chang','dive','Ko Chang (Trat Province)'],['เกาะกูด','Koh Kood','dive','Ko Kut'],['เกาะหมาก','Koh Mak','nature','Ko Mak']],
+'Nakhon Ratchasima':[['เขาใหญ่','Khao Yai','nature','Khao Yai National Park'],['ปราสาทหินพิมาย','Phimai Historical Park','temple','Phimai historical park'],['อนุสาวรีย์ท้าวสุรนารี','Thao Suranari Monument','food','Thao Suranari'],['วังน้ำเขียว','Wang Nam Khiao','photo','Wang Nam Khiao district']],
+'Udon Thani':[['ทะเลบัวแดง','Red Lotus Lake','photo','Nong Han Kumphawapi'],['บ้านเชียง','Ban Chiang','temple','Ban Chiang'],['คำชะโนด','Kham Chanot','temple','Kham Chanot']],
+'Songkhla':[['หาดสมิหลา','Samila Beach','photo','Samila Beach'],['หาดใหญ่','Hat Yai','food','Hat Yai'],['ตลาดน้ำคลองแห','Khlong Hae Floating Market','food','Khlong Hae Floating Market'],['ย่านเมืองเก่าสงขลา','Songkhla Old Town','photo','Songkhla']],
+'Rayong':[['เกาะเสม็ด','Koh Samet','dive','Ko Samet'],['ตลาดบ้านเพ','Ban Phe Market','food','Ban Phe'],['สวนผลไม้ระยอง','Rayong fruit orchards','nature','Rayong'],['หาดแม่รำพึง','Mae Ramphueng Beach','photo','Mae Ramphueng Beach']]
 };
 const GENERIC={
  city:[['g_market','food'],['g_temple','temple'],['g_food','food'],['g_museum','photo'],['g_night','night']],
@@ -921,7 +933,7 @@ const GENERIC={
  mountain:[['g_view','photo'],['g_waterfall','nature'],['g_park','nature'],['g_cafe','food'],['g_market','food']],
  temple:[['g_temple','temple'],['g_ruins','temple'],['g_market','food'],['g_museum','photo'],['g_food','food']]
 };
-function placesOf(p){return PLACES[p.en]?PLACES[p.en].map(([th,en,k],i)=>({id:'p'+i,th,en,k})):GENERIC[p.type].map(([key,k])=>({id:key,key,k}))}
+function placesOf(p){return PLACES[p.en]?PLACES[p.en].map(([th,en,k,w],i)=>({id:'p'+i,th,en,k,w})):GENERIC[p.type].map(([key,k])=>({id:key,key,k}))}
 const placeName=x=>x.key?t(x.key):(state.lang==='th'?x.th:x.en);
 
 const ICONS={
@@ -1359,7 +1371,7 @@ const Map3D=(()=>{
   const D=1800;
   let cv,ctx,W=0,H=0,dpr=1,cx=0,cy=0,raf=0,running=false,dirty=true;
   const cam={h:-0.5,t:0.95,z:0.55,tx:0,ty:0,gh:-0.5,gt:0.95,gz:0.55,gx:0,gy:0};
-  let curName=null,world=null,guides=[],selected=null,route=null,hits=[],onPick=()=>{},pulse=false;
+  let curName=null,places=[],world=null,guides=[],selected=null,route=null,hits=[],onPick=()=>{},pulse=false;
   const mixRGB=(a,b,k)=>`rgb(${a[0]+(b[0]-a[0])*k|0},${a[1]+(b[1]-a[1])*k|0},${a[2]+(b[2]-a[2])*k|0})`;
   const FOG=[244,239,253],WALL_D=[160,138,214],WALL_L=[236,229,250],TOP=[248,245,254],TOP_T=[233,224,250],GOLD_W=[240,222,178],GOLD_T=[214,168,74],PLATE=[238,232,248],PARK=[214,236,218],WATER=[208,224,246],SAND=[245,236,214];
 
@@ -1411,7 +1423,7 @@ const Map3D=(()=>{
     cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,[e.clientX,e.clientY]);start=[e.clientX,e.clientY];moved=0;if(ptrs.size===2){const [a,b]=[...ptrs.values()];pinch0=Math.hypot(a[0]-b[0],a[1]-b[1]);z0=cam.gz}});
     cv.addEventListener('pointermove',e=>{
       if(!ptrs.has(e.pointerId))return;const prev=ptrs.get(e.pointerId);ptrs.set(e.pointerId,[e.clientX,e.clientY]);
-      if(ptrs.size===2){const [a,b]=[...ptrs.values()];const d=Math.hypot(a[0]-b[0],a[1]-b[1]);cam.gz=cam.z=Math.max(.22,Math.min(1.8,z0*d/pinch0));dirty=true;moved=99;return}
+      if(ptrs.size===2){const [a,b]=[...ptrs.values()];const d=Math.hypot(a[0]-b[0],a[1]-b[1]);cam.gz=cam.z=Math.max(.15,Math.min(1.8,z0*d/pinch0));dirty=true;moved=99;return}
       const dx=e.clientX-prev[0],dy=e.clientY-prev[1];moved+=Math.abs(dx)+Math.abs(dy);
       cam.gh=cam.h=cam.h+dx*.006;cam.gt=cam.t=Math.max(.05,Math.min(1.2,cam.t-dy*.004));dirty=true;
     });
@@ -1422,7 +1434,7 @@ const Map3D=(()=>{
       ptrs.delete(e.pointerId);
     };
     cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',e=>ptrs.delete(e.pointerId));
-    cv.addEventListener('wheel',e=>{e.preventDefault();cam.gz=Math.max(.22,Math.min(1.8,cam.gz*Math.exp(-e.deltaY*.0012)))},{passive:false});
+    cv.addEventListener('wheel',e=>{e.preventDefault();cam.gz=Math.max(.15,Math.min(1.8,cam.gz*Math.exp(-e.deltaY*.0012)))},{passive:false});
   }
 
   function draw(){
@@ -1468,6 +1480,34 @@ const Map3D=(()=>{
         ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.strokeStyle='#fff';ctx.lineWidth=9;ctx.stroke();
         ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.strokeStyle='#7f5bd0';ctx.lineWidth=5;ctx.stroke()}
     }
+    // places: fixed-size photo cards, readable at any zoom
+    {
+      const rr=(x,y,w,h,r)=>{ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,y,w,h,r);else ctx.rect(x,y,w,h)};
+      const cw=W<500?104:126,ih=Math.round(cw*.66),lh=26,pls=[];
+      for(const pc of places){const r=P(pc.x,pc.y,0);if(r)pls.push([r,pc])}
+      pls.sort((a,b)=>(a[1].order?1:0)-(b[1].order?1:0)||b[0][2]-a[0][2]);
+      for(const [r,pc] of pls){
+        const px=r[0],py=r[1],top=py-20-ih-lh-6,left=px-cw/2;
+        if(px<-cw||px>W+cw||py<0||top>H)continue;
+        ctx.globalAlpha=pc.dim?.5:1;
+        ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px,py-20);ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.stroke();
+        ctx.beginPath();ctx.arc(px,py,4.5,0,7);ctx.fillStyle='#14111b';ctx.fill();
+        ctx.save();ctx.shadowColor='rgba(40,20,90,.32)';ctx.shadowBlur=16;ctx.shadowOffsetY=6;rr(left,top,cw,ih+lh+6,15);ctx.fillStyle='#fff';ctx.fill();ctx.restore();
+        ctx.save();rr(left+3,top+3,cw-6,ih,12);ctx.clip();
+        const im=pc.img;
+        if(im&&im.complete&&im.naturalWidth){const s2=Math.max((cw-6)/im.naturalWidth,ih/im.naturalHeight),dw=im.naturalWidth*s2,dh=im.naturalHeight*s2;ctx.drawImage(im,left+3+(cw-6-dw)/2,top+3+(ih-dh)/2,dw,dh)}
+        else{const gr=ctx.createLinearGradient(left,top,left+cw,top+ih);gr.addColorStop(0,'#f3eeff');gr.addColorStop(1,'#d9ccfb');ctx.fillStyle=gr;ctx.fillRect(left+3,top+3,cw-6,ih);
+          ctx.fillStyle='#7b62d8';ctx.beginPath();const cx2=px,cy2=top+3+ih/2-2;ctx.arc(cx2,cy2-4,9,Math.PI,0);ctx.lineTo(cx2,cy2+12);ctx.closePath();ctx.fill();ctx.beginPath();ctx.arc(cx2,cy2-4,3.5,0,7);ctx.fillStyle='#fff';ctx.fill()}
+        ctx.restore();
+        ctx.fillStyle='#14111b';ctx.font=`600 ${W<500?11.5:12.5}px "Geist","Anuphan",sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+        let nm=pc.name;if(ctx.measureText(nm).width>cw-14){while(nm.length>2&&ctx.measureText(nm+'…').width>cw-14)nm=nm.slice(0,-1);nm+='…'}
+        ctx.fillText(nm,px,top+3+ih+lh/2+1);
+        // tail
+        ctx.beginPath();ctx.moveTo(px-7,top+ih+lh+5);ctx.lineTo(px,top+ih+lh+12);ctx.lineTo(px+7,top+ih+lh+5);ctx.closePath();ctx.fillStyle='#fff';ctx.fill();
+        if(pc.order){ctx.beginPath();ctx.arc(left+6,top+6,13,0,7);ctx.fillStyle='#6a4fcf';ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2.5;ctx.stroke();ctx.fillStyle='#fff';ctx.font='700 12.5px "Geist",sans-serif';ctx.fillText(String(pc.order),left+6,top+6.5)}
+        ctx.globalAlpha=1;
+      }
+    }
     // user
     const u=P(0,0,0);
     if(u){
@@ -1507,12 +1547,13 @@ const Map3D=(()=>{
     init,isLand,
     setWorld(p){world=build(p);curName=p.en;cam.tx=cam.gx=0;cam.ty=cam.gy=0;cam.gh=-0.5;cam.gt=settings.mapView==='2d'?.04:.95;cam.gz=.55;cam.h=cam.gh+.9;cam.z=.32;dirty=true},
     setGuides(g){guides=g;dirty=true},
+    setPlaces(l,fit){places=l;dirty=true;if(fit&&l.length){const ps=l.some(x=>x.order)?l.filter(x=>x.order):l;const mx0=ps.reduce((a,x)=>a+x.x,0)/ps.length,my0=ps.reduce((a,x)=>a+x.y,0)/ps.length;let r=1;for(const x of ps)r=Math.max(r,Math.hypot(x.x-mx0*.6,x.y-my0*.6));const ph=W<=860;cam.gx=mx0*.6;cam.gy=my0*.6+(ph?r*.35:0);cam.gz=Math.max(.15,Math.min(.55,(ph?190:330)/r))}},
     select(id){selected=id;dirty=true},
     focus(x,y){cam.gx=x;cam.gy=y},
     setRoute(r){route=r;dirty=true},
     setPulse(v){pulse=v},
     onPick(fn){onPick=fn},
-    zoom(f){cam.gz=Math.max(.22,Math.min(1.8,cam.gz*f))},
+    zoom(f){cam.gz=Math.max(.15,Math.min(1.8,cam.gz*f))},
     north(){cam.gh=Math.round(cam.h/(Math.PI*2))*Math.PI*2},
     toggleTilt(){cam.gt=cam.gt>.4?.04:.95;return cam.gt>.4},
     invalidate(){dirty=true},
@@ -1553,6 +1594,15 @@ const GoogleMap=(()=>{
     focus(x,y){map&&map.panTo(toLL(x,y))},
     setRoute(r){if(line)line.setMap(null);line=null;if(r&&r.length>1)line=new google.maps.Polyline({map,path:r.map(p=>toLL(p[0],p[1])),strokeColor:'#7f5bd0',strokeWeight:6})},
     refresh(list){list.forEach(g=>{const m=markers[g.id];if(m){m.position=toLL(g.x,g.y);m.map=g.visible?map:null}})},
+    setPlaces(list,fit){
+      (this._pm||[]).forEach(m=>m.map=null);this._pm=[];if(!map)return;
+      const pts=[];
+      list.forEach(pc=>{if(pc.lat==null)return;const d=document.createElement('div');d.className='pmk'+(pc.dim?' dim':'');
+        d.innerHTML=(pc.order?`<i>${pc.order}</i>`:'')+(pc.src?`<img alt="" src="${pc.src.replace(/"/g,'')}">`:'<span class="ph"></span>')+'<b></b>';d.querySelector('b').textContent=pc.name;
+        this._pm.push(new google.maps.marker.AdvancedMarkerElement({map,position:{lat:pc.lat,lng:pc.lng},content:d,title:pc.name,zIndex:pc.order?60:5}));
+        if(!fit||pc.order)pts.push({lat:pc.lat,lng:pc.lng})});
+      if(fit&&pts.length>1){const b=new google.maps.LatLngBounds();pts.forEach(p=>b.extend(p));if(origin)b.extend(origin);map.fitBounds(b,{top:90,bottom:innerWidth<=860?innerHeight*.5:60,left:70,right:innerWidth>860?430:40})}
+    },
     setPulse(){},invalidate(){},onPick(fn){onPick=fn},
     zoom(f){map.setZoom(map.getZoom()+(f>1?1:-1))},
     north(){map.setHeading(0)},
@@ -1579,7 +1629,41 @@ function locate(cb){
   catch(e){state.locState='off';if(cb)cb()}
 }
 function applyOrigin(){const p=state.province;const near=!!(state.me&&p&&distKm(state.me,p)<60);state.atHere=near;state.origin=near?state.me:(p?{lat:p.lat,lng:p.lng}:null)}
-function refreshGoogle(){if(MAP!==Map3D&&state.screen==='map'){MAP.setWorld(state.province);MAP.setGuides(state.guides);MAP.select(state.selected)}}
+/* ----- place photos (Wikipedia) ----- */
+const placeCache=(()=>{try{return JSON.parse(localStorage.getItem('jy_pc'))||{}}catch(e){return {}}})();
+const imgCache={};
+function imgFor(url){if(!url)return null;let im=imgCache[url];if(!im){im=new Image();im.decoding='async';im.referrerPolicy='no-referrer';im.onload=()=>Map3D.invalidate();im.src=url;imgCache[url]=im}return im}
+async function loadPlaceInfo(p){
+  const todo=placesOf(p).filter(x=>x.w&&!((p.en+':'+x.id) in placeCache));if(!todo.length)return false;
+  let got=false;
+  await Promise.all(todo.map(async x=>{try{
+    const r=await fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(x.w.replace(/ /g,'_')));
+    if(!r.ok){placeCache[p.en+':'+x.id]={};return}
+    const j=await r.json();got=true;
+    placeCache[p.en+':'+x.id]={img:(j.thumbnail&&j.thumbnail.source)||null,lat:j.coordinates?j.coordinates.lat:null,lng:j.coordinates?j.coordinates.lon:null};
+  }catch(e){}}));
+  try{localStorage.setItem('jy_pc',JSON.stringify(placeCache))}catch(e){}
+  return got;
+}
+function planIds(){const g=state.guides.find(x=>x.id===state.selected);if(!g)return [];const m=state.plan.mode;return m==='custom'?state.plan.stops.slice():(g.tours.find(x=>x.k===m)||g.tours[0]).stops.slice()}
+let placeSig='';
+function refreshPlaces(fit){
+  const p=state.province;if(!p||!MAP.setPlaces)return;
+  if(!PLACES[p.en]){if(placeSig!=='none'){MAP.setPlaces([]);placeSig='none'}$('#photoCredit').hidden=true;return}
+  const o=state.origin||{lat:p.lat,lng:p.lng},k=Math.cos(o.lat*Math.PI/180),ids=state.selected?planIds():[];
+  const list=placesOf(p).map(x=>{
+    const c=placeCache[p.en+':'+x.id]||{};let X,Y;
+    if(c.lat!=null){X=(c.lng-o.lng)*111320*k;Y=(c.lat-o.lat)*111320;const d=Math.hypot(X,Y);if(d>800){const f=(800+220*Math.log10(d/800))/d;X*=f;Y*=f}}
+    else{const a=(hash(p.en+x.id)%360)*Math.PI/180,r=520+hash(x.id+p.en)%620;X=Math.cos(a)*r;Y=Math.sin(a)*r}
+    const ord=ids.indexOf(x.id);
+    return {id:x.id,name:placeName(x),x:X,y:Y,lat:c.lat,lng:c.lng,src:c.img||null,img:imgFor(c.img),order:ord>=0?ord+1:null,dim:ids.length>0&&ord<0};
+  });
+  const sig=JSON.stringify([MAP===Map3D,p.en,o.lat,list.map(l=>[l.id,l.order,l.dim,l.src,l.lat,l.name])]);
+  $('#photoCredit').hidden=!list.some(l=>l.src);
+  if(sig===placeSig&&!fit)return;placeSig=sig;
+  MAP.setPlaces(list,fit);
+}
+function refreshGoogle(){placeSig='';refreshPlaces();if(MAP!==Map3D&&state.screen==='map'){MAP.setWorld(state.province);MAP.setGuides(state.guides);MAP.select(state.selected);placeSig='';refreshPlaces()}}
 function renderLoc(){
   const el=$('#locChip');if(!el)return;const p=state.province;let h='';
   if(state.locState==='on'&&state.atHere)h=`<i class="dot on"></i><span>${esc(t('loc_here'))}</span>`;
@@ -1606,6 +1690,9 @@ async function enterMap(){
   }else if(Map3D.cur!==p.en)Map3D.setWorld(p);
   applyFilter();
   MAP.setGuides(state.guides);MAP.select(state.selected);
+  const firstFit=state._fitFor!==p.en;state._fitFor=p.en;
+  placeSig='';refreshPlaces(firstFit);
+  {const pv=p;loadPlaceInfo(pv).then(ch=>{if(ch&&state.province===pv&&state.screen==='map'){placeSig='';refreshPlaces(firstFit)}})}
   $('#tiltBtn').textContent=settings.mapView==='2d'&&MAP===Map3D?'2D':'3D';
   if(!state.pendingGuide)$('#panel').classList.remove('min');
   MAP.start();renderPanel();renderLoc();
@@ -1660,6 +1747,7 @@ function selectGuide(id){
   renderPanel();
 }
 function renderPanel(){
+  setTimeout(()=>refreshPlaces(),0);
   const el=$('#panelScroll');if(!el)return;
   const fc=$('#fabCount');if(fc)fc.textContent=state.guides.filter(x=>x.visible).length;
   const g=state.guides.find(x=>x.id===state.selected);
@@ -1711,7 +1799,7 @@ function renderPanel(){
   q('#hPlus')&&(q('#hPlus').onclick=()=>{state[qk]=Math.min(qmax,state[qk]+1);renderPanel()});
   q('#modeSeg')&&(q('#modeSeg').onclick=e=>{const b=e.target.closest('[data-m]');if(b){state.bookMode=b.dataset.m;renderPanel()}});
   q('#startDate')&&(q('#startDate').onchange=e=>{state.startDate=e.target.value||isoDay(1)});
-  el.querySelectorAll('[data-plan]').forEach(b=>b.onclick=()=>{state.plan.mode=b.dataset.plan;renderPanel()});
+  el.querySelectorAll('[data-plan]').forEach(b=>b.onclick=()=>{state.plan.mode=b.dataset.plan;renderPanel();refreshPlaces(true)});
   el.querySelectorAll('[data-stop]').forEach(b=>b.onclick=()=>{const a=state.plan.stops,v=b.dataset.stop;a.includes(v)?a.splice(a.indexOf(v),1):a.push(v);renderPanel()});
   el.querySelectorAll('[data-xstop]').forEach(b=>b.onclick=()=>{state.plan.extra.splice(+b.dataset.xstop,1);renderPanel()});
   const addStop=()=>{const i=q('#stopIn'),v=i&&i.value.trim();if(v){state.plan.extra.push(v.slice(0,60));renderPanel()}};
@@ -1723,9 +1811,10 @@ function renderPanel(){
   q('#chatBtn')&&(q('#chatBtn').onclick=()=>openThread(ensureChat(g).id));
   q('#callBtn')&&(q('#callBtn').onclick=()=>toast(t('in_app_call')));
 }
+function tourThumbs(ids){const p=state.province,im=ids.map(id=>(placeCache[p.en+':'+id]||{}).img).filter(Boolean);return im.length?`<span class="tour-th">${im.slice(0,5).map(u=>`<img alt="" loading="lazy" referrerpolicy="no-referrer" src="${u.replace(/"/g,'')}">`).join('')}</span>`:''}
 function planHTML(g){
   const pl=placesOf(state.province),pn=id=>{const x=pl.find(y=>y.id===id);return x?placeName(x):id},m=state.plan.mode;
-  const tours=g.tours.map(tr=>`<button type="button" class="tour" data-plan="${tr.k}" aria-pressed="${m===tr.k}"><span class="tour-h"><b>${t('tour_'+tr.k)}</b><small>${t('hrs',{n:tr.hours})}</small><i class="rd"></i></span><span class="tour-s">${esc(tr.stops.map(pn).join(' → '))}</span></button>`).join('');
+  const tours=g.tours.map(tr=>`<button type="button" class="tour" data-plan="${tr.k}" aria-pressed="${m===tr.k}"><span class="tour-h"><b>${t('tour_'+tr.k)}</b><small>${t('hrs',{n:tr.hours})}</small><i class="rd"></i></span><span class="tour-s">${esc(tr.stops.map(pn).join(' → '))}</span>${tourThumbs(tr.stops)}</button>`).join('');
   let custom=`<button type="button" class="tour" data-plan="custom" aria-pressed="${m==='custom'}"><span class="tour-h"><b>${t('custom_trip')}</b><small>${t('custom_sub')}</small><i class="rd"></i></span></button>`;
   if(m==='custom')custom+=`<div class="custom-box"><div class="chips">${pl.map(x=>`<button type="button" class="chip" data-stop="${x.id}" aria-pressed="${state.plan.stops.includes(x.id)}">${esc(placeName(x))}</button>`).join('')}${state.plan.extra.map((e,i)=>`<button type="button" class="chip" data-xstop="${i}" aria-pressed="true">${esc(e)} ✕</button>`).join('')}</div><div class="add-row"><input class="input" id="stopIn" maxlength="60" placeholder="${t('add_stop')}"><button type="button" class="btn line" id="stopAdd">${t('add')}</button></div><textarea class="input" id="noteIn" rows="2" maxlength="300" placeholder="${t('note_guide')}">${esc(state.plan.note)}</textarea></div>`;
   return `<div class="privacy"><div class="pv-row"><span class="pv-ic ok">${SVG('<path d="M5 12l5 5 9-10"/>',3)}</span><span><b>${t('vis_title')}</b><small>${t('vis_list')}</small></span></div><div class="pv-row"><span class="pv-ic">${SVG(IC.lock,2)}</span><span><b>${t('hid_title')}</b><small>${t('hid_list')}</small></span></div></div>
