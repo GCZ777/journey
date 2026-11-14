@@ -55,10 +55,14 @@ function mediaTag(m,cls='',alt=''){
   if(m.type==='video')return `<video class="${cls}" data-mid="${m.mid}" playsinline muted loop preload="metadata"></video>`;
   return `<img class="${cls}" alt="${esc(alt)}" draggable="false" src="data:image/gif;base64,R0lGODlhAQABAAAAACw="${m.mid?` data-mid="${m.mid}"`:''}${m.art&&!m.mid?` data-art="${esc(m.art+'|'+(m.seed||0))}"`:''}${m.wiki?` data-wiki="${esc(m.wiki)}"`:''} referrerpolicy="no-referrer">`;
 }
-function hydrateMedia(root){
-  $$('img[data-art]',root).forEach(el=>{if(el._a)return;el._a=1;const [k,sd]=el.dataset.art.split('|');el.src=artURL(k,sd)});
-  $$('[data-mid]',root).forEach(el=>{if(el._h)return;el._h=1;MED.url(el.dataset.mid).then(u=>{if(u)el.src=u})});
-  $$('img[data-wiki]',root).forEach(el=>{if(el._w)return;el._w=1;wikiPhoto(el.dataset.wiki).then(u=>{if(!u)return;const im=new Image();im.referrerPolicy='no-referrer';im.onload=()=>{el.src=u};im.src=u})});
+function loadMediaEl(el){
+  if(el.dataset.art&&!el._a){el._a=1;const [k,sd]=el.dataset.art.split('|');el.src=artURL(k,sd)}
+  if(el.dataset.mid&&!el._h){el._h=1;MED.url(el.dataset.mid).then(u=>{if(u)el.src=u})}
+  if(el.dataset.wiki&&!el._w){el._w=1;wikiPhoto(el.dataset.wiki).then(u=>{if(!u)return;const im=new Image();im.referrerPolicy='no-referrer';im.onload=()=>{el.classList.remove('ld');el.src=u};im.src=u})}
+}
+const HIO='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){HIO.unobserve(en.target);loadMediaEl(en.target)}}),{rootMargin:'700px 300px'}):null;
+function hydrateMedia(root,now){
+  $$('[data-mid],img[data-art],img[data-wiki]',root).forEach(el=>{if(el._q)return;el._q=1;if(HIO&&!now&&!el.closest('.sheet,.lightbox,.sv'))HIO.observe(el);else loadMediaEl(el)});
 }
 
 /* ----- accounts ----- */
@@ -214,7 +218,7 @@ function postHTML(p,opt={}){
   <button class="icon-btn sm" data-pa="more" aria-label="${t('more')}">${SVG(IC.dots,2)}</button></header>
   ${mediaBox(src)}
   <div class="po-acts"><button class="pa${liked?' on':''}" data-pa="like" aria-pressed="${liked}" aria-label="${t('like')}">${SVG(IC.heart,1.9)}<span>${showL?compact(lc):''}</span></button>
-  ${src.set.rp!==false?`<button class="pa${rp?' on rp':''}" data-pa="repost" aria-pressed="${rp}" aria-label="${t('repost')}">${SVG(IC.repost,1.9)}<span>${compact(repostsOf(src))}</span></button>`:''}
+  ${src.set.rp!==false&&!own?`<button class="pa" data-pa="reply" aria-label="${t('reply')}">${SVG(IC.chat,1.9)}<span>${t('reply')}</span></button>`:''}
   <button class="pa" data-pa="share" aria-label="${t('share')}">${SVG(IC.share,1.9)}</button>
   ${src._why&&!opt.noWhy?`<span class="po-why">${SVG(IC.spark)}${esc(t(src._why[0],src._why[1]))}</span>`:''}</div>
   ${src.title?`<h3 class="po-title">${esc(src.title)}</h3>`:''}
@@ -231,6 +235,7 @@ function bindPostList(root,rerender){
     const b=e.target.closest('[data-pa]');if(!b)return;const card=b.closest('.post'),p=postById(card.dataset.p);if(!p)return;const k=b.dataset.pa;
     if(k==='like')toggleLike(p,card);
     else if(k==='repost')repostMenu(p,rerender);
+    else if(k==='reply')replySheet(p);
     else if(k==='share'){const s=(p.title||'')+'\n'+location.href.split('#')[0];(navigator.clipboard?navigator.clipboard.writeText(s):Promise.reject()).then(()=>toast(t('copied'))).catch(()=>toast(t('copy_fail')))}
     else if(k==='more')postMenu(p,card.dataset.wrap,rerender);
   });
@@ -412,7 +417,7 @@ function renderCompose(){
   <div class="field"><label for="cpProv">${t('cp_place')}</label><select class="input" id="cpProv"><option value="">${t('cp_noplace')}</option>${PROV.map(p=>`<option value="${p.en}"${CP.prov===p.en?' selected':''}>${esc(pname(p))}</option>`).join('')}</select></div>
   <div class="set-group"><span class="sec-label">${t('cp_settings')}</span><div class="list-card">
     <div class="row"><span class="r-ic">${SVG(IC.eye)}</span><span class="row-main"><b>${t('cp_aud')}</b></span><div class="mini-seg" id="cpAud"><button type="button" data-v="all" aria-pressed="${CP.set.aud==='all'}">${t('aud_all')}</button><button type="button" data-v="followers" aria-pressed="${CP.set.aud==='followers'}">${t('aud_followers')}</button></div></div>
-    <label class="row" for="cpRp"><span class="r-ic">${SVG(IC.repost)}</span><span class="row-main"><b>${t('cp_allow_rp')}</b></span><input type="checkbox" class="switch" id="cpRp"${CP.set.rp?' checked':''}></label>
+    <label class="row" for="cpRp"><span class="r-ic">${SVG(IC.chat)}</span><span class="row-main"><b>${t('cp_allow_reply')}</b></span><input type="checkbox" class="switch" id="cpRp"${CP.set.rp?' checked':''}></label>
     <label class="row" for="cpHl"><span class="r-ic">${SVG(IC.heart)}</span><span class="row-main"><b>${t('cp_hide_likes')}</b><small>${t('cp_hide_likes_s')}</small></span><input type="checkbox" class="switch" id="cpHl"${CP.set.hideLikes?' checked':''}></label>
   </div></div>`;
   const upd=()=>{$('#cpPost').disabled=!(CP.media.length||CP.body.trim()||CP.title.trim())};
@@ -443,4 +448,26 @@ async function publishPost(){
   const tags=[...new Set(CP.tags.concat(tagsOf(CP.body)))];
   const p={id:'p'+Date.now().toString(36),author:myId(),at:Date.now(),title:CP.title.trim(),body:CP.body.trim(),tags,media,prov:CP.prov,acts:ACTS.filter(a=>tags.some(tg=>tg.includes(a))),likes:0,reposts:0,views:0,set:Object.assign({},CP.set)};
   SOC.posts.unshift(p);socSave();bump(p,1);toast(t('cp_done'));state.feedTab='foryou';show('feed');
+}
+
+/* ----- replies go to the author's chat ----- */
+function dmChat(id){const A=acct(id),cid='u:'+id;let c=chats.find(x=>x.id===cid);
+  if(!c){c={id:cid,acct:id,name:A.name,initials:A.initials,color:A.color,msgs:[],unread:0};chats.unshift(c)}return c}
+function sendDM(id,text,ref){
+  const c=dmChat(id);c.msgs.push({me:true,text,ref,at:Date.now()});chats.splice(chats.indexOf(c),1);chats.unshift(c);save();
+  if(!c._auto){c._auto=1;setTimeout(()=>{c.msgs.push({me:false,text:t('dm_auto'),at:Date.now()});if(!(state.screen==='thread'&&state.thread===c.id))c.unread=(c.unread||0)+1;save();renderBadges();if(state.screen==='thread'&&state.thread===c.id)renderThread()},1600)}
+  return c;
+}
+function refHTML(r){if(!r)return '';const A=acct(r.author);return `<span class="msg-ref">${r.m?`<span class="mr-th">${mediaTag(r.m)}</span>`:''}<span class="mr-t"><small>${esc(t(r.kind==='story'?'ref_story':'ref_post',{n:A.name.split(' ')[0]}))}</small>${r.title?`<b>${esc(r.title)}</b>`:''}</span></span>`}
+function replySheet(p){
+  const A=acct(p.author),m=p.media&&p.media[0];
+  openSheet(t('reply_to',{n:A.name}),`<form class="reply-f" id="rpF"><div class="rp-prev">${m?`<span class="mr-th">${mediaTag(m)}</span>`:''}<span><b>${esc(p.title||'')}</b><small>${esc((p.body||'').slice(0,90))}</small></span></div>
+   <div class="chips">${['qr1','qr2','qr3'].map(k=>`<button type="button" class="chip" data-qr="${k}">${t(k)}</button>`).join('')}</div>
+   <div class="rp-in"><textarea class="input" id="rpT" rows="2" maxlength="500" placeholder="${esc(t('reply_ph',{n:A.name.split(' ')[0]}))}"></textarea><button class="btn primary" aria-label="${t('reply_send')}">${SVG(IC.send||'<path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" />',2)}</button></div>
+   <p class="note">${SVG(IC.lock)} ${t('reply_note',{n:A.name.split(' ')[0]})}</p></form>`,()=>{
+    hydrateMedia($('#optBody'),true);setTimeout(()=>$('#rpT').focus(),80);
+    $('#optBody').onclick=e=>{const q=e.target.closest('[data-qr]');if(q){const ta=$('#rpT');ta.value=t(q.dataset.qr);ta.focus()}};
+    $('#rpF').onsubmit=e=>{e.preventDefault();const v=$('#rpT').value.trim();if(!v){$('#rpT').focus();return}
+      const c=sendDM(p.author,v,{kind:'post',id:p.id,author:p.author,title:p.title||'',m:m?{mid:m.mid,art:m.art,seed:m.seed,wiki:m.wiki}:null});bump(p,1);
+      closeSheet();toast(t('reply_sent'));openThread(c.id)}});
 }

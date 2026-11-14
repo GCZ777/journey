@@ -111,7 +111,9 @@ function showItem(dir){
   const lay=()=>{const r=stage.getBoundingClientRect();placeIn(el,s.w||9,s.h||16,r.width,r.height,s);bg.hidden=s.fit!=='fit'};lay();SV.lay=lay;
   $('#svCap').textContent=s.cap||'';$('#svCap').hidden=!s.cap;
   $('#svFoot').innerHTML=own?`<button class="sv-views" id="svViews">${SVG(IC.eye)}<span>${t('st_viewers',{n:viewersOf(s).length})}</span></button><button class="sv-ib" id="svDel" aria-label="${t('post_del')}">${SVG(IC.trash)}</button>`
-    :`<button class="sv-rp" id="svRp">${SVG(IC.repost)}<span>${t('st_repost')}</span></button><span class="sv-noreact">${SVG(IC.lock)}${t('st_noreact')}</span>`;
+    :`<form class="sv-reply" id="svReply"><input id="svRin" maxlength="300" autocomplete="off" enterkeyhint="send" placeholder="${esc(t('st_reply_ph',{n:A.name.split(' ')[0]}))}"><button aria-label="${t('reply_send')}">${SVG('<path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" />',2)}</button></form>`;
+  const rf=$('#svReply');if(rf){const ri=$('#svRin');ri.onfocus=()=>pause(true);ri.onblur=()=>{if(!ri.value.trim())pause(false)};
+    rf.onsubmit=e=>{e.preventDefault();const v=ri.value.trim();if(!v)return;const c=sendDM(g.id,v,{kind:'story',id:s.id,author:g.id,title:s.cap||'',m:s.type==='video'?null:{mid:s.mid,art:s.art,seed:s.seed,wiki:s.wiki}});closeStories();toast(t('reply_sent'));openThread(c.id)}}
   SV.t0=performance.now();SV.paused=false;SV.pausedAt=0;
   if(dir){const c=$('#svCard');c.classList.remove('in-l','in-r');void c.offsetWidth;c.classList.add(dir>0?'in-r':'in-l')}
   tick();
@@ -136,7 +138,7 @@ function prev(){if(SV.ii>0){SV.ii--;showItem()}else if(SV.gi>0)nextGroup(-1,true
 function nextGroup(d,toEnd){const ng=SV.gi+d;if(ng<0||ng>=SV.groups.length){closeStories();return}SV.gi=ng;const g=SV.groups[ng];SV.ii=d<0&&toEnd?0:Math.max(0,g.items.findIndex(s=>!SOC.seenS[s.id]));showItem(d)}
 (function svGestures(){
   const card=$('#svCard');let st=null;
-  card.addEventListener('pointerdown',e=>{if(e.target.closest('button,input'))return;st={x:e.clientX,y:e.clientY,t:performance.now()};SV.held=setTimeout(()=>pause(true),220)});
+  card.addEventListener('pointerdown',e=>{if(e.target.closest('button,input,form'))return;st={x:e.clientX,y:e.clientY,t:performance.now()};SV.held=setTimeout(()=>pause(true),220)});
   card.addEventListener('pointermove',e=>{if(!st)return;const dx=e.clientX-st.x,dy=e.clientY-st.y;if(Math.abs(dx)>12||Math.abs(dy)>12)clearTimeout(SV.held);card.style.transform=dy>0&&Math.abs(dy)>Math.abs(dx)?`translateY(${dy}px) scale(${1-Math.min(.15,dy/2000)})`:Math.abs(dx)>Math.abs(dy)?`translateX(${dx*.6}px)`:''});
   const end=e=>{if(!st)return;clearTimeout(SV.held);const dx=e.clientX-st.x,dy=e.clientY-st.y,dt=performance.now()-st.t;card.style.transform='';const was=SV.paused;st=null;
     if(dy>90&&Math.abs(dy)>Math.abs(dx)){closeStories();return}
@@ -144,7 +146,7 @@ function nextGroup(d,toEnd){const ng=SV.gi+d;if(ng<0||ng>=SV.groups.length){clos
     if(was){pause(false);if(dt>220)return}
     if(Math.abs(dx)<12&&Math.abs(dy)<12&&dt<400){const r=card.getBoundingClientRect();(e.clientX-r.left<r.width*.33?prev:next)()}};
   card.addEventListener('pointerup',end);card.addEventListener('pointercancel',()=>{st=null;card.style.transform='';clearTimeout(SV.held);pause(false)});
-  document.addEventListener('keydown',e=>{if($('#sv').hidden)return;if(e.key==='ArrowRight')next();else if(e.key==='ArrowLeft')prev();else if(e.key==='Escape')closeStories();else if(e.key===' '){e.preventDefault();pause(!SV.paused)}});
+  document.addEventListener('keydown',e=>{if($('#sv').hidden||e.target.id==='svRin')return;if(e.key==='ArrowRight')next();else if(e.key==='ArrowLeft')prev();else if(e.key==='Escape')closeStories();else if(e.key===' '){e.preventDefault();pause(!SV.paused)}});
   addEventListener('resize',()=>{if(!$('#sv').hidden&&SV.lay)SV.lay()});
   $('#sv').addEventListener('click',e=>{
     const b=e.target.closest('button');if(!b)return;
