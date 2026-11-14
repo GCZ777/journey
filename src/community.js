@@ -143,7 +143,7 @@ function seedPosts(){
 }
 let SEEDP=null;
 const tagsOf=s=>[...new Set((s.match(/#[\p{L}\p{M}\p{N}_]+/gu)||[]).map(x=>x.toLowerCase()))];
-function allPosts(){if(!SEEDP)SEEDP=seedPosts();return SOC.posts.concat(SEEDP).filter(p=>!SOC.hidden.includes(p.id))}
+function allPosts(){if(!SEEDP)SEEDP=seedPosts();return SOC.posts.concat(SEEDP).filter(p=>!SOC.hidden.includes(p.id)&&!(p.set&&p.set.archived))}
 const postById=id=>SOC.posts.find(p=>p.id===id)||(SEEDP||[]).find(p=>p.id===id);
 const likesOf=p=>p.likes+(SOC.liked.includes(p.id)?1:0);
 const repostsOf=p=>p.reposts+(SOC.reposted.includes(p.id)?1:0)+SOC.posts.filter(x=>x.repostOf===p.id&&!SOC.reposted.includes(p.id)).length*0;
@@ -218,12 +218,12 @@ function postHTML(p,opt={}){
   <button class="icon-btn sm" data-pa="more" aria-label="${t('more')}">${SVG(IC.dots,2)}</button></header>
   ${mediaBox(src)}
   <div class="po-acts"><button class="pa${liked?' on':''}" data-pa="like" aria-pressed="${liked}" aria-label="${t('like')}">${SVG(IC.heart,1.9)}<span>${showL?compact(lc):''}</span></button>
-  ${src.set.rp!==false&&!own?`<button class="pa" data-pa="reply" aria-label="${t('reply')}">${SVG(IC.chat,1.9)}<span>${t('reply')}</span></button>`:''}
+  ${replyOf(src.set)!=='off'&&!own?`<button class="pa" data-pa="reply" aria-label="${t('reply')}">${SVG(IC.chat,1.9)}<span>${t('reply')}</span></button>`:''}
   <button class="pa" data-pa="share" aria-label="${t('share')}">${SVG(IC.share,1.9)}</button>
   ${src._why&&!opt.noWhy?`<span class="po-why">${SVG(IC.spark)}${esc(t(src._why[0],src._why[1]))}</span>`:''}</div>
   ${src.title?`<h3 class="po-title">${esc(src.title)}</h3>`:''}
   ${src.body?`<p class="po-body clamp">${bodyHTML(src.body)}</p>`:''}
-  ${src.set.aud==='followers'?`<small class="po-aud">${SVG(IC.lock)}${t('aud_followers')}</small>`:''}</article>`;
+  ${own&&(src.set.aud!=='all'||replyOf(src.set)!=='all'||src.set.archived||src.edited)?`<div class="po-meta">${audBadge(src.set.aud)}${replyOf(src.set)!=='all'?`<span class="aud-b">${SVG(AUD_IC[replyOf(src.set)])}${t('rp_short_'+replyOf(src.set))}</span>`:''}${src.set.archived?`<span class="aud-b">${SVG(IC.eyeoff)}${t('pm_archived_t')}</span>`:''}${src.edited?`<span class="aud-b">${SVG(IC.pencil)}${t('edited')}</span>`:''}</div>`:''}</article>`;
 }
 const compact=n=>n>=1e4?(n/1e3).toFixed(0)+'k':n>=1e3?(n/1e3).toFixed(1)+'k':String(n);
 function bindPostList(root,rerender){
@@ -258,10 +258,14 @@ function repostMenu(p,rerender){
 }
 function postMenu(p,wrapId,rerender){
   const own=p.author===myId()||(wrapId!==p.id&&(postById(wrapId)||{}).author===myId());const A=acct(p.author);
-  const rows=own?[['del',IC.trash,t('post_del'),'danger']]:[['follow',IC.userplus,isFollow(A.id)?t('unfollow_n',{n:A.name}):t('follow_n',{n:A.name}),''],['hide',IC.eyeoff,t('not_interested'),''],['prof',IC.user,t('view_profile'),'']];
+  const tgt=postById(wrapId!==p.id?wrapId:p.id)||p,isRp=!!tgt.repostOf;
+  const rows=own?(isRp?[['del',IC.trash,t('post_del'),'danger']]:[['edit',IC.pencil,t('pm_edit'),''],['priv',IC.lock,t('pm_privacy'),''],['arch',IC.eyeoff,t(tgt.set.archived?'pm_unarchive':'pm_archive'),''],['del',IC.trash,t('post_del'),'danger']]):[['follow',IC.userplus,isFollow(A.id)?t('unfollow_n',{n:A.name}):t('follow_n',{n:A.name}),''],['hide',IC.eyeoff,t('not_interested'),''],['prof',IC.user,t('view_profile'),'']];
   openSheet(t('more'),`<div class="act-list">${rows.map(([k,ic,l,c])=>`<button class="row ${c}" data-m="${k}"><span class="r-ic">${SVG(ic)}</span><span class="row-main"><b>${esc(l)}</b></span></button>`).join('')}</div>`,()=>{
     $('#optBody').onclick=e=>{const b=e.target.closest('[data-m]');if(!b)return;const k=b.dataset.m;
       if(k==='del'){if(!b.dataset.sure){b.dataset.sure=1;b.querySelector('b').textContent=t('post_del_sure');return}const id=wrapId!==p.id?wrapId:p.id;const x=SOC.posts.find(q=>q.id===id);if(x){(x.media||[]).forEach(m=>m.mid&&MED.del(m.mid));if(x.repostOf)SOC.reposted=SOC.reposted.filter(r=>r!==x.repostOf)}SOC.posts=SOC.posts.filter(q=>q.id!==id);toast(t('post_deleted'))}
+      else if(k==='edit'){closeSheet();postEditSheet(tgt,rerender);return}
+      else if(k==='priv'){closeSheet();postPrivacySheet(tgt,rerender);return}
+      else if(k==='arch'){tgt.set.archived=!tgt.set.archived;toast(t(tgt.set.archived?'pm_archived_t':'pm_unarchived_t'))}
       else if(k==='follow'){toggleFollow(A.id);toast(isFollow(A.id)?t('following_n',{n:A.name}):t('unfollowed'))}
       else if(k==='hide'){SOC.hidden.push(p.id);bump(p,-2);toast(t('hidden_post'))}
       else if(k==='prof'){closeSheet();openProfile(A.id);return}
@@ -400,7 +404,7 @@ function openEditor(file,opt={}){
 const CP={media:[],title:'',body:'',tags:[],prov:'',set:{aud:'all',rp:true,hideLikes:false}};
 function openCompose(){
   if(!guideMode()&&!ME.setup){toast(t('need_profile'));editMyProfile(()=>openCompose());return}
-  Object.assign(CP,{media:[],title:'',body:'',tags:[],prov:state.province?state.province.en:'',set:{aud:'all',rp:true,hideLikes:false}});
+  const P=PV();Object.assign(CP,{media:[],title:'',body:'',tags:[],prov:state.province?state.province.en:'',set:{aud:P.postAud,reply:P.postReply,rp:P.postReply!=='off',hideLikes:P.hideLikesAll}});
   state.compFrom=state.screen;show('compose');
 }
 function renderCompose(){
@@ -416,8 +420,8 @@ function renderCompose(){
    <div class="chips sug">${trending().filter(tg=>!tags.includes(tg)).slice(0,6).map(tg=>`<button type="button" class="chip" data-at="${esc(tg)}">${esc(tg)}</button>`).join('')}</div></div>
   <div class="field"><label for="cpProv">${t('cp_place')}</label><select class="input" id="cpProv"><option value="">${t('cp_noplace')}</option>${PROV.map(p=>`<option value="${p.en}"${CP.prov===p.en?' selected':''}>${esc(pname(p))}</option>`).join('')}</select></div>
   <div class="set-group"><span class="sec-label">${t('cp_settings')}</span><div class="list-card">
-    <div class="row"><span class="r-ic">${SVG(IC.eye)}</span><span class="row-main"><b>${t('cp_aud')}</b></span><div class="mini-seg" id="cpAud"><button type="button" data-v="all" aria-pressed="${CP.set.aud==='all'}">${t('aud_all')}</button><button type="button" data-v="followers" aria-pressed="${CP.set.aud==='followers'}">${t('aud_followers')}</button></div></div>
-    <label class="row" for="cpRp"><span class="r-ic">${SVG(IC.chat)}</span><span class="row-main"><b>${t('cp_allow_reply')}</b></span><input type="checkbox" class="switch" id="cpRp"${CP.set.rp?' checked':''}></label>
+    <div class="row pv-row"><span class="row-main"><b>${t('cp_aud')}</b>${pvSeg('cpAud',AUD_P,CP.set.aud,'aud_')}</span></div>
+    <div class="row pv-row"><span class="row-main"><b>${t('pv_reply')}</b>${pvSeg('cpRpl',REPLY,replyOf(CP.set),'rp_')}</span></div>
     <label class="row" for="cpHl"><span class="r-ic">${SVG(IC.heart)}</span><span class="row-main"><b>${t('cp_hide_likes')}</b><small>${t('cp_hide_likes_s')}</small></span><input type="checkbox" class="switch" id="cpHl"${CP.set.hideLikes?' checked':''}></label>
   </div></div>`;
   const upd=()=>{$('#cpPost').disabled=!(CP.media.length||CP.body.trim()||CP.title.trim())};
@@ -429,8 +433,8 @@ function renderCompose(){
   const addTag=(v,keep)=>{v=v.trim().replace(/^#*/,'#').replace(/\s+/g,'_').toLowerCase();if(v.length>1&&!CP.tags.includes(v)&&CP.tags.length<15){CP.tags.push(v)}$('#cpTag').value='';$('#cpTags').innerHTML=cpTagsHTML();if(keep)$('#cpTag').focus()};
   $('#cpTag').onkeydown=e=>{if(e.key==='Enter'||e.key===','||e.key===' '){e.preventDefault();addTag(e.target.value,true)}};
   $('#cpTag').onblur=e=>{if(e.target.value.trim())addTag(e.target.value)};
-  $('#cpAud').onclick=e=>{const b=e.target.closest('[data-v]');if(b){CP.set.aud=b.dataset.v;$$('#cpAud button').forEach(x=>x.setAttribute('aria-pressed',x===b))}};
-  $('#cpRp').onchange=e=>{CP.set.rp=e.target.checked};$('#cpHl').onchange=e=>{CP.set.hideLikes=e.target.checked};
+  bindSeg(el,'cpAud',v=>CP.set.aud=v);bindSeg(el,'cpRpl',v=>{CP.set.reply=v;CP.set.rp=v!=='off'});
+  $('#cpHl').onchange=e=>{CP.set.hideLikes=e.target.checked};
   const fi=$('#cpFile');fi&&(fi.onchange=async e=>{const fs=[...e.target.files].slice(0,10-CP.media.length);for(const f of fs){const r=await openEditor(f,{aspects:CP.media.length?[CP.media[0].ar]:['4:5','1:1','16:9','orig'],title:t('ed_title')});if(r){CP.media.push({blob:r.blob,url:URL.createObjectURL(r.blob),w:r.w,h:r.h,ar:CP.media.length?CP.media[0].ar:nearAspect(r.w/r.h),file:f})}}renderCompose()});
   el.onclick=async e=>{
     const x=e.target.closest('[data-cx]');if(x){const m=CP.media.splice(+x.dataset.cx,1)[0];URL.revokeObjectURL(m.url);renderCompose();return}

@@ -1,6 +1,6 @@
 /* Journey service worker: keeps the app shell, photos and lookups cached
    so pages open fast and still show something offline. */
-const V = 'journey-v2';
+const V = 'journey-v3';
 const IMG = 'journey-img';
 const DATA = 'journey-data';
 const CORE = ['/', '/favicon.svg', '/journey-logo.svg', '/journey-icon.svg', '/icon-192.png', '/site.webmanifest'];

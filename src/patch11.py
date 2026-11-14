@@ -138,6 +138,7 @@ scr='''
 <section class="screen app" id="s-gedit" hidden><div class="wrap"><div class="app-inner" id="geBody"></div></div></section>
 <section class="screen app" id="s-lplan" hidden><div class="wrap"><div class="app-inner" id="lpBody"></div></div></section>
 <section class="screen app" id="s-appts" hidden><div class="wrap"><div class="app-inner" id="apBody"></div></div></section>
+<section class="screen app" id="s-privset" hidden><div class="wrap"><div class="app-inner" id="pvBody"></div></div></section>
 <section class="screen app" id="s-plans" hidden><div class="wrap"><div class="app-inner" id="plBody"></div></div></section>
 <div class="editor" id="editor" hidden><div class="ed-top"><button class="ed-tb" id="edCancel" data-i18n="cancel"></button><b id="edTitle"></b><button class="ed-tb done" id="edDone" data-i18n="done"></button></div><div class="ed-stage"><canvas id="edCanvas"></canvas></div><div class="ed-tools" id="edTools"></div></div>
 <div class="stc" id="stc" hidden><div class="ed-top"><button class="ed-tb" id="stcCancel" data-i18n="cancel"></button><b data-i18n="st_new"></b><span style="width:60px"></span></div><div class="stc-wrap"><div class="stc-frame" id="stcFrame"><div class="stc-bg" id="stcBg"></div><div id="stcM"></div></div></div><div class="stc-tools" id="stcTools"></div></div>
@@ -147,8 +148,8 @@ scr='''
 rep('<div id="toast" role="status"></div>',scr+'<div id="toast" role="status"></div>')
 
 # ---- modules ----
-mods='\n'.join(rd(f) for f in ['lplan.js','community.js','stories.js','profiles.js','planner.js'])
-mods+="\nconst SCR={feed:renderFeed,csearch:renderCSearch,compose:renderCompose,uprof:renderUProf,pedit:renderPEdit,gedit:renderGEdit,lplan:renderLPlan,appts:renderAppts,plans:renderPlans};\n"
+mods='\n'.join(rd(f) for f in ['lplan.js','community.js','stories.js','profiles.js','privacy.js','planner.js'])
+mods+="\nconst SCR={feed:renderFeed,csearch:renderCSearch,compose:renderCompose,uprof:renderUProf,pedit:renderPEdit,gedit:renderGEdit,lplan:renderLPlan,appts:renderAppts,plans:renderPlans,privset:renderPrivSet};\n"
 rep("/* ---------------- boot ---------------- */",mods+"\n/* ---------------- boot ---------------- */")
 rep("syncAuth();setStep(1);applyI18n();renderAvatar();","syncAuth();setStep(1);applyI18n();renderAvatar();checkReminders();")
 

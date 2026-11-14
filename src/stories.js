@@ -46,7 +46,7 @@ function storyComposer(file){
   const isV=file.type.startsWith('video/');
   if(file.size>200*1024*1024){toast(t('st_too_big'));return}
   const ov=$('#stc'),fr=$('#stcFrame'),url=URL.createObjectURL(file);
-  const S={fit:'fill',z:1,x:0,y:0,start:0,end:0,dur:0,cap:''};let mw=0,mh=0,el;
+  const S={fit:'fill',z:1,x:0,y:0,start:0,end:0,dur:0,cap:'',aud:PV().storyAud,reply:PV().storyReply};let mw=0,mh=0,el;
   const bg=$('#stcBg');bg.innerHTML='';$('#stcM').innerHTML='';
   if(isV){el=document.createElement('video');el.muted=true;el.playsInline=true;el.loop=false;el.autoplay=true;el.src=url;
     el.onloadedmetadata=()=>{mw=el.videoWidth;mh=el.videoHeight;S.dur=el.duration;S.end=Math.min(60,el.duration);ready()};
@@ -62,11 +62,13 @@ function storyComposer(file){
     <div class="seg2 stc-fit"><button type="button" data-fit="fill" aria-pressed="${S.fit==='fill'}">${SVG(IC.max)}${t('st_fill')}</button><button type="button" data-fit="fit" aria-pressed="${S.fit==='fit'}">${SVG(IC.min)}${t('st_fit')}</button></div>
     <label class="ed-sl">${SVG(IC.zoomin)}<input type="range" id="stcZ" min="1" max="3" step=".01" value="${S.z}" aria-label="${t('ed_zoom')}"></label>
     ${isV&&S.dur>60?`<label class="ed-sl trim"><span>${t('st_trim')}</span><input type="range" id="stcTrim" min="0" max="${Math.floor(S.dur-60)}" step="1" value="${S.start}"><output>${fmtSec(S.start)}–${fmtSec(S.end)}</output></label><p class="stc-note">${t('st_trim_note')}</p>`:''}
+    <div class="stc-pv"><span>${t('cp_aud')}</span>${pvSeg('stcAud',AUD_S,S.aud,'aud_')}<span>${t('pv_reply')}</span>${pvSeg('stcRp',REPLY,S.reply,'rp_')}</div>
     <input class="input stc-cap" id="stcCap" maxlength="80" placeholder="${t('st_cap_ph')}" value="${esc(S.cap)}">
     <button class="btn primary block" id="stcShare">${t('st_share')}</button>`;
   }
   function ready(){ov.hidden=false;document.body.classList.add('ed-open');tools();requestAnimationFrame(lay);addEventListener('resize',lay)}
   function close(){ov.hidden=true;document.body.classList.remove('ed-open');removeEventListener('resize',lay);if(isV)el.pause();URL.revokeObjectURL(url)}
+  $('#stcTools').addEventListener('click',e=>{const b=e.target.closest('#stcAud [data-v],#stcRp [data-v]');if(!b)return;const g=b.parentElement;$$('button',g).forEach(x=>x.setAttribute('aria-pressed',x===b));if(g.id==='stcAud')S.aud=b.dataset.v;else S.reply=b.dataset.v});
   $('#stcTools').onclick=e=>{const f=e.target.closest('[data-fit]');if(f){S.fit=f.dataset.fit;S.z=1;S.x=S.y=0;lay();tools()}if(e.target.id==='stcShare')share()};
   $('#stcTools').oninput=e=>{if(e.target.id==='stcZ'){S.z=+e.target.value;lay()}else if(e.target.id==='stcTrim'){S.start=+e.target.value;S.end=S.start+60;el.currentTime=S.start;e.target.nextElementSibling.textContent=fmtSec(S.start)+'–'+fmtSec(S.end)}else if(e.target.id==='stcCap')S.cap=e.target.value};
   let last=null;
@@ -77,7 +79,7 @@ function storyComposer(file){
   $('#stcCancel').onclick=close;
   async function share(){
     $('#stcShare').disabled=true;const mid=await MED.put(file);
-    SOC.stories.push({id:'st'+Date.now().toString(36),author:myId(),at:Date.now(),type:isV?'video':'image',mid,w:mw,h:mh,fit:S.fit,z:S.z,x:S.x,y:S.y,start:S.start,end:isV?S.end:0,cap:S.cap.trim(),viewers:[]});
+    SOC.stories.push({id:'st'+Date.now().toString(36),author:myId(),at:Date.now(),type:isV?'video':'image',mid,w:mw,h:mh,fit:S.fit,z:S.z,x:S.x,y:S.y,start:S.start,end:isV?S.end:0,cap:S.cap.trim(),aud:S.aud,reply:S.reply,viewers:[]});
     socSave();close();toast(t('st_posted'));if(state.screen==='feed')renderFeed();
   }
 }
@@ -98,7 +100,7 @@ function showItem(dir){
   SOC.seenS[s.id]=Date.now();if(!own&&s.author!=='me'&&s.author!=='meg'){}socSave();
   $('#svBars').innerHTML=g.items.map((_,i)=>`<i><b style="width:${i<SV.ii?100:0}%"></b></i>`).join('');
   const RA=s.repostOf?acct(s.repostOf):null;
-  $('#svHead').innerHTML=`<button class="sv-who" data-svu="${g.id}">${avHTML(A,'sm')}<span><b>${esc(A.name)}</b><small>${rel(s.at)}${RA?` · ${SVG(IC.repost)}@${esc(RA.handle)}`:''}</small></span></button>
+  $('#svHead').innerHTML=`<button class="sv-who" data-svu="${g.id}">${avHTML(A,'sm')}<span><b>${esc(A.name)}</b><small>${rel(s.at)}${RA?` · ${SVG(IC.repost)}@${esc(RA.handle)}`:''}${own&&s.aud&&s.aud!=='all'?` · ${SVG(AUD_IC[s.aud])}${t('aud_'+s.aud)}`:''}</small></span></button>${own?`<button class="sv-ib" id="svMore" aria-label="${t('st_settings')}">${SVG(IC.dots,2.4)}</button>`:''}
    ${s.type==='video'?`<button class="sv-ib" id="svMute" aria-label="${t('st_sound')}">${SVG(SV.muted?IC.mute:IC.vol)}</button>`:''}<button class="sv-ib" id="svPause" aria-label="${t('st_pause')}">${SVG(IC.pause)}</button><button class="sv-ib" id="svClose" aria-label="${t('close')}">${SVG(IC.x,2.2)}</button>`;
   const stage=$('#svMedia');stage.innerHTML='';
   const bg=document.createElement('div');bg.className='sv-bg';stage.appendChild(bg);
@@ -111,14 +113,14 @@ function showItem(dir){
   const lay=()=>{const r=stage.getBoundingClientRect();placeIn(el,s.w||9,s.h||16,r.width,r.height,s);bg.hidden=s.fit!=='fit'};lay();SV.lay=lay;
   $('#svCap').textContent=s.cap||'';$('#svCap').hidden=!s.cap;
   $('#svFoot').innerHTML=own?`<button class="sv-views" id="svViews">${SVG(IC.eye)}<span>${t('st_viewers',{n:viewersOf(s).length})}</span></button><button class="sv-ib" id="svDel" aria-label="${t('post_del')}">${SVG(IC.trash)}</button>`
-    :`<form class="sv-reply" id="svReply"><input id="svRin" maxlength="300" autocomplete="off" enterkeyhint="send" placeholder="${esc(t('st_reply_ph',{n:A.name.split(' ')[0]}))}"><button aria-label="${t('reply_send')}">${SVG('<path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" />',2)}</button></form>`;
+    :(s.reply||'all')==='off'?`<span class="sv-noreact">${SVG(IC.eyeoff)}${t('st_reply_off')}</span>`:`<form class="sv-reply" id="svReply"><input id="svRin" maxlength="300" autocomplete="off" enterkeyhint="send" placeholder="${esc(t('st_reply_ph',{n:A.name.split(' ')[0]}))}"><button aria-label="${t('reply_send')}">${SVG('<path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" />',2)}</button></form>`;
   const rf=$('#svReply');if(rf){const ri=$('#svRin');ri.onfocus=()=>pause(true);ri.onblur=()=>{if(!ri.value.trim())pause(false)};
     rf.onsubmit=e=>{e.preventDefault();const v=ri.value.trim();if(!v)return;const c=sendDM(g.id,v,{kind:'story',id:s.id,author:g.id,title:s.cap||'',m:s.type==='video'?null:{mid:s.mid,art:s.art,seed:s.seed,wiki:s.wiki}});closeStories();toast(t('reply_sent'));openThread(c.id)}}
   SV.t0=performance.now();SV.paused=false;SV.pausedAt=0;
   if(dir){const c=$('#svCard');c.classList.remove('in-l','in-r');void c.offsetWidth;c.classList.add(dir>0?'in-r':'in-l')}
   tick();
 }
-function viewersOf(s){if(s.author!==myId())return [];const R=rng(hash(s.id)),n=Math.min(PEOPLE.length,Math.floor((Date.now()-s.at)/6e5)+Math.floor(R()*3));const v=PEOPLE.slice().sort(()=>R()-.5).slice(0,n).map((p,i)=>({id:p.id,at:s.at+(i+1)*Math.floor(4e5+R()*3e6)})).filter(x=>x.at<Date.now());return v}
+function viewersOf(s){if(s.author!==myId())return [];const P=PV(),pool=PEOPLE.filter(p=>!P.hideFrom.includes(p.id)&&(s.aud!=='close'||P.close.includes(p.id))),R=rng(hash(s.id)),n=Math.min(pool.length,Math.floor((Date.now()-s.at)/6e5)+Math.floor(R()*3));const v=pool.slice().sort(()=>R()-.5).slice(0,n).map((p,i)=>({id:p.id,at:s.at+(i+1)*Math.floor(4e5+R()*3e6)})).filter(x=>x.at<Date.now());return v}
 function durOf(s){return s.type==='video'?Math.max(1,(s.end||60)-(s.start||0))*1000:IMG_MS}
 function tick(){
   const s=svItem();if(!s)return;
@@ -156,6 +158,7 @@ function nextGroup(d,toEnd){const ng=SV.gi+d;if(ng<0||ng>=SV.groups.length){clos
     else if(b.dataset.svu){const id=b.dataset.svu;closeStories();openProfile(id)}
     else if(b.id==='svRp'){const s=svItem();const c=Object.assign({},s,{id:'st'+Date.now().toString(36),author:myId(),at:Date.now(),repostOf:s.repostOf||s.author,viewers:[]});SOC.stories.push(c);socSave();toast(t('st_reposted'));b.disabled=true}
     else if(b.id==='svViews'){pause(true);const s=svItem(),v=viewersOf(s);openSheet(t('st_viewers',{n:v.length}),v.length?`<div class="acc-list">${v.sort((a,b)=>b.at-a.at).map(x=>{const a=acct(x.id);return `<div class="acc-row"><button class="acc-main" data-u="${a.id}">${avHTML(a)}<span><b>${esc(a.name)}</b><small>${rel(x.at)}</small></span></button></div>`}).join('')}</div>`:`<p class="note">${t('st_noviews')}</p>`,()=>{$('#optBody').onclick=e2=>{const u=e2.target.closest('[data-u]');if(u){closeSheet();closeStories();openProfile(u.dataset.u)}}});const ob=$('#optSheet');const resume=()=>{if(ob.hidden){pause(false)}else setTimeout(resume,300)};setTimeout(resume,300)}
+    else if(b.id==='svMore'){pause(true);const s=svItem();storySettingsSheet(s,act=>{if(act==='del'){SV.groups=storyGroups();const g=SV.groups.find(x=>x.id===myId());if(!g){closeStories();return}SV.gi=SV.groups.indexOf(g);SV.ii=Math.min(SV.ii,g.items.length-1)}showItem()});const ob=$('#optSheet');const resume=()=>{if(ob.hidden){if(!$('#sv').hidden)pause(false)}else setTimeout(resume,300)};setTimeout(resume,300)}
     else if(b.id==='svDel'){if(!b.dataset.sure){b.dataset.sure=1;b.classList.add('warn');toast(t('st_del_again'));return}const s=svItem();SOC.stories=SOC.stories.filter(x=>x.id!==s.id);if(s.mid&&!s.repostOf&&!SOC.stories.some(x=>x.mid===s.mid))MED.del(s.mid);socSave();SV.groups=storyGroups();const g=SV.groups.find(x=>x.id===myId());if(!g){closeStories();return}SV.gi=SV.groups.indexOf(g);SV.ii=Math.min(SV.ii,g.items.length-1);showItem()}
   });
 })();
