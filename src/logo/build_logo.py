@@ -27,11 +27,11 @@ wp,ww,adv=word_path(W_TEXT,0,0,1)
 cap=960/ww
 OB.clear();wp,ww,adv=word_path(W_TEXT,0,0,cap)
 x1,y1,x2,y2=OB[0];ow=x2-x1;oh=y2-y1;cxo=(x1+x2)/2
-r=min(ow,oh)/2-4;cyo=(y1+y2)/2;top=cyo-r;tipy=y2+r*0.62
+r=oh/2.24;tipy=y2+1;cyo=tipy-r*1.24;top=cyo-r
 import math as _m
 dd=tipy-cyo;a=_m.acos(r/dd);sx=r*_m.sin(a);sy=cyo+r*_m.cos(a)
-hr=r*0.6
-pinO=(f"M{cxo-6:.1f} {tipy-6:.1f}L{cxo-sx:.1f} {sy:.1f}A{r:.1f} {r:.1f} 0 1 1 {cxo+sx:.1f} {sy:.1f}L{cxo+6:.1f} {tipy-6:.1f}Q{cxo:.1f} {tipy+3:.1f} {cxo-6:.1f} {tipy-6:.1f}Z"
+hr=r*0.56
+pinO=(f"M{cxo-3:.1f} {tipy-3:.1f}L{cxo-sx:.1f} {sy:.1f}A{r:.1f} {r:.1f} 0 1 1 {cxo+sx:.1f} {sy:.1f}L{cxo+3:.1f} {tipy-3:.1f}Q{cxo:.1f} {tipy+1:.1f} {cxo-3:.1f} {tipy-3:.1f}Z"
       f"M{cxo-hr:.1f} {cyo:.1f}A{hr:.1f} {hr:.1f} 0 1 0 {cxo+hr:.1f} {cyo:.1f}A{hr:.1f} {hr:.1f} 0 1 0 {cxo-hr:.1f} {cyo:.1f}Z")
 wp=wp+' '+pinO
 WTOP=top
