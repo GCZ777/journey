@@ -13,13 +13,28 @@ def word_path(text,x0,base,height_cap):
     pen=SVGPathPen(gs);x=0;adv=[]
     out=[]
     for ch in text:
-        g=cmap[ord(ch)];p=SVGPathPen(gs);tp=TransformPen(p,(sc,0,0,-sc,x0+x*sc,base));gs[g].draw(tp);out.append(p.getCommands());adv.append((x0+x*sc,gs[g].width*sc));x+=gs[g].width-18
+        g=cmap[ord(ch)];p=SVGPathPen(gs);tp=TransformPen(p,(sc,0,0,-sc,x0+x*sc,base));gs[g].draw(tp)
+        if ch=='o':
+            from fontTools.pens.boundsPen import BoundsPen
+            bp=BoundsPen(gs);gs[g].draw(bp);b=bp.bounds;OB.append((x0+(x+b[0])*sc,-b[3]*sc,x0+(x+b[2])*sc,-b[1]*sc))
+        else:out.append(p.getCommands())
+        adv.append((x0+x*sc,gs[g].width*sc));x+=gs[g].width-18
     return ' '.join(out),x*sc,adv
 W_TEXT='Journey'
+OB=[]
 wp,ww,adv=word_path(W_TEXT,0,0,1)
 # normalised: width ww per unit cap. target width 960
 cap=960/ww
-wp,ww,adv=word_path(W_TEXT,0,0,cap)
+OB.clear();wp,ww,adv=word_path(W_TEXT,0,0,cap)
+x1,y1,x2,y2=OB[0];ow=x2-x1;oh=y2-y1;cxo=(x1+x2)/2
+r=ow/2*1.02;top=y1-oh*0.42;cyo=top+r;tipy=y2+2
+import math as _m
+dd=tipy-cyo;a=_m.acos(r/dd);sx=r*_m.sin(a);sy=cyo+r*_m.cos(a)
+hr=r*0.46
+pinO=(f"M{cxo-6:.1f} {tipy-6:.1f}L{cxo-sx:.1f} {sy:.1f}A{r:.1f} {r:.1f} 0 1 1 {cxo+sx:.1f} {sy:.1f}L{cxo+6:.1f} {tipy-6:.1f}Q{cxo:.1f} {tipy+3:.1f} {cxo-6:.1f} {tipy-6:.1f}Z"
+      f"M{cxo-hr:.1f} {cyo:.1f}A{hr:.1f} {hr:.1f} 0 1 0 {cxo+hr:.1f} {cyo:.1f}A{hr:.1f} {hr:.1f} 0 1 0 {cxo-hr:.1f} {cyo:.1f}Z")
+wp=wp+' '+pinO
+WTOP=top
 
 # ---------- mark (pin + scene + swoosh + plane) in 1254 space ----------
 CX,CY,R=628,430,262;TIP=(628,812)
@@ -62,13 +77,12 @@ WX=(1254-ww)/2;WB=1000
 mini_pin=lambda x,y,s:f'<g transform="translate({x} {y}) scale({s})"><path d="M0 34C-14 18 -26 6 -26 -8A26 26 0 0 1 26 -8C26 6 14 18 0 34Z" fill="#8A4FC6"/><circle cx="0" cy="-8" r="9" fill="#fff"/></g>'
 ox=adv[1][0]+adv[1][1]/2
 word=f'<g transform="translate({WX:.1f} {WB})"><path d="{wp}" fill="url(#jWord)" stroke="url(#jWord)" stroke-width="16" stroke-linejoin="round"/></g>'
-pinO=mini_pin(round(WX+ox),WB-cap*0.62-60,1.25)
-full=f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 120 1254 1010" role="img" aria-label="Journey">{defs}{mark_body}{word}{pinO}</svg>'
+full=f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 120 1254 1010" role="img" aria-label="Journey">{defs}{mark_body}{word}</svg>'
 open(D+'journey-logo.svg','w').write(full)
 mark=f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="240 150 920 690" role="img" aria-label="Journey">{defs}{mark_body}</svg>'
 open(D+'journey-mark.svg','w').write(mark)
 icon=f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{CX-300} 140 600 690">{defs}<path d="{pin}" fill="url(#jPin)"/>{scene}</svg>'
 open(D+'journey-icon.svg','w').write(icon)
 wordsvg_vb=f'-12 {-cap*0.75-80:.0f} {ww+24:.0f} {cap*0.75+80+cap*0.32:.0f}'
-json.dump({'wp':wp,'ww':ww,'cap':cap,'ox':ox,'defs':defs,'mark_body':mark_body,'pin':pin,'scene':scene,'vb':wordsvg_vb},open(D+'parts.json','w'))
+json.dump({'wtop':WTOP,'wp':wp,'ww':ww,'cap':cap,'ox':ox,'defs':defs,'mark_body':mark_body,'pin':pin,'scene':scene,'vb':wordsvg_vb},open(D+'parts.json','w'))
 print(ww,cap,ox)
