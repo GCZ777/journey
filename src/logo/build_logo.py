@@ -27,10 +27,10 @@ wp,ww,adv=word_path(W_TEXT,0,0,1)
 cap=960/ww
 OB.clear();wp,ww,adv=word_path(W_TEXT,0,0,cap)
 x1,y1,x2,y2=OB[0];ow=x2-x1;oh=y2-y1;cxo=(x1+x2)/2
-r=ow/2*1.02;top=y1-oh*0.42;cyo=top+r;tipy=y2+2
+r=min(ow,oh)/2-4;cyo=(y1+y2)/2;top=cyo-r;tipy=y2+r*0.62
 import math as _m
 dd=tipy-cyo;a=_m.acos(r/dd);sx=r*_m.sin(a);sy=cyo+r*_m.cos(a)
-hr=r*0.46
+hr=r*0.6
 pinO=(f"M{cxo-6:.1f} {tipy-6:.1f}L{cxo-sx:.1f} {sy:.1f}A{r:.1f} {r:.1f} 0 1 1 {cxo+sx:.1f} {sy:.1f}L{cxo+6:.1f} {tipy-6:.1f}Q{cxo:.1f} {tipy+3:.1f} {cxo-6:.1f} {tipy-6:.1f}Z"
       f"M{cxo-hr:.1f} {cyo:.1f}A{hr:.1f} {hr:.1f} 0 1 0 {cxo+hr:.1f} {cyo:.1f}A{hr:.1f} {hr:.1f} 0 1 0 {cxo-hr:.1f} {cyo:.1f}Z")
 wp=wp+' '+pinO
