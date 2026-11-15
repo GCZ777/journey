@@ -1,0 +1,41 @@
+<title>Journey Partners</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Journey Partners — the workspace for stays, restaurants, transport, tours, attractions and government on one shared dataset.">
+<meta name="theme-color" content="#8A4FC6">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&display=swap">
+<style>__CSS__</style>
+<div id="splash"><img src="__MARK__" alt="" width="72" height="54"></div>
+
+<main id="auth" hidden>
+  <div class="au-wrap">
+    <div class="au-brand"><img src="__LOGO__" alt="Journey" class="au-logo"><span class="au-p">Partners</span></div>
+    <div class="au-card"></div>
+    <footer class="au-foot"><button id="langBtn2" class="btn ghost sm" onclick="LANG=LANG==='th'?'en':'th';try{localStorage.setItem('jyp_lang',LANG)}catch(e){};showAuth()">ไทย / EN</button><span>© Journey</span></footer>
+  </div>
+</main>
+
+<div id="app" hidden>
+  <aside id="side">
+    <div class="sd-top"><a class="brand" href="#dash" data-go="dash" aria-label="Journey Partners"><img src="__MARK__" alt="" width="34" height="26"><span><b>Journey</b><small>Partners</small></span></a></div>
+    <button id="orgBtn" class="org-btn" aria-haspopup="dialog"></button>
+    <nav id="nav" aria-label="Main"></nav>
+  </aside>
+  <div id="scrim"></div>
+  <div class="mainc">
+    <header class="top">
+      <button id="menuBtn" class="ib only-m" aria-label="Menu">__MENU__</button>
+      <div id="demoBar" class="demo" hidden><span>__SPARK__<b class="th">ข้อมูลตัวอย่าง</b><b class="en">Sample data</b></span><button id="demoReset" class="lnk"><span class="th">รีเซ็ต</span><span class="en">Reset</span></button></div>
+      <span class="sp"></span>
+      <button id="langBtn" class="btn ghost sm">EN</button>
+      <button id="bell" class="ib" aria-label="Notifications">__BELL__<i id="bellN" hidden></i></button>
+      <span id="userAv" class="u-av" aria-hidden="true"></span>
+    </header>
+    <div id="view" tabindex="-1"></div>
+  </div>
+</div>
+
+<div id="drawer" hidden><div class="dr" role="dialog" aria-modal="true" aria-labelledby="drTitle"><div class="dr-h"><h2 id="drTitle"></h2><button id="drClose" class="ib" aria-label="Close">__X__</button></div><div id="drBody"></div></div></div>
+<div id="modal" hidden></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>__JS__</script>

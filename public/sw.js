@@ -1,6 +1,6 @@
 /* Journey service worker: keeps the app shell, photos and lookups cached
    so pages open fast and still show something offline. */
-const V = 'journey-v3';
+const V = 'journey-v4';
 const IMG = 'journey-img';
 const DATA = 'journey-data';
 const CORE = ['/', '/favicon.svg', '/journey-logo.svg', '/journey-icon.svg', '/icon-192.png', '/site.webmanifest'];
@@ -32,8 +32,9 @@ async function staleWhileRevalidate(req, name) {
 }
 async function networkFirst(req) {
   const c = await caches.open(V);
-  try { const res = await fetch(req); if (res && res.ok) c.put('/', res.clone()); return res; }
-  catch (e) { return (await c.match('/')) || Response.error(); }
+  const key = new URL(req.url).pathname.startsWith('/partners') ? '/partners/' : '/';
+  try { const res = await fetch(req); if (res && res.ok) c.put(key, res.clone()); return res; }
+  catch (e) { return (await c.match(key)) || Response.error(); }
 }
 self.addEventListener('fetch', e => {
   const req = e.request;
