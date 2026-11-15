@@ -49,22 +49,38 @@ function haBind(){const tr=$('#haTrack');HA.i=0;tr.scrollLeft=0;haDots();haAuto(
 '''
 rep("/* ----- link to Journey Partners: shared data on the same site ----- */",js+"\n/* ----- link to Journey Partners: shared data on the same site ----- */")
 css='''
-/* ===== home header slider ===== */
+/* ===== home header slider (light cards that sit on the hero gradient) ===== */
 .vh-only{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .hero-ads{position:relative;z-index:1;margin-top:12px;display:flex;flex-direction:column;gap:10px}
-.ha-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:28px;overscroll-behavior-x:contain}
+.ha-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:28px;overscroll-behavior-x:contain;padding-bottom:2px}
 .ha-track::-webkit-scrollbar{display:none}
-.ha-slide{flex:0 0 100%;scroll-snap-align:start;scroll-snap-stop:always;position:relative;display:grid;grid-template-columns:minmax(0,1fr) 120px;align-items:center;gap:16px;min-height:208px;padding:22px 22px 22px 24px;border:0;border-radius:28px;overflow:hidden;text-align:left;color:#fff;text-decoration:none;font:inherit;cursor:pointer;
-  background:radial-gradient(70% 120% at 100% 100%,rgba(255,203,174,.55) 0%,rgba(255,203,174,0) 60%),radial-gradient(60% 90% at 85% 0%,rgba(245,184,203,.45) 0%,rgba(245,184,203,0) 65%),linear-gradient(140deg,#2E2650 0%,#4B3D9E 58%,#7A68D4 100%)}
-.ha-slide.ha-biz{background:radial-gradient(70% 120% at 100% 100%,rgba(255,214,150,.5) 0%,rgba(255,214,150,0) 60%),radial-gradient(60% 90% at 85% 0%,rgba(255,170,190,.4) 0%,rgba(255,170,190,0) 65%),linear-gradient(140deg,#4A1E4E 0%,#8A3F86 55%,#D9708C 100%)}
-.ha-slide.ha-plan{background:radial-gradient(70% 120% at 100% 100%,rgba(190,240,215,.45) 0%,rgba(190,240,215,0) 60%),radial-gradient(60% 90% at 85% 0%,rgba(170,215,255,.4) 0%,rgba(170,215,255,0) 65%),linear-gradient(140deg,#123A4A 0%,#1E6B78 55%,#3FA59A 100%)}
-.ha-slide.ha-gov{background:radial-gradient(70% 120% at 100% 100%,rgba(255,224,170,.45) 0%,rgba(255,224,170,0) 60%),radial-gradient(60% 90% at 85% 0%,rgba(180,190,255,.4) 0%,rgba(180,190,255,0) 65%),linear-gradient(140deg,#1C2350 0%,#33408F 55%,#6274C9 100%)}
-.ha-slide:focus-visible{outline:3px solid #fff;outline-offset:-5px}
+.ha-slide{--ac:#8352C8;--ac2:#B8A6F0;--tint:#EFE9FC;--tint2:#FFE6D6;
+  flex:0 0 100%;scroll-snap-align:start;scroll-snap-stop:always;position:relative;display:grid;grid-template-columns:minmax(0,1fr) 128px;align-items:center;gap:16px;min-height:200px;padding:22px 22px 22px 24px;border-radius:28px;overflow:hidden;text-align:left;color:var(--ink);text-decoration:none;font:inherit;cursor:pointer;
+  border:1px solid rgba(255,255,255,.85);
+  background:radial-gradient(55% 90% at 100% 100%,var(--tint2) 0%,rgba(255,255,255,0) 70%),radial-gradient(60% 100% at 92% 0%,var(--tint) 0%,rgba(255,255,255,0) 70%),linear-gradient(135deg,rgba(255,255,255,.94) 0%,rgba(255,253,250,.82) 100%);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);backdrop-filter:blur(14px) saturate(140%);
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 18px 40px -24px rgba(90,58,158,.45)}
+.ha-slide.ha-biz{--ac:#B4467A;--ac2:#F2A9C4;--tint:#FCE3EC;--tint2:#FFE9D9}
+.ha-slide.ha-plan{--ac:#23806F;--ac2:#8FD3C2;--tint:#DCF3EC;--tint2:#E4EEFF}
+.ha-slide.ha-gov{--ac:#4757B8;--ac2:#A9B5F0;--tint:#E3E8FF;--tint2:#FFF0D9}
+.ha-slide .gp-txt small{color:var(--ac);display:inline-flex;align-items:center;gap:6px;padding:4px 10px 4px 8px;border-radius:999px;background:color-mix(in srgb,var(--tint) 75%,#fff);font-size:11.5px;letter-spacing:.04em}
+.ha-slide .gp-txt b{color:var(--ink);font-size:clamp(19px,4.4vw,23px)}
+.ha-slide .gp-sub{color:var(--muted)}
+.ha-slide .gp-cta{background:var(--ac);color:#fff;box-shadow:0 10px 20px -12px var(--ac)}
+.ha-slide .gp-art{width:128px;height:128px;color:var(--ac)}
+.ha-slide .gp-art i{border:0}
+.ha-slide .gp-art i:nth-child(1){inset:0;background:radial-gradient(circle at 30% 30%,#fff 0%,var(--tint) 70%);opacity:.9}
+.ha-slide .gp-art i:nth-child(2){inset:20px;background:color-mix(in srgb,var(--ac2) 35%,#fff)}
+.ha-slide .gp-art i:nth-child(3){inset:38px;background:#fff;box-shadow:0 10px 22px -10px var(--ac)}
+.ha-slide .gp-art svg{width:34px;height:34px}
+.ha-slide::after{content:"";position:absolute;right:-30px;bottom:-46px;width:150px;height:150px;border-radius:50%;border:1px dashed color-mix(in srgb,var(--ac2) 70%,transparent);pointer-events:none}
+.ha-slide:active{transform:scale(.99)}
+.ha-slide:focus-visible{outline:3px solid var(--ac);outline-offset:-4px}
 .ha-dots{display:flex;justify-content:center;gap:6px}
 .ha-dots button{width:7px;height:7px;padding:0;border:0;border-radius:99px;background:currentColor;opacity:.3;transition:width .25s,opacity .25s}
-.ha-dots button[aria-current]{width:22px;opacity:.85}
+.ha-dots button[aria-current]{width:22px;opacity:.8}
 .hh-greet{margin-top:2px}
-@media (max-width:520px){.ha-slide{grid-template-columns:minmax(0,1fr) 72px;padding:20px 18px 20px 20px;min-height:236px}.ha-slide .gp-art{width:72px;height:72px;align-self:start}.ha-slide .gp-art i:nth-child(2){inset:11px}.ha-slide .gp-art i:nth-child(3){inset:22px}.ha-slide .gp-art svg{width:26px;height:26px}}
+@media (max-width:520px){.ha-slide{grid-template-columns:minmax(0,1fr) 76px;padding:20px 16px 20px 20px;min-height:228px}.ha-slide .gp-art{width:76px;height:76px;align-self:start}.ha-slide .gp-art i:nth-child(2){inset:12px}.ha-slide .gp-art i:nth-child(3){inset:22px}.ha-slide .gp-art svg{width:24px;height:24px}}
 '''
 rep('</style>',css+'</style>')
 T={'en':{'ad_b_t':'Run a stay, restaurant or tour? Get found by travellers','ad_b_s':'Bookings, availability, partners and customer journeys in one place.','ad_b_c':'Open partner portal','ad_p_t':'Plan a trip together','ad_p_s':'Stops, times, traffic and weather on one shared map with your friends.','ad_p_c':'Start planning','ad_g_t':'Tourism offices: see how visitors move through your province','ad_g_s':'Post notices and events straight to travellers’ home screens.','ad_g_c':'Learn more'},
