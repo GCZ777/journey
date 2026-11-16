@@ -31,7 +31,7 @@ function setLayer(l){state.layer=l;document.body.classList.toggle('spots-on',l==
 function spotsPanelHTML(){
   const p=state.province,all=spotsOf(p.en),kinds=[...new Set(all.map(s=>s.k))];if(!kinds.includes(state.spotK))state.spotK='all';
   const L=all.filter(s=>state.spotK==='all'||s.k===state.spotK);
-  return `<div class="spp-h"><div><h2>${esc(t('sp_title',{p:pname(p)}))}</h2>${SOFT[p.en]?`<p>${esc(state.lang==='th'?SOFT[p.en][0]:SOFT[p.en][1])}</p>`:''}</div>${kinds.length>1?`<button class="f-btn${state.spotK!=='all'?' on':''}" id="spFilt">${SVG(IC.filter)}${esc(state.spotK==='all'?t('filters'):t('sk_'+state.spotK))}</button>`:''}</div>
+  return `<div class="spp-h"><h2>${esc(t('sp_title',{p:pname(p)}))}</h2>${kinds.length>1?`<button class="f-btn${state.spotK!=='all'?' on':''}" id="spFilt">${SVG(IC.filter)}${esc(state.spotK==='all'?t('filters'):t('sk_'+state.spotK))}</button>`:''}</div>
    <div class="spl" id="spl">${L.map(s=>{const k=skOf(s.k);return `<button class="spc${state.spotSel===s.id?' on':''}" data-sp="${s.id}"><span class="spc-ph" style="--c:${k.c};--b:${k.bg}">${spArt(s)}${spImg(s)}${spHas(p.en,s.id)?`<i class="spc-got">${sS('stamp',2)}</i>`:''}</span><span class="spc-tx"><small style="color:${k.c}">${esc(t('sk_'+s.k))}</small><b>${esc(spName(s))}</b><span>${esc(spMeta(s))}</span></span></button>`}).join('')}</div>`;
 }
 function bindSpotsPanel(el){
@@ -60,7 +60,7 @@ function spotOpen(prov,id){
   const s=spotsOf(prov).find(x=>x.id===id);if(!s)return;const k=skOf(s.k),has=spHas(prov,id),P=PROV.find(x=>x.en===prov);
   openSheet('',`<div class="spd"><div class="spd-hero" style="--c:${k.c};--b:${k.bg}">${spArt(s)}${spImg(s)}<div class="spd-ov"><span class="spd-k">${sS(k.ic,2)}${esc(t('sk_'+s.k))}</span><h2>${esc(spName(s))}</h2><p>${sS('pin',2)}${esc(s.d?t('sp_dist',{d:spT(s.d),p:pname(P)}):pname(P))}${s.ap?' · '+esc(t('sp_approx')):''}</p></div>${has?`<span class="spd-got">${sS('stamp',2)}</span>`:''}</div>
    <div class="spd-a"><button class="btn primary" id="spdAdd">${sS('plus',2.2)}${esc(t('sp_add'))}</button>${s.lat!=null?`<a class="btn line" href="https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}" target="_blank" rel="noopener">${sS('nav',2)}${esc(t('sp_nav'))}</a>`:''}</div>
-   <div class="spd-ic"><button id="spdGuides">${sS('users',2)}<span>${esc(t('sp_guides'))}</span></button><button id="spdSay">${sS('vol',2)}<span>${esc(t('sp_listen'))}</span></button>${s.lat!=null?`<button id="spdCheck"${has?' disabled class="done"':''}>${sS('stamp',2)}<span>${esc(has?t('sp_stamped'):t('sp_checkin'))}</span></button>`:''}</div>
+   <div class="spd-ic"><button id="spdGuides">${sS('users',2)}<span>${esc(t('sp_guides'))}</span></button>${s.lat!=null?`<button id="spdCheck"${has?' disabled class="done"':''}>${sS('stamp',2)}<span>${esc(has?t('sp_stamped'):t('sp_checkin'))}</span></button>`:''}</div>
    <div class="spd-body" id="spdBody">${s.s?`<p class="spd-s clamp" id="spdS">${esc(spT(s.s))}</p>`:`<p class="spd-s clamp" id="spdS"><span class="spd-load"></span></p>`}<button class="link spd-more" id="spdMore" hidden>${esc(t('sp_more'))}</button>
    ${s.f?`<ul class="spd-f">${s.f.map(x=>`<li>${esc(spT(x))}</li>`).join('')}</ul>`:''}${s.tip?`<p class="spd-tip">${sS('spark',2)}${esc(spT(s.tip))}</p>`:''}</div>
    ${s.img?`<p class="spd-cr">${esc(t('sp_photo'))} <a href="https://commons.wikimedia.org/wiki/File:${encodeURIComponent(s.img.replace(/ /g,'_'))}" target="_blank" rel="noopener">Wikimedia Commons</a></p>`:''}</div>`,b=>{
@@ -68,7 +68,6 @@ function spotOpen(prov,id){
     if(s.s)more();else spExtract(s).then(x=>{const el=$('#spdS',b);if(!el)return;if(x){el.textContent=x;more()}else el.remove()});
     $('#spdAdd',b).onclick=()=>spAddSheet(prov,[s]);
     $('#spdGuides',b).onclick=()=>{closeSheet();const dl=DIST[prov]||[],di=s.d?dl.findIndex(([th])=>th===s.d.th.split('–')[0]):-1;state.province=P;F.kind=di>=0?'local':'all';F.di=di;state.listLim=30;if(state.screen==='map'){setLayer('guides');refilter&&refilter()}else{setLayerOnEnter='guides';goMap()}};
-    $('#spdSay',b).onclick=()=>{if(!('speechSynthesis' in window)){toast(t('sp_no_tts'));return}if(speechSynthesis.speaking){speechSynthesis.cancel();return}const u=new SpeechSynthesisUtterance(spName(s)+'. '+(($('#spdS',b)||{}).textContent||''));u.lang=state.lang==='th'?'th-TH':'en-US';speechSynthesis.speak(u)};
     const ck=$('#spdCheck',b);ck&&!has&&(ck.onclick=()=>{if(!navigator.geolocation){toast(t('sp_loc_off'));return}ck.disabled=true;navigator.geolocation.getCurrentPosition(pos=>{const km=distKm({lat:pos.coords.latitude,lng:pos.coords.longitude},s);if(km<=(s.ap?8:2)){const st=spStamps();st[prov]=st[prov]||{};st[prov][id]=Date.now();store.set('spotStamp',st);toast(t('sp_stamped'));closeSheet();if(state.screen==='map'&&state.layer==='spots')renderPanel()}else{ck.disabled=false;toast(t('sp_far',{km:km<10?km.toFixed(1):Math.round(km)}))}},()=>{ck.disabled=false;toast(t('sp_loc_off'))},{enableHighAccuracy:true,timeout:9000,maximumAge:60000})});
   });
 }
@@ -93,3 +92,22 @@ document.addEventListener('click',e=>{
   const ly=e.target.closest('#pnTabs [data-ly]');if(ly){if(ly.dataset.ly!==state.layer)setLayer(ly.dataset.ly);return}
   const sp=e.target.closest('#spl [data-sp]');if(sp){spotFocus(sp.dataset.sp,true);spotOpen(state.province.en,sp.dataset.sp);return}
 });
+
+/* ----- province drawer: slides in from the right, handle under the top bar ----- */
+function pvOpen(on){const d=$('#pvDrawer');if(!d)return;if(on)renderPvDrawer();d.classList.toggle('on',on);d.setAttribute('aria-hidden',!on);$('#pvScrim').classList.toggle('on',on);$('#pvHandle').setAttribute('aria-expanded',on)}
+function renderPvDrawer(){
+  const el=$('#pvBody'),p=state.province;if(!el||!p)return;const S=SOFT[p.en],all=spotsOf(p.en),hi=all.filter(s=>s.photo).concat(all.filter(s=>!s.photo)).slice(0,3),got=Object.keys(spStamps()[p.en]||{}).length;
+  el.innerHTML=`<div class="pvd-h"><div><small>${esc(t('pv_info'))}</small><h2>${esc(pname(p))}</h2>${state.lang!=='en'?`<span>${esc(p.en)}</span>`:''}</div><button class="icon-btn" id="pvClose" aria-label="Close">${SVG(IC.x,2.2)}</button></div>
+   ${S?`<p class="pvd-tag">${esc(state.lang==='th'?S[0]:S[1])}</p><div class="pvd-sig">${S[2].map(x=>`<span>${sS('spark',2)}${esc(state.lang==='th'?x[0]:x[1])}</span>`).join('')}</div>`:''}
+   <div class="pvd-stats"><div><b>${all.length}</b><small>${esc(t('mm_spots'))}</small></div><div><b>${state.guides.length}</b><small>${esc(t('mm_guides'))}</small></div><div><b>${got}/${all.length}</b><small>${esc(t('sp_checkin'))}</small></div></div>
+   <div class="pvd-sec"><b>${esc(t('pv_weather'))}</b><div class="pvd-wx" id="pvWx"><span class="spd-load"></span></div></div>
+   ${hi.length?`<div class="pvd-sec"><b>${esc(t('pv_highlights'))}</b><div class="pvd-hi">${hi.map(s=>{const k=skOf(s.k);return `<button data-pvs="${s.id}"><span class="ds-ph" style="--c:${k.c};--b:${k.bg}">${spArt(s)}${spImg(s)}</span><span><small style="color:${k.c}">${esc(t('sk_'+s.k))}</small><b>${esc(spName(s))}</b></span></button>`}).join('')}</div></div>`:''}
+   <button class="btn line block" data-go="home">${SVG(IC.map||SPI.map,2)}${esc(t('pv_change'))}</button>`;
+  $('#pvClose',el).onclick=()=>pvOpen(false);
+  $$('[data-pvs]',el).forEach(b=>b.onclick=()=>{pvOpen(false);spotPick(b.dataset.pvs)});
+  const pl={prov:p.en,start:isoDay(0),days:[{},{},{}]};
+  Promise.resolve(loadWeather(pl)).then(w=>{const x=$('#pvWx');if(!x)return;if(!w||w.far){x.innerHTML=`<p class="pvd-na">${esc(t('wx_na'))}</p>`;return}
+    x.innerHTML=[0,1,2].map(i=>{const d=isoDay(i),v=w[d];if(!v)return '';const [k,ic]=WMO(v.c);return `<div><small>${esc(i===0?t('pv_today'):new Date(d+'T00:00').toLocaleDateString(state.lang==='th'?'th-TH':state.lang,{weekday:'short'}))}</small>${SVG(ic,1.7)}<b>${v.hi}°</b><span>${v.lo}° · ${SVG(IC.rain,2)}${v.rain??'–'}%</span></div>`}).join('')+`<em>Open-Meteo</em>`});
+}
+document.addEventListener('click',e=>{if(e.target.closest('#pvHandle')){pvOpen(!$('#pvDrawer').classList.contains('on'));return}if(e.target.closest('#pvScrim')){pvOpen(false)}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#pvDrawer')&&$('#pvDrawer').classList.contains('on'))pvOpen(false)});
