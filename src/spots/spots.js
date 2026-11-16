@@ -19,23 +19,32 @@ function spHas(prov,id){return !!((spStamps()[prov]||{})[id])}
 function spArt(s){const k=skOf(s.k);return `<span class="sp-art" style="--c:${k.c};--b:${k.bg}">${sS(k.ic,1.6)}</span>`}
 function spImg(s,cls){return s.photo?`<img class="${cls||''}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" src="${esc(s.photo)}" onerror="this.remove()">`:''}
 
-/* ----- map layer: guides | spots ----- */
-state.layer=state.layer||'guides';state.spotK='all';state.spotSel=null;
-function setLayer(l){state.layer=l;document.body.classList.toggle('spots-on',l==='spots');$$('#mmSeg [data-ly]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.ly===l));
-  if(l==='spots'){renderSpotBar();placeSig='';refreshPlaces();const f=state.spotSel||($('#sbTrack .sb-card')||{dataset:{}}).dataset.sp;if(f)setTimeout(()=>spotFocus(f,true),60);return}state.spotSel=null;placeSig='';refreshPlaces()}
-function renderSpotBar(){
-  const el=$('#spotBar');if(!el)return;const p=state.province;if(!p)return;const all=spotsOf(p.en);
-  const kinds=['all',...new Set(all.map(s=>s.k))];if(!kinds.includes(state.spotK))state.spotK='all';
-  const L=all.filter(s=>state.spotK==='all'||s.k===state.spotK),o=state.origin||{lat:p.lat,lng:p.lng};
-  el.innerHTML=`<div class="sb-chips">${kinds.length>2?kinds.map(k=>`<button data-sk="${k}" aria-pressed="${state.spotK===k}"${k!=='all'?` style="--c:${skOf(k).c}"`:''}>${k==='all'?esc(t('sp_all')):sS(skOf(k).ic,2)+esc(t('sk_'+k))}</button>`).join(''):''}</div>
-   <div class="sb-track" id="sbTrack">${L.map(s=>{const k=skOf(s.k),d=s.lat!=null?distKm(o,{lat:s.lat,lng:s.lng}):null;return `<button class="sb-card${state.spotSel===s.id?' on':''}" data-sp="${s.id}"><span class="sb-ph" style="--c:${k.c};--b:${k.bg}">${spArt(s)}${spImg(s)}${spHas(p.en,s.id)?`<i class="sb-got">${sS('stamp',2)}</i>`:''}</span><span class="sb-tx"><small style="color:${k.c}">${sS(k.ic,2)}${esc(t('sk_'+s.k))}</small><b>${esc(spName(s))}</b><span>${s.d?esc(spT(s.d))+' · ':''}${d!=null?esc(t('sp_km',{n:d<10?d.toFixed(1):Math.round(d)})):esc(t('sp_noloc'))}</span></span></button>`}).join('')}</div>`;
-  const tr=$('#sbTrack');let to;
-  tr.onscroll=()=>{clearTimeout(to);to=setTimeout(()=>{const r=tr.getBoundingClientRect(),cx=r.left+r.width/2;let best=null,bd=1e9;$$('.sb-card',tr).forEach(c=>{const b=c.getBoundingClientRect(),d=Math.abs(b.left+b.width/2-cx);if(d<bd){bd=d;best=c}});if(best)spotFocus(best.dataset.sp,false)},140)};
-  if(state.spotSel){const c=$(`.sb-card[data-sp="${state.spotSel}"]`,tr);if(c)tr.scrollLeft=c.offsetLeft-(tr.clientWidth-c.offsetWidth)/2}
+/* ----- map: one bottom panel with two tabs (places | guides) ----- */
+state.layer=state.layer||'spots';state.spotK='all';state.spotSel=null;
+let setLayerOnEnter=null;
+const spFrom=()=>state.me&&state.province&&distKm(state.me,state.province)<80?state.me:null;
+function spMeta(s){const me=spFrom();if(me&&s.lat!=null){const d=distKm(me,{lat:s.lat,lng:s.lng});return t('sp_km',{n:d<10?d.toFixed(1):Math.round(d)})}if(s.d)return t('sp_ampoe',{d:spT(s.d)});if(s.lat==null)return t('sp_noloc');const d=distKm(state.province,{lat:s.lat,lng:s.lng});return d<1.5?t('sp_incity'):t('sp_fromcity',{n:Math.round(d)})}
+function renderPnTabs(){const el=$('#pnTabs');if(!el||!state.province)return;const n=spotsOf(state.province.en).length,g=state.guides.filter(x=>x.visible&&x.fit).length;
+  el.innerHTML=[['spots',t('mm_spots'),n,'camera'],['guides',t('mm_guides'),g,'guide']].map(([k,l,c,ic])=>`<button data-ly="${k}" role="tab" aria-selected="${state.layer===k}">${sS(ic,2)}<span>${esc(l)}</span><i>${c}</i></button>`).join('')}
+function setLayer(l){state.layer=l;document.body.classList.toggle('spots-on',l==='spots');if(l!=='spots')state.spotSel=null;
+  renderPnTabs();renderPanel();placeSig='';refreshPlaces()}
+function spotsPanelHTML(){
+  const p=state.province,all=spotsOf(p.en),kinds=[...new Set(all.map(s=>s.k))];if(!kinds.includes(state.spotK))state.spotK='all';
+  const L=all.filter(s=>state.spotK==='all'||s.k===state.spotK);
+  return `<div class="spp-h"><div><h2>${esc(t('sp_title',{p:pname(p)}))}</h2>${SOFT[p.en]?`<p>${esc(state.lang==='th'?SOFT[p.en][0]:SOFT[p.en][1])}</p>`:''}</div>${kinds.length>1?`<button class="f-btn${state.spotK!=='all'?' on':''}" id="spFilt">${SVG(IC.filter)}${esc(state.spotK==='all'?t('filters'):t('sk_'+state.spotK))}</button>`:''}</div>
+   <div class="spl" id="spl">${L.map(s=>{const k=skOf(s.k);return `<button class="spc${state.spotSel===s.id?' on':''}" data-sp="${s.id}"><span class="spc-ph" style="--c:${k.c};--b:${k.bg}">${spArt(s)}${spImg(s)}${spHas(p.en,s.id)?`<i class="spc-got">${sS('stamp',2)}</i>`:''}</span><span class="spc-tx"><small style="color:${k.c}">${esc(t('sk_'+s.k))}</small><b>${esc(spName(s))}</b><span>${esc(spMeta(s))}</span></span></button>`}).join('')}</div>`;
 }
+function bindSpotsPanel(el){
+  const sp=$('#spl',el);let to;
+  sp.onscroll=()=>{if(!spHorizontal())return;clearTimeout(to);to=setTimeout(()=>{const r=sp.getBoundingClientRect(),cx=r.left+r.width/2;let best=null,bd=1e9;$$('.spc',sp).forEach(c=>{const b=c.getBoundingClientRect(),d=Math.abs(b.left+b.width/2-cx);if(d<bd){bd=d;best=c}});if(best&&best.dataset.sp!==state.spotSel)spotFocus(best.dataset.sp,false)},160)};
+  const fb=$('#spFilt',el);fb&&(fb.onclick=()=>{const kinds=['all',...new Set(spotsOf(state.province.en).map(s=>s.k))];
+    openSheet(t('filters'),`<div class="spk-list">${kinds.map(k=>`<button data-spk="${k}" aria-pressed="${state.spotK===k}">${k==='all'?sS('map',2):sS(skOf(k).ic,2)}<span>${esc(k==='all'?t('sp_all'):t('sk_'+k))}</span><i>${k==='all'?spotsOf(state.province.en).length:spotsOf(state.province.en).filter(s=>s.k===k).length}</i></button>`).join('')}</div>`,b=>$$('[data-spk]',b).forEach(x=>x.onclick=()=>{state.spotK=x.dataset.spk;state.spotSel=null;closeSheet();renderPanel();placeSig='';refreshPlaces()}))});
+  if(state.spotSel){const c=$(`.spc[data-sp="${state.spotSel}"]`,sp);if(c){if(spHorizontal())sp.scrollLeft=c.offsetLeft-(sp.clientWidth-c.offsetWidth)/2;else c.scrollIntoView({block:'nearest'})}}
+}
+const spHorizontal=()=>{const sp=$('#spl');return sp&&getComputedStyle(sp).flexDirection==='row'};
 function spotFocus(id,scroll){
-  state.spotSel=id;$$('#sbTrack .sb-card').forEach(c=>c.classList.toggle('on',c.dataset.sp===id));
-  if(scroll){const tr=$('#sbTrack'),c=tr&&$(`.sb-card[data-sp="${id}"]`,tr);if(c)tr.scrollTo({left:c.offsetLeft-(tr.clientWidth-c.offsetWidth)/2,behavior:'smooth'})}
+  state.spotSel=id;$$('#spl .spc').forEach(c=>c.classList.toggle('on',c.dataset.sp===id));
+  if(scroll){const sp=$('#spl'),c=sp&&$(`.spc[data-sp="${id}"]`,sp);if(c){if(spHorizontal())sp.scrollTo({left:c.offsetLeft-(sp.clientWidth-c.offsetWidth)/2,behavior:'smooth'});else c.scrollIntoView({block:'nearest',behavior:'smooth'})}}
   placeSig='';refreshPlaces();const pc=(window.PLACE_LIST||[]).find(x=>x.id===id);if(pc&&MAP.focus)MAP.focus(pc.x,pc.y);
 }
 function spotPick(id){if(state.layer!=='spots')setLayer('spots');spotFocus(id,true);spotOpen(state.province.en,id)}
@@ -45,22 +54,22 @@ const SPX=(()=>{try{return JSON.parse(localStorage.getItem('jy_spx'))||{}}catch(
 async function spExtract(s){
   const want=state.lang==='th'&&s.wt?['th',s.wt]:s.we?['en',s.we]:s.wt?['th',s.wt]:null;if(!want)return '';
   const key=want.join(':');if(key in SPX)return SPX[key];
-  try{const r=await fetch(`https://${want[0]}.wikipedia.org/api/rest_v1/page/summary/`+encodeURIComponent(want[1].replace(/ /g,'_')));const j=r.ok?await r.json():{};let x=(j.extract||'').trim();if(x.length>420)x=x.slice(0,x.lastIndexOf(' ',400)>200?x.lastIndexOf(' ',400):400)+'…';SPX[key]=x;try{localStorage.setItem('jy_spx',JSON.stringify(SPX))}catch(e){}return x}catch(e){return ''}
+  try{const r=await fetch(`https://${want[0]}.wikipedia.org/api/rest_v1/page/summary/`+encodeURIComponent(want[1].replace(/ /g,'_')));const j=r.ok?await r.json():{};const x=(j.type==='disambiguation'?'':(j.extract||'')).trim();SPX[key]=x;try{localStorage.setItem('jy_spx',JSON.stringify(SPX))}catch(e){}return x}catch(e){return ''}
 }
 function spotOpen(prov,id){
   const s=spotsOf(prov).find(x=>x.id===id);if(!s)return;const k=skOf(s.k),has=spHas(prov,id),P=PROV.find(x=>x.en===prov);
-  openSheet(spName(s),`<div class="spd"><div class="spd-ph" style="--c:${k.c};--b:${k.bg}">${spArt(s)}${spImg(s)}<span class="spd-k" style="--c:${k.c}">${sS(k.ic,2)}${esc(t('sk_'+s.k))}</span>${has?`<span class="spd-got">${sS('stamp',2)}${esc(t('sp_stamped'))}</span>`:''}</div>
-   <div class="spd-meta"><span>${sS('pin',2)}${esc(s.d?t('sp_dist',{d:spT(s.d),p:pname(P)}):pname(P))}</span>${s.ap?`<span class="ap">${sS('info',2)}${esc(t('sp_approx'))}</span>`:''}${s.lat==null?`<span class="ap">${sS('info',2)}${esc(t('sp_noloc'))}</span>`:''}${s.age?`<span>${sS('history',2)}${esc(t('sp_mya',{n:s.age}))}</span>`:''}</div>
-   <p class="spd-s" id="spdS">${s.s?esc(spT(s.s)):`<span class="spd-load"></span>`}</p>${s.f?`<ul class="spd-f">${s.f.map(x=>`<li>${esc(spT(x))}</li>`).join('')}</ul>`:''}${s.tip?`<p class="spd-tip">${sS('spark',2)}${esc(spT(s.tip))}</p>`:''}
-   <div class="spd-a"><button class="btn primary" id="spdAdd">${sS('plus',2.2)}${esc(t('sp_add'))}</button>${s.lat!=null?`<a class="btn line" href="https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}" target="_blank" rel="noopener">${sS('nav',2)}${esc(t('sp_nav'))}</a>`:''}
-    <button class="btn line" id="spdGuides">${sS('users',2)}${esc(t('sp_guides'))}</button><button class="btn line" id="spdSay">${sS('vol',2)}${esc(t('sp_listen'))}</button>
-    ${s.lat!=null?`<button class="btn line${has?' done':''}" id="spdCheck"${has?' disabled':''}>${sS('stamp',2)}${esc(has?t('sp_stamped'):t('sp_checkin'))}</button>`:''}</div>
+  openSheet('',`<div class="spd"><div class="spd-hero" style="--c:${k.c};--b:${k.bg}">${spArt(s)}${spImg(s)}<div class="spd-ov"><span class="spd-k">${sS(k.ic,2)}${esc(t('sk_'+s.k))}</span><h2>${esc(spName(s))}</h2><p>${sS('pin',2)}${esc(s.d?t('sp_dist',{d:spT(s.d),p:pname(P)}):pname(P))}${s.ap?' · '+esc(t('sp_approx')):''}</p></div>${has?`<span class="spd-got">${sS('stamp',2)}</span>`:''}</div>
+   <div class="spd-a"><button class="btn primary" id="spdAdd">${sS('plus',2.2)}${esc(t('sp_add'))}</button>${s.lat!=null?`<a class="btn line" href="https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}" target="_blank" rel="noopener">${sS('nav',2)}${esc(t('sp_nav'))}</a>`:''}</div>
+   <div class="spd-ic"><button id="spdGuides">${sS('users',2)}<span>${esc(t('sp_guides'))}</span></button><button id="spdSay">${sS('vol',2)}<span>${esc(t('sp_listen'))}</span></button>${s.lat!=null?`<button id="spdCheck"${has?' disabled class="done"':''}>${sS('stamp',2)}<span>${esc(has?t('sp_stamped'):t('sp_checkin'))}</span></button>`:''}</div>
+   <div class="spd-body" id="spdBody">${s.s?`<p class="spd-s clamp" id="spdS">${esc(spT(s.s))}</p>`:`<p class="spd-s clamp" id="spdS"><span class="spd-load"></span></p>`}<button class="link spd-more" id="spdMore" hidden>${esc(t('sp_more'))}</button>
+   ${s.f?`<ul class="spd-f">${s.f.map(x=>`<li>${esc(spT(x))}</li>`).join('')}</ul>`:''}${s.tip?`<p class="spd-tip">${sS('spark',2)}${esc(spT(s.tip))}</p>`:''}</div>
    ${s.img?`<p class="spd-cr">${esc(t('sp_photo'))} <a href="https://commons.wikimedia.org/wiki/File:${encodeURIComponent(s.img.replace(/ /g,'_'))}" target="_blank" rel="noopener">Wikimedia Commons</a></p>`:''}</div>`,b=>{
-    if(!s.s)spExtract(s).then(x=>{const el=$('#spdS');if(el)el.textContent=x||t('sp_nodesc')});
+    const more=()=>{const el=$('#spdS',b),m=$('#spdMore',b);if(!el||!m)return;requestAnimationFrame(()=>{m.hidden=el.scrollHeight<=el.clientHeight+2});m.onclick=()=>{el.classList.remove('clamp');m.hidden=true}};
+    if(s.s)more();else spExtract(s).then(x=>{const el=$('#spdS',b);if(!el)return;if(x){el.textContent=x;more()}else el.remove()});
     $('#spdAdd',b).onclick=()=>spAddSheet(prov,[s]);
-    $('#spdGuides',b).onclick=()=>{closeSheet();const dl=DIST[prov]||[],di=s.d?dl.findIndex(([th])=>th===s.d.th.split('–')[0]):-1;state.province=P;F.kind='local';F.di=di;state.listLim=30;setLayer('guides');goMap()};
-    $('#spdSay',b).onclick=()=>{if(!('speechSynthesis' in window)){toast(t('sp_no_tts'));return}if(speechSynthesis.speaking){speechSynthesis.cancel();return}const u=new SpeechSynthesisUtterance(spName(s)+'. '+($('#spdS')?$('#spdS').textContent:''));u.lang=state.lang==='th'?'th-TH':'en-US';speechSynthesis.speak(u)};
-    const ck=$('#spdCheck',b);ck&&(ck.onclick=()=>{if(!navigator.geolocation){toast(t('sp_loc_off'));return}ck.disabled=true;navigator.geolocation.getCurrentPosition(pos=>{const km=distKm({lat:pos.coords.latitude,lng:pos.coords.longitude},s);if(km<=(s.ap?8:2)){const st=spStamps();st[prov]=st[prov]||{};st[prov][id]=Date.now();store.set('spotStamp',st);toast(t('sp_stamped'));closeSheet();if(state.layer==='spots')renderSpotBar();if(state.screen==='home')renderDestSoft()}else{ck.disabled=false;toast(t('sp_far',{km:km<10?km.toFixed(1):Math.round(km)}))}},()=>{ck.disabled=false;toast(t('sp_loc_off'))},{enableHighAccuracy:true,timeout:9000,maximumAge:60000})});
+    $('#spdGuides',b).onclick=()=>{closeSheet();const dl=DIST[prov]||[],di=s.d?dl.findIndex(([th])=>th===s.d.th.split('–')[0]):-1;state.province=P;F.kind=di>=0?'local':'all';F.di=di;state.listLim=30;if(state.screen==='map'){setLayer('guides');refilter&&refilter()}else{setLayerOnEnter='guides';goMap()}};
+    $('#spdSay',b).onclick=()=>{if(!('speechSynthesis' in window)){toast(t('sp_no_tts'));return}if(speechSynthesis.speaking){speechSynthesis.cancel();return}const u=new SpeechSynthesisUtterance(spName(s)+'. '+(($('#spdS',b)||{}).textContent||''));u.lang=state.lang==='th'?'th-TH':'en-US';speechSynthesis.speak(u)};
+    const ck=$('#spdCheck',b);ck&&!has&&(ck.onclick=()=>{if(!navigator.geolocation){toast(t('sp_loc_off'));return}ck.disabled=true;navigator.geolocation.getCurrentPosition(pos=>{const km=distKm({lat:pos.coords.latitude,lng:pos.coords.longitude},s);if(km<=(s.ap?8:2)){const st=spStamps();st[prov]=st[prov]||{};st[prov][id]=Date.now();store.set('spotStamp',st);toast(t('sp_stamped'));closeSheet();if(state.screen==='map'&&state.layer==='spots')renderPanel()}else{ck.disabled=false;toast(t('sp_far',{km:km<10?km.toFixed(1):Math.round(km)}))}},()=>{ck.disabled=false;toast(t('sp_loc_off'))},{enableHighAccuracy:true,timeout:9000,maximumAge:60000})});
   });
 }
 function spAddSheet(prov,list){
@@ -73,18 +82,14 @@ function spAddSheet(prov,list){
     $('#spNewPl',b).onclick=make});
 }
 
-/* ----- province picker: character + photo spots ----- */
+/* ----- province picker: one line + three highlight photos ----- */
 function renderDestSoft(){
   const el=$('#destSoft');if(!el)return;const p=state.province;if(!p){el.innerHTML='';return}
-  const S=SOFT[p.en],L=spotsOf(p.en).slice(0,8),got=Object.keys(spStamps()[p.en]||{}).length;
-  el.innerHTML=`${S?`<p class="ds-tag">${esc(state.lang==='th'?S[0]:S[1])}</p><div class="ds-chips">${S[2].map(x=>`<span>${sS('spark',2)}${esc(state.lang==='th'?x[0]:x[1])}</span>`).join('')}${got?`<span class="ds-got">${sS('stamp',2)}${esc(t('sp_got',{n:got,m:spotsOf(p.en).length}))}</span>`:''}</div>`:''}
-   ${L.length?`<div class="ds-h"><b>${esc(t('sp_title',{p:pname(p)}))}</b><button class="link" id="dsAll">${esc(t('sp_on_map'))}</button></div><div class="ds-row">${L.map(s=>{const k=skOf(s.k);return `<button class="ds-card" data-dsp="${s.id}"><span class="ds-ph" style="--c:${k.c};--b:${k.bg}">${spArt(s)}${spImg(s)}</span><small style="color:${k.c}">${esc(t('sk_'+s.k))}</small><b>${esc(spName(s))}</b></button>`}).join('')}</div>`:''}`;
+  const S=SOFT[p.en],all=spotsOf(p.en),L=all.filter(s=>s.photo).concat(all.filter(s=>!s.photo)).slice(0,3);
+  el.innerHTML=`${S?`<p class="ds-tag">${esc(state.lang==='th'?S[0]:S[1])}</p>`:''}${L.length?`<div class="ds-grid">${L.map(s=>{const k=skOf(s.k);return `<button class="ds-card" data-dsp="${s.id}"><span class="ds-ph" style="--c:${k.c};--b:${k.bg}">${spArt(s)}${spImg(s)}</span><b>${esc(spName(s))}</b></button>`}).join('')}</div>`:''}`;
 }
 document.addEventListener('click',e=>{
-  const c=e.target.closest('[data-dsp]');if(c&&state.province){state.spotSel=c.dataset.dsp;setLayerOnEnter='spots';goMap();setTimeout(()=>{spotFocus(c.dataset.dsp,true);spotOpen(state.province.en,c.dataset.dsp)},350);return}
-  if(e.target.closest('#dsAll,#destSpots')){setLayerOnEnter='spots';goMap();return}
-  const k=e.target.closest('#spotBar [data-sk]');if(k){state.spotK=k.dataset.sk;state.spotSel=null;renderSpotBar();placeSig='';refreshPlaces();return}
-  const sp=e.target.closest('#spotBar [data-sp]');if(sp){spotFocus(sp.dataset.sp,true);spotOpen(state.province.en,sp.dataset.sp);return}
-  const ly=e.target.closest('#mmSeg [data-ly]');if(ly){setLayer(ly.dataset.ly);return}
+  const c=e.target.closest('[data-dsp]');if(c&&state.province){state.spotSel=c.dataset.dsp;setLayerOnEnter='spots';goMap();setTimeout(()=>{spotFocus(c.dataset.dsp,true);spotOpen(state.province.en,c.dataset.dsp)},400);return}
+  const ly=e.target.closest('#pnTabs [data-ly]');if(ly){if(ly.dataset.ly!==state.layer)setLayer(ly.dataset.ly);return}
+  const sp=e.target.closest('#spl [data-sp]');if(sp){spotFocus(sp.dataset.sp,true);spotOpen(state.province.en,sp.dataset.sp);return}
 });
-let setLayerOnEnter=null;
