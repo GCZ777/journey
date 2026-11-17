@@ -129,3 +129,8 @@ body.plan-mode .pv-handle{display:none}
 .pn-tabs button{height:40px;border-radius:14px}
 .spp-h{align-items:center}
 .spp-h h2{font-size:18px;letter-spacing:-.01em}
+/* desktop: province-info button sits in the top bar, clear of the side panel */
+@media (min-width:861px){
+  .pv-handle{top:calc(12px + env(safe-area-inset-top,0px));right:max(16px,env(safe-area-inset-right,0px));height:46px;padding:0 18px;border-radius:999px;transition:opacity .2s}
+  .pv-handle[aria-expanded=true]{transform:none;opacity:0;pointer-events:none}
+}

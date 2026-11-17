@@ -63,7 +63,7 @@ function spotOpen(prov,id){
    <div class="spd-ic"><button id="spdGuides">${sS('users',2)}<span>${esc(t('sp_guides'))}</span></button>${s.lat!=null?`<button id="spdCheck"${has?' disabled class="done"':''}>${sS('stamp',2)}<span>${esc(has?t('sp_stamped'):t('sp_checkin'))}</span></button>`:''}</div>
    <div class="spd-body" id="spdBody">${s.s?`<p class="spd-s clamp" id="spdS">${esc(spT(s.s))}</p>`:`<p class="spd-s clamp" id="spdS"><span class="spd-load"></span></p>`}<button class="link spd-more" id="spdMore" hidden>${esc(t('sp_more'))}</button>
    ${s.f?`<ul class="spd-f">${s.f.map(x=>`<li>${esc(spT(x))}</li>`).join('')}</ul>`:''}${s.tip?`<p class="spd-tip">${sS('spark',2)}${esc(spT(s.tip))}</p>`:''}</div>
-   ${s.img?`<p class="spd-cr">${esc(t('sp_photo'))} <a href="https://commons.wikimedia.org/wiki/File:${encodeURIComponent(s.img.replace(/ /g,'_'))}" target="_blank" rel="noopener">Wikimedia Commons</a></p>`:''}</div>`,b=>{
+   ${s.img?`<p class="spd-cr">${esc(t('sp_pcr'))} <a href="https://commons.wikimedia.org/wiki/File:${encodeURIComponent(s.img.replace(/ /g,'_'))}" target="_blank" rel="noopener">Wikimedia Commons</a></p>`:''}</div>`,b=>{
     const more=()=>{const el=$('#spdS',b),m=$('#spdMore',b);if(!el||!m)return;requestAnimationFrame(()=>{m.hidden=el.scrollHeight<=el.clientHeight+2});m.onclick=()=>{el.classList.remove('clamp');m.hidden=true}};
     if(s.s)more();else spExtract(s).then(x=>{const el=$('#spdS',b);if(!el)return;if(x){el.textContent=x;more()}else el.remove()});
     $('#spdAdd',b).onclick=()=>spAddSheet(prov,[s]);
@@ -111,3 +111,6 @@ function renderPvDrawer(){
 }
 document.addEventListener('click',e=>{if(e.target.closest('#pvHandle')){pvOpen(!$('#pvDrawer').classList.contains('on'));return}if(e.target.closest('#pvScrim')){pvOpen(false)}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#pvDrawer')&&$('#pvDrawer').classList.contains('on'))pvOpen(false)});
+/* province card cover: fall back to the first highlight photo */
+function provCover(en){try{const s=(SPOT_DATA[en]||[]).find(x=>x.img);return s?cimg(s.img,480):null}catch(e){return null}}
+try{if(typeof renderCarousel==='function'&&car&&car.children.length)renderCarousel()}catch(e){}
